@@ -107,7 +107,7 @@
             to { opacity: 0; visibility: hidden; }
         }
 
-        /* Auth Container - CHANGED FOR SCROLLING */
+        /* Auth Container */
         .auth-container {
             display: flex;
             min-height: 100vh;
@@ -765,6 +765,7 @@
         .chat-actions {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
         .header-btn {
@@ -1080,6 +1081,12 @@
             transform: scale(1.1);
         }
 
+        .input-btn.send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* User Menu */
         .user-menu {
             position: fixed;
@@ -1220,6 +1227,45 @@
             box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
         }
 
+        /* API Status Indicator */
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .api-status:hover {
+            background: rgba(0, 243, 255, 0.2);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.online {
+            background: #2ed573;
+            box-shadow: 0 0 10px #2ed573;
+        }
+
+        .status-dot.offline {
+            background: #ff4757;
+        }
+
+        .status-dot.loading {
+            background: #ffa502;
+            animation: pulse 1s infinite;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .auth-container {
@@ -1274,6 +1320,15 @@
             .auth-subtitle {
                 font-size: 16px;
             }
+            
+            .chat-actions {
+                gap: 5px;
+            }
+            
+            .api-status {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
         }
 
         /* Animations */
@@ -1327,6 +1382,8 @@
             z-index: 10000;
             animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s forwards;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            word-wrap: break-word;
         }
 
         .toast.success {
@@ -1377,46 +1434,159 @@
             border: 1px solid rgba(0, 243, 255, 0.2);
         }
 
-        pre code {
-            display: block;
+        pre {
+            background: rgba(0, 243, 255, 0.05);
             padding: 15px;
+            border-radius: 8px;
             overflow-x: auto;
             margin: 10px 0;
-            border-radius: 8px;
-            background: rgba(0, 243, 255, 0.05);
             border: 1px solid rgba(0, 243, 255, 0.1);
         }
 
-        /* API Status Indicator */
-        .api-status {
+        pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Markdown Styles */
+        .message-content h1,
+        .message-content h2,
+        .message-content h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--cyan-light);
+        }
+
+        .message-content h1 {
+            font-size: 24px;
+        }
+
+        .message-content h2 {
+            font-size: 20px;
+        }
+
+        .message-content h3 {
+            font-size: 18px;
+        }
+
+        .message-content ul,
+        .message-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .message-content li {
+            margin-bottom: 5px;
+        }
+
+        .message-content blockquote {
+            border-left: 4px solid var(--cyan-primary);
+            padding-left: 15px;
+            margin: 15px 0;
+            color: var(--cyan-light);
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .message-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .message-content th,
+        .message-content td {
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .message-content th {
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 2, 33, 0.95);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 243, 255, 0.1);
+            border-top: 3px solid var(--cyan-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error Message Styles */
+        .error-message {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            color: #ff4757;
+            font-size: 14px;
+        }
+
+        .error-message .error-title {
+            font-weight: 600;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Connection Status */
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 8px;
             font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 12px;
+            font-weight: 500;
+            z-index: 1000;
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid rgba(0, 243, 255, 0.2);
+            display: none;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+        .connection-status.online {
+            background: rgba(46, 213, 115, 0.1);
+            border-color: rgba(46, 213, 115, 0.3);
+            color: #2ed573;
         }
 
-        .status-dot.online {
-            background: #2ed573;
-            box-shadow: 0 0 10px #2ed573;
-        }
-
-        .status-dot.offline {
-            background: #ff4757;
-        }
-
-        .status-dot.loading {
-            background: #ffa502;
-            animation: pulse 1s infinite;
+        .connection-status.offline {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: rgba(255, 71, 87, 0.3);
+            color: #ff4757;
         }
     </style>
 </head>
@@ -1429,6 +1599,15 @@
         <h1 class="splash-title">Cyanix AI</h1>
         <p class="splash-subtitle">Loading your AI assistant...</p>
     </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p id="loadingText">Processing your request...</p>
+    </div>
+
+    <!-- Connection Status -->
+    <div id="connectionStatus" class="connection-status"></div>
 
     <!-- Auth Container -->
     <div id="authContainer" class="auth-container">
@@ -1482,13 +1661,13 @@
                 <div id="signinForm" class="auth-form-content">
                     <div class="form-group">
                         <label class="form-label">Email Address</label>
-                        <input type="email" id="signinEmail" class="form-input" placeholder="Enter your email">
+                        <input type="email" id="signinEmail" class="form-input" placeholder="Enter your email" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="signinPassword" class="form-input" placeholder="Enter your password">
+                            <input type="password" id="signinPassword" class="form-input" placeholder="Enter your password" required>
                             <button class="password-toggle" type="button" onclick="togglePassword('signinPassword')">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -1503,7 +1682,7 @@
                         <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
                     </div>
                     
-                    <button class="auth-btn" onclick="signInWithEmail()">Sign In</button>
+                    <button class="auth-btn" onclick="signInWithEmail()" id="signinBtn">Sign In</button>
                     
                     <div class="auth-divider">
                         <span>Or continue with</span>
@@ -1530,18 +1709,18 @@
                 <div id="signupForm" class="auth-form-content" style="display: none;">
                     <div class="form-group">
                         <label class="form-label">Full Name</label>
-                        <input type="text" id="signupName" class="form-input" placeholder="Enter your full name">
+                        <input type="text" id="signupName" class="form-input" placeholder="Enter your full name" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Email Address</label>
-                        <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email">
+                        <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="signupPassword" class="form-input" placeholder="Create a password">
+                            <input type="password" id="signupPassword" class="form-input" placeholder="Create a password" required minlength="8">
                             <button class="password-toggle" type="button" onclick="togglePassword('signupPassword')">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -1551,7 +1730,7 @@
                     <div class="form-group">
                         <label class="form-label">Confirm Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Confirm your password">
+                            <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Confirm your password" required minlength="8">
                             <button class="password-toggle" type="button" onclick="togglePassword('signupConfirmPassword')">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -1560,12 +1739,12 @@
                     
                     <div class="form-group">
                         <label class="remember-me">
-                            <input type="checkbox" id="acceptTerms" class="checkbox">
+                            <input type="checkbox" id="acceptTerms" class="checkbox" required>
                             <span>I agree to the <a href="#" class="forgot-password" onclick="showTermsModal()">Terms & Privacy</a></span>
                         </label>
                     </div>
                     
-                    <button class="auth-btn" onclick="signUpWithEmail()">Create Account</button>
+                    <button class="auth-btn" onclick="signUpWithEmail()" id="signupBtn">Create Account</button>
                     
                     <div class="auth-divider">
                         <span>Or sign up with</span>
@@ -1623,7 +1802,7 @@
             <div class="modal-content">
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
-                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email">
+                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1672,6 +1851,7 @@
                             <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Fast & Cost-effective)</option>
                             <option value="gpt-4">GPT-4 (More Capable)</option>
                             <option value="gpt-4-turbo">GPT-4 Turbo (Latest)</option>
+                            <option value="gpt-4o">GPT-4o (Optimized)</option>
                         </select>
                     </div>
 
@@ -1692,6 +1872,15 @@
                         <p style="font-size: 12px; color: var(--cyan-light); opacity: 0.7; margin-top: 5px;">
                             Maximum length of AI responses (approx. 750 tokens = 1000 words)
                         </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Response Speed</label>
+                        <select id="responseSpeed" class="form-input">
+                            <option value="fast">Fast (Prioritize speed)</option>
+                            <option value="balanced" selected>Balanced (Speed & quality)</option>
+                            <option value="quality">Quality (Best responses)</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -1873,7 +2062,7 @@
                         <button class="input-btn" onclick="voiceInput()">
                             <i class="fas fa-microphone"></i>
                         </button>
-                        <button class="input-btn send" onclick="sendMessage()">
+                        <button class="input-btn send" id="sendButton" onclick="sendMessage()">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -1890,6 +2079,9 @@
         let isSidebarOpen = false;
         let isDarkMode = true;
         let userMenuOpen = false;
+        let isProcessingMessage = false;
+        let retryCount = 0;
+        const MAX_RETRIES = 3;
 
         // OpenAI Configuration
         let openaiApiKey = localStorage.getItem('openai_api_key') || '';
@@ -1897,12 +2089,176 @@
         let aiModel = localStorage.getItem('ai_model') || 'gpt-3.5-turbo';
         let temperature = parseFloat(localStorage.getItem('temperature')) || 0.7;
         let maxTokens = parseInt(localStorage.getItem('max_tokens')) || 1000;
+        let responseSpeed = localStorage.getItem('response_speed') || 'balanced';
 
         // Mock database for demo purposes
         const mockDatabase = {
             users: [],
             conversations: [],
             messages: []
+        };
+
+        // Enhanced mock responses with more variety
+        const mockResponses = {
+            greetings: [
+                "Hello! I'm Cyanix AI, your intelligent assistant. How can I help you today?",
+                "Hi there! I'm here to help with anything you need. What's on your mind?",
+                "Greetings! Ready to dive into some interesting topics together?",
+                "Welcome back! I'm ready to assist you with any questions or tasks you have."
+            ],
+            help: [
+                `I can help you with a wide range of tasks including:
+
+**Writing & Content Creation:**
+• Blog posts, articles, and essays
+• Creative writing and storytelling
+• Marketing copy and advertisements
+• Professional emails and letters
+• Technical documentation
+
+**Programming & Development:**
+• Code generation in Python, JavaScript, Java, C++, Go, Rust, etc.
+• Debugging and error fixing
+• Algorithm explanations and optimizations
+• API documentation
+• Code reviews and best practices
+
+**Research & Analysis:**
+• Data analysis and interpretation
+• Market research and competitive analysis
+• Academic research and paper writing
+• Statistical analysis
+• Trend identification
+
+**Creative Tasks:**
+• Brainstorming ideas and concepts
+• Creative project planning
+• Design suggestions and feedback
+• Art direction and creative strategy
+• Brand development
+
+**Learning & Education:**
+• Concept explanations at any level
+• Study guides and summaries
+• Problem solving techniques
+• Language learning assistance
+• Curriculum planning
+
+**Business & Productivity:**
+• Business plan development
+• Strategy formulation
+• Productivity optimization
+• Meeting preparation
+• Decision analysis
+
+What would you like to work on today?`
+            ],
+            coding: [
+                `I specialize in coding assistance! I can help with:
+
+**Languages I'm proficient in:**
+• Python (including Django, Flask, Pandas, NumPy, TensorFlow, PyTorch)
+• JavaScript/TypeScript (React, Vue, Angular, Node.js, Express)
+• Java (Spring, Hibernate, Android)
+• C++ (STL, Boost, Qt)
+• C# (.NET, ASP.NET, Unity)
+• Go, Rust, Swift, Kotlin, and more
+
+**What I can do:**
+• Write complete functions and classes
+• Debug and fix errors in your code
+• Explain complex algorithms
+• Convert code between languages
+• Write unit tests
+• Optimize performance
+• Generate API documentation
+• Suggest architecture patterns
+
+**Example:**
+\`\`\`python
+def quick_sort(arr):
+    """
+    Implementation of quicksort algorithm.
+    Time Complexity: O(n log n) average, O(n²) worst
+    Space Complexity: O(log n)
+    """
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quick_sort(left) + middle + quick_sort(right)
+
+# Example usage:
+numbers = [3, 6, 8, 10, 1, 2, 1]
+sorted_numbers = quick_sort(numbers)
+print(f"Sorted: {sorted_numbers}")
+\`\`\`
+
+What specific coding task do you need help with?`
+            ],
+            creative: [
+                `Let's get creative! I can assist with:
+
+**Content Creation:**
+• Story writing (fiction, non-fiction, scripts)
+• Poetry and creative writing
+• Marketing campaigns and slogans
+• Brand names and taglines
+• Product descriptions
+• Social media content
+
+**Brainstorming & Ideation:**
+• Startup ideas and business concepts
+• Product innovation
+• Problem-solving approaches
+• Creative project development
+• Artistic concepts and themes
+
+**Design & Aesthetics:**
+• UI/UX design suggestions
+• Color scheme recommendations
+• Layout and composition ideas
+• Mood board concepts
+• Creative direction
+
+**Examples of creative assistance:**
+1. "Help me write a short sci-fi story about AI ethics"
+2. "Generate 10 creative names for a sustainable fashion brand"
+3. "Create a marketing campaign for a new productivity app"
+4. "Design a character for a fantasy novel"
+
+What kind of creative project are you working on?`
+            ],
+            default: [
+                `I understand you're asking about: "${placeholderMessage}"
+
+Let me provide you with a comprehensive analysis.
+
+**Key Insights:**
+1. **Core Concept**: This topic revolves around fundamental principles that are crucial for understanding.
+2. **Practical Applications**: There are numerous real-world applications worth exploring.
+3. **Current Trends**: Recent developments have significantly impacted this field.
+4. **Future Potential**: The future holds exciting possibilities for advancement.
+
+**Detailed Analysis:**
+Based on current knowledge and research, here's what you should know about this topic:
+
+First, it's important to understand the foundational elements. These form the basis for more complex concepts and applications.
+
+Next, consider the various approaches and methodologies. Different perspectives can provide valuable insights and alternative solutions.
+
+Finally, implementation considerations are crucial. Practical application often requires careful planning and adaptation to specific contexts.
+
+**Recommendations:**
+1. Start with basic principles before advancing to complex topics
+2. Explore multiple sources and perspectives
+3. Consider both theoretical and practical aspects
+4. Stay updated with latest developments in the field
+
+Would you like me to elaborate on any specific aspect or provide more detailed examples?`
+            ]
         };
 
         // Initialize app
@@ -1913,42 +2269,87 @@
         function initApp() {
             // Hide splash screen after delay
             setTimeout(() => {
-                document.getElementById('splashScreen').style.display = 'none';
+                const splashScreen = document.getElementById('splashScreen');
+                if (splashScreen) {
+                    splashScreen.style.display = 'none';
+                }
                 
                 // Check if user is already logged in
                 const savedUser = localStorage.getItem('cyanix_user');
                 if (savedUser) {
-                    currentUser = JSON.parse(savedUser);
-                    showChatInterface();
-                    loadConversations();
+                    try {
+                        currentUser = JSON.parse(savedUser);
+                        showChatInterface();
+                        loadConversations();
+                    } catch (error) {
+                        console.error('Error parsing saved user:', error);
+                        localStorage.removeItem('cyanix_user');
+                    }
                 }
                 
                 // Update API status
                 updateApiStatus();
+                
+                // Monitor online status
+                window.addEventListener('online', updateConnectionStatus);
+                window.addEventListener('offline', updateConnectionStatus);
+                updateConnectionStatus();
             }, 2000);
             
             // Initialize form event listeners
             initializeAuthForms();
+            
+            // Load AI settings
+            loadAISettings();
+        }
+
+        // ==================== CONNECTION STATUS ====================
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connectionStatus');
+            if (!statusElement) return;
+            
+            if (navigator.onLine) {
+                statusElement.textContent = 'Online';
+                statusElement.className = 'connection-status online';
+            } else {
+                statusElement.textContent = 'Offline - Check your connection';
+                statusElement.className = 'connection-status offline';
+            }
+            
+            // Show for 3 seconds then hide
+            statusElement.style.display = 'block';
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 3000);
         }
 
         // ==================== AUTHENTICATION ====================
         function initializeAuthForms() {
             // Add enter key support for forms
-            document.getElementById('signinEmail')?.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') signInWithEmail();
-            });
+            const signinEmail = document.getElementById('signinEmail');
+            const signinPassword = document.getElementById('signinPassword');
+            const signupEmail = document.getElementById('signupEmail');
+            const signupPassword = document.getElementById('signupPassword');
             
-            document.getElementById('signinPassword')?.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') signInWithEmail();
-            });
+            if (signinEmail && signinPassword) {
+                signinEmail.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') signInWithEmail();
+                });
+                
+                signinPassword.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') signInWithEmail();
+                });
+            }
             
-            document.getElementById('signupEmail')?.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') signUpWithEmail();
-            });
-            
-            document.getElementById('signupPassword')?.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') signUpWithEmail();
-            });
+            if (signupEmail && signupPassword) {
+                signupEmail.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') signUpWithEmail();
+                });
+                
+                signupPassword.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') signUpWithEmail();
+                });
+            }
         }
 
         function switchAuthTab(tab) {
@@ -1956,6 +2357,8 @@
             const signupTab = document.querySelector('[onclick="switchAuthTab(\'signup\')"]');
             const signinForm = document.getElementById('signinForm');
             const signupForm = document.getElementById('signupForm');
+            
+            if (!signinTab || !signupTab || !signinForm || !signupForm) return;
             
             if (tab === 'signin') {
                 signinTab.classList.add('active');
@@ -1972,7 +2375,10 @@
 
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
-            const toggle = input.nextElementSibling.querySelector('i');
+            if (!input) return;
+            
+            const toggle = input.nextElementSibling?.querySelector('i');
+            if (!toggle) return;
             
             if (input.type === 'password') {
                 input.type = 'text';
@@ -1985,11 +2391,11 @@
             }
         }
 
-        // ==================== EMAIL AUTHENTICATION ====================
         function signInWithEmail() {
-            const email = document.getElementById('signinEmail').value.trim();
-            const password = document.getElementById('signinPassword').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
+            const email = document.getElementById('signinEmail')?.value?.trim() || '';
+            const password = document.getElementById('signinPassword')?.value || '';
+            const rememberMe = document.getElementById('rememberMe')?.checked || false;
+            const signinBtn = document.getElementById('signinBtn');
             
             if (!validateEmail(email)) {
                 showToast('Please enter a valid email address', 'error');
@@ -2002,53 +2408,62 @@
             }
             
             // Show loading
-            const btn = document.querySelector('#signinForm .auth-btn');
-            const originalText = btn.textContent;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
-            btn.disabled = true;
+            if (signinBtn) {
+                const originalText = signinBtn.textContent;
+                signinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+                signinBtn.disabled = true;
+            }
             
             // Simulate API call
             setTimeout(() => {
-                // Check mock database or create new user
-                let user = mockDatabase.users.find(u => u.email === email);
-                
-                if (user && user.password === password) {
-                    // Successful login
-                    currentUser = {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        avatar: user.avatar,
-                        plan: user.plan || 'free',
-                        createdAt: user.createdAt
-                    };
+                try {
+                    // Check mock database or create new user
+                    let user = mockDatabase.users.find(u => u.email === email);
                     
-                    // Save user session
-                    if (rememberMe) {
-                        localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                    if (user && user.password === password) {
+                        // Successful login
+                        currentUser = {
+                            id: user.id,
+                            name: user.name,
+                            email: user.email,
+                            avatar: user.avatar,
+                            plan: user.plan || 'free',
+                            createdAt: user.createdAt
+                        };
+                        
+                        // Save user session
+                        if (rememberMe) {
+                            localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                        } else {
+                            sessionStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                        }
+                        
+                        showChatInterface();
+                        loadConversations();
+                        showToast('Welcome back!', 'success');
                     } else {
-                        sessionStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                        showToast('Invalid email or password', 'error');
                     }
-                    
-                    showChatInterface();
-                    loadConversations();
-                    showToast('Welcome back!', 'success');
-                } else {
-                    showToast('Invalid email or password', 'error');
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showToast('An error occurred during login', 'error');
+                } finally {
+                    // Reset button
+                    if (signinBtn) {
+                        signinBtn.textContent = originalText || 'Sign In';
+                        signinBtn.disabled = false;
+                    }
                 }
-                
-                // Reset button
-                btn.textContent = originalText;
-                btn.disabled = false;
             }, 1500);
         }
 
         function signUpWithEmail() {
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            const acceptTerms = document.getElementById('acceptTerms').checked;
+            const name = document.getElementById('signupName')?.value?.trim() || '';
+            const email = document.getElementById('signupEmail')?.value?.trim() || '';
+            const password = document.getElementById('signupPassword')?.value || '';
+            const confirmPassword = document.getElementById('signupConfirmPassword')?.value || '';
+            const acceptTerms = document.getElementById('acceptTerms')?.checked || false;
+            const signupBtn = document.getElementById('signupBtn');
             
             // Validation
             if (!name) {
@@ -2083,81 +2498,90 @@
             }
             
             // Show loading
-            const btn = document.querySelector('#signupForm .auth-btn');
-            const originalText = btn.textContent;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
-            btn.disabled = true;
+            if (signupBtn) {
+                const originalText = signupBtn.textContent;
+                signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+                signupBtn.disabled = true;
+            }
             
             // Simulate API call
             setTimeout(() => {
-                // Create new user
-                const newUser = {
-                    id: 'user_' + Date.now(),
-                    name: name,
-                    email: email,
-                    password: password, // In real app, this would be hashed
-                    avatar: getAvatarInitials(name),
-                    plan: 'free',
-                    createdAt: new Date().toISOString(),
-                    provider: 'email'
-                };
-                
-                mockDatabase.users.push(newUser);
-                currentUser = { ...newUser };
-                delete currentUser.password;
-                
-                // Save user session
-                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                
-                showChatInterface();
-                showWelcomeMessage();
-                showToast('Account created successfully!', 'success');
-                
-                // Reset button
-                btn.textContent = originalText;
-                btn.disabled = false;
+                try {
+                    // Create new user
+                    const newUser = {
+                        id: 'user_' + Date.now(),
+                        name: name,
+                        email: email,
+                        password: password,
+                        avatar: getAvatarInitials(name),
+                        plan: 'free',
+                        createdAt: new Date().toISOString(),
+                        provider: 'email'
+                    };
+                    
+                    mockDatabase.users.push(newUser);
+                    currentUser = { ...newUser };
+                    delete currentUser.password;
+                    
+                    // Save user session
+                    localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                    
+                    showChatInterface();
+                    showWelcomeMessage();
+                    showToast('Account created successfully!', 'success');
+                } catch (error) {
+                    console.error('Signup error:', error);
+                    showToast('An error occurred during signup', 'error');
+                } finally {
+                    // Reset button
+                    if (signupBtn) {
+                        signupBtn.textContent = originalText || 'Create Account';
+                        signupBtn.disabled = false;
+                    }
+                }
             }, 2000);
         }
 
-        // ==================== SOCIAL AUTHENTICATION ====================
         function signInWithGoogle() {
-            // In a real app, this would integrate with Google OAuth
-            // For demo, we'll simulate the process
             showToast('Redirecting to Google authentication...', 'info');
             
             setTimeout(() => {
-                // Simulate Google user data
-                const googleUser = {
-                    id: 'google_' + Date.now(),
-                    name: 'Demo User',
-                    email: 'demo@example.com',
-                    avatar: 'G',
-                    plan: 'free',
-                    provider: 'google'
-                };
-                
-                // Check if user exists
-                let user = mockDatabase.users.find(u => u.email === googleUser.email);
-                if (!user) {
-                    user = {
-                        ...googleUser,
-                        createdAt: new Date().toISOString()
+                try {
+                    // Simulate Google user data
+                    const googleUser = {
+                        id: 'google_' + Date.now(),
+                        name: 'Demo User',
+                        email: 'demo@example.com',
+                        avatar: 'G',
+                        plan: 'free',
+                        provider: 'google'
                     };
-                    mockDatabase.users.push(user);
+                    
+                    // Check if user exists
+                    let user = mockDatabase.users.find(u => u.email === googleUser.email);
+                    if (!user) {
+                        user = {
+                            ...googleUser,
+                            createdAt: new Date().toISOString()
+                        };
+                        mockDatabase.users.push(user);
+                    }
+                    
+                    currentUser = { ...user };
+                    delete currentUser.password;
+                    
+                    localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                    showChatInterface();
+                    loadConversations();
+                    showToast('Signed in with Google', 'success');
+                } catch (error) {
+                    console.error('Google auth error:', error);
+                    showToast('Google authentication failed', 'error');
                 }
-                
-                currentUser = { ...user };
-                delete currentUser.password;
-                
-                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                showChatInterface();
-                loadConversations();
-                showToast('Signed in with Google', 'success');
             }, 1500);
         }
 
         function signUpWithGoogle() {
-            // Same as sign in for social providers (they handle both)
             signInWithGoogle();
         }
 
@@ -2165,33 +2589,38 @@
             showToast('Redirecting to Microsoft authentication...', 'info');
             
             setTimeout(() => {
-                // Simulate Microsoft user data
-                const microsoftUser = {
-                    id: 'microsoft_' + Date.now(),
-                    name: 'Business User',
-                    email: 'business@example.com',
-                    avatar: 'M',
-                    plan: 'free',
-                    provider: 'microsoft'
-                };
-                
-                // Check if user exists
-                let user = mockDatabase.users.find(u => u.email === microsoftUser.email);
-                if (!user) {
-                    user = {
-                        ...microsoftUser,
-                        createdAt: new Date().toISOString()
+                try {
+                    // Simulate Microsoft user data
+                    const microsoftUser = {
+                        id: 'microsoft_' + Date.now(),
+                        name: 'Business User',
+                        email: 'business@example.com',
+                        avatar: 'M',
+                        plan: 'free',
+                        provider: 'microsoft'
                     };
-                    mockDatabase.users.push(user);
+                    
+                    // Check if user exists
+                    let user = mockDatabase.users.find(u => u.email === microsoftUser.email);
+                    if (!user) {
+                        user = {
+                            ...microsoftUser,
+                            createdAt: new Date().toISOString()
+                        };
+                        mockDatabase.users.push(user);
+                    }
+                    
+                    currentUser = { ...user };
+                    delete currentUser.password;
+                    
+                    localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                    showChatInterface();
+                    loadConversations();
+                    showToast('Signed in with Microsoft', 'success');
+                } catch (error) {
+                    console.error('Microsoft auth error:', error);
+                    showToast('Microsoft authentication failed', 'error');
                 }
-                
-                currentUser = { ...user };
-                delete currentUser.password;
-                
-                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                showChatInterface();
-                loadConversations();
-                showToast('Signed in with Microsoft', 'success');
             }, 1500);
         }
 
@@ -2200,67 +2629,140 @@
         }
 
         // ==================== AI SETTINGS ====================
+        function loadAISettings() {
+            try {
+                openaiApiKey = localStorage.getItem('openai_api_key') || '';
+                useOpenAI = localStorage.getItem('use_openai') === 'true';
+                aiModel = localStorage.getItem('ai_model') || 'gpt-3.5-turbo';
+                temperature = parseFloat(localStorage.getItem('temperature')) || 0.7;
+                maxTokens = parseInt(localStorage.getItem('max_tokens')) || 1000;
+                responseSpeed = localStorage.getItem('response_speed') || 'balanced';
+            } catch (error) {
+                console.error('Error loading AI settings:', error);
+                // Reset to defaults
+                openaiApiKey = '';
+                useOpenAI = false;
+                aiModel = 'gpt-3.5-turbo';
+                temperature = 0.7;
+                maxTokens = 1000;
+                responseSpeed = 'balanced';
+            }
+        }
+
         function showAISettings() {
-            // Update modal with current settings
-            document.getElementById('aiModelSelect').value = aiModel;
-            document.getElementById('temperatureRange').value = temperature;
-            document.getElementById('temperatureValue').textContent = temperature;
-            document.getElementById('maxTokensInput').value = maxTokens;
-            document.getElementById('useOpenAICheckbox').checked = useOpenAI;
-            document.getElementById('apiKeyInput').value = openaiApiKey;
-            
-            // Show/hide API key field based on checkbox
-            toggleApiKeyField();
-            
-            document.getElementById('aiSettingsModal').classList.add('active');
-            toggleUserMenu();
+            try {
+                // Update modal with current settings
+                const aiModelSelect = document.getElementById('aiModelSelect');
+                const temperatureRange = document.getElementById('temperatureRange');
+                const temperatureValue = document.getElementById('temperatureValue');
+                const maxTokensInput = document.getElementById('maxTokensInput');
+                const useOpenAICheckbox = document.getElementById('useOpenAICheckbox');
+                const apiKeyInput = document.getElementById('apiKeyInput');
+                const responseSpeedSelect = document.getElementById('responseSpeed');
+                
+                if (aiModelSelect) aiModelSelect.value = aiModel;
+                if (temperatureRange) temperatureRange.value = temperature;
+                if (temperatureValue) temperatureValue.textContent = temperature;
+                if (maxTokensInput) maxTokensInput.value = maxTokens;
+                if (useOpenAICheckbox) useOpenAICheckbox.checked = useOpenAI;
+                if (apiKeyInput) apiKeyInput.value = openaiApiKey;
+                if (responseSpeedSelect) responseSpeedSelect.value = responseSpeed;
+                
+                // Show/hide API key field based on checkbox
+                toggleApiKeyField();
+                
+                document.getElementById('aiSettingsModal').classList.add('active');
+                toggleUserMenu();
+            } catch (error) {
+                console.error('Error showing AI settings:', error);
+                showToast('Error loading AI settings', 'error');
+            }
         }
 
         function hideAISettingsModal() {
-            document.getElementById('aiSettingsModal').classList.remove('active');
+            const modal = document.getElementById('aiSettingsModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
         }
 
         function toggleApiKeyField() {
             const apiKeySection = document.getElementById('apiKeySection');
-            if (document.getElementById('useOpenAICheckbox').checked) {
-                apiKeySection.style.display = 'block';
-            } else {
-                apiKeySection.style.display = 'none';
+            const useOpenAICheckbox = document.getElementById('useOpenAICheckbox');
+            
+            if (apiKeySection && useOpenAICheckbox) {
+                apiKeySection.style.display = useOpenAICheckbox.checked ? 'block' : 'none';
             }
         }
 
         function saveAISettings() {
-            useOpenAI = document.getElementById('useOpenAICheckbox').checked;
-            aiModel = document.getElementById('aiModelSelect').value;
-            temperature = parseFloat(document.getElementById('temperatureRange').value);
-            maxTokens = parseInt(document.getElementById('maxTokensInput').value);
-            openaiApiKey = document.getElementById('apiKeyInput').value.trim();
-            
-            // Save to localStorage
-            localStorage.setItem('use_openai', useOpenAI);
-            localStorage.setItem('ai_model', aiModel);
-            localStorage.setItem('temperature', temperature);
-            localStorage.setItem('max_tokens', maxTokens);
-            localStorage.setItem('openai_api_key', openaiApiKey);
-            
-            showToast('AI settings saved successfully!', 'success');
-            hideAISettingsModal();
-            updateApiStatus();
+            try {
+                const useOpenAICheckbox = document.getElementById('useOpenAICheckbox');
+                const aiModelSelect = document.getElementById('aiModelSelect');
+                const temperatureRange = document.getElementById('temperatureRange');
+                const maxTokensInput = document.getElementById('maxTokensInput');
+                const apiKeyInput = document.getElementById('apiKeyInput');
+                const responseSpeedSelect = document.getElementById('responseSpeed');
+                
+                if (!useOpenAICheckbox || !aiModelSelect || !temperatureRange || !maxTokensInput || !apiKeyInput || !responseSpeedSelect) {
+                    throw new Error('Settings elements not found');
+                }
+                
+                useOpenAI = useOpenAICheckbox.checked;
+                aiModel = aiModelSelect.value;
+                temperature = parseFloat(temperatureRange.value);
+                maxTokens = parseInt(maxTokensInput.value);
+                openaiApiKey = apiKeyInput.value.trim();
+                responseSpeed = responseSpeedSelect.value;
+                
+                // Validation
+                if (useOpenAI && !openaiApiKey.startsWith('sk-')) {
+                    showToast('Please enter a valid OpenAI API key', 'error');
+                    return;
+                }
+                
+                if (temperature < 0 || temperature > 2) {
+                    showToast('Temperature must be between 0 and 2', 'error');
+                    return;
+                }
+                
+                if (maxTokens < 100 || maxTokens > 4000) {
+                    showToast('Max tokens must be between 100 and 4000', 'error');
+                    return;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('use_openai', useOpenAI);
+                localStorage.setItem('ai_model', aiModel);
+                localStorage.setItem('temperature', temperature);
+                localStorage.setItem('max_tokens', maxTokens);
+                localStorage.setItem('openai_api_key', openaiApiKey);
+                localStorage.setItem('response_speed', responseSpeed);
+                
+                showToast('AI settings saved successfully!', 'success');
+                hideAISettingsModal();
+                updateApiStatus();
+            } catch (error) {
+                console.error('Error saving AI settings:', error);
+                showToast('Error saving settings: ' + error.message, 'error');
+            }
         }
 
         function updateApiStatus() {
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
             
+            if (!statusDot || !statusText) return;
+            
             if (useOpenAI && openaiApiKey) {
                 statusDot.className = 'status-dot online';
-                statusText.textContent = 'OpenAI';
+                statusText.textContent = 'OpenAI Ready';
             } else if (useOpenAI && !openaiApiKey) {
                 statusDot.className = 'status-dot offline';
                 statusText.textContent = 'No API Key';
             } else {
                 statusDot.className = 'status-dot offline';
-                statusText.textContent = 'Offline';
+                statusText.textContent = 'Offline Mode';
             }
         }
 
@@ -2270,11 +2772,18 @@
                 throw new Error('OpenAI API not configured');
             }
             
+            if (!navigator.onLine) {
+                throw new Error('No internet connection');
+            }
+            
             try {
                 const messages = [
                     {
                         role: "system",
-                        content: "You are Cyanix AI, a helpful AI assistant. Provide detailed, accurate, and helpful responses. Format your responses properly with markdown when appropriate. Use code blocks for code snippets."
+                        content: `You are Cyanix AI, a helpful AI assistant created by Cyanix. Provide detailed, accurate, and helpful responses. 
+                        Format your responses properly with markdown when appropriate. Use code blocks for code snippets with language specification.
+                        Be concise when possible but provide thorough explanations when needed.
+                        Current time: ${new Date().toLocaleString()}`
                     }
                 ];
                 
@@ -2295,8 +2804,26 @@
                     content: userMessage
                 });
                 
-                // Show loading status
-                updateApiStatus();
+                // Adjust parameters based on response speed setting
+                let adjustedMaxTokens = maxTokens;
+                let adjustedTemperature = temperature;
+                
+                switch (responseSpeed) {
+                    case 'fast':
+                        adjustedMaxTokens = Math.min(maxTokens, 500);
+                        adjustedTemperature = Math.min(temperature, 0.5);
+                        break;
+                    case 'quality':
+                        adjustedMaxTokens = Math.max(maxTokens, 1500);
+                        adjustedTemperature = Math.min(temperature, 0.3);
+                        break;
+                    default:
+                        // balanced - use default settings
+                        break;
+                }
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
                 
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
@@ -2307,114 +2834,110 @@
                     body: JSON.stringify({
                         model: aiModel,
                         messages: messages,
-                        temperature: temperature,
-                        max_tokens: maxTokens,
+                        temperature: adjustedTemperature,
+                        max_tokens: adjustedMaxTokens,
                         stream: false
-                    })
+                    }),
+                    signal: controller.signal
                 });
                 
+                clearTimeout(timeoutId);
+                
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`API Error: ${errorData.error?.message || response.statusText}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    let errorMessage = `API Error: ${response.status}`;
+                    
+                    if (errorData.error?.message) {
+                        errorMessage = errorData.error.message;
+                    } else if (response.status === 401) {
+                        errorMessage = 'Invalid API key. Please check your AI settings.';
+                    } else if (response.status === 429) {
+                        errorMessage = 'Rate limit exceeded. Please try again later.';
+                    } else if (response.status >= 500) {
+                        errorMessage = 'OpenAI server error. Please try again.';
+                    }
+                    
+                    throw new Error(errorMessage);
                 }
                 
                 const data = await response.json();
+                
+                if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                    throw new Error('Invalid response from OpenAI API');
+                }
+                
                 return data.choices[0].message.content;
                 
             } catch (error) {
                 console.error('OpenAI API Error:', error);
+                
+                // Handle specific error types
+                if (error.name === 'AbortError') {
+                    throw new Error('Request timeout. Please try again.');
+                } else if (error.message.includes('Failed to fetch')) {
+                    throw new Error('Network error. Please check your connection.');
+                } else if (error.message.includes('API key')) {
+                    // Clear invalid API key
+                    openaiApiKey = '';
+                    localStorage.removeItem('openai_api_key');
+                    updateApiStatus();
+                    throw new Error('Invalid API key. Please update your AI settings.');
+                }
+                
                 throw error;
             }
         }
 
         function generateMockAIResponse(userMessage) {
-            // Fallback responses when OpenAI API is not available
-            const responses = {
-                greetings: [
-                    "Hello! I'm Cyanix AI, your intelligent assistant. How can I help you today?",
-                    "Hi there! I'm here to help with anything you need. What's on your mind?",
-                    "Greetings! Ready to dive into some interesting topics together?"
-                ],
-                help: [
-                    `I can help you with a wide range of tasks including:\n\n**Writing & Content:**\n• Blog posts and articles\n• Creative writing\n• Marketing copy\n• Emails and letters\n\n**Programming & Tech:**\n• Code generation in Python, JavaScript, Java, C++, etc.\n• Debugging assistance\n• Algorithm explanations\n• Technical documentation\n\n**Research & Analysis:**\n• Data analysis\n• Market research\n• Academic writing\n• Competitive analysis\n\n**Creative Tasks:**\n• Brainstorming ideas\n• Creative concepts\n• Design suggestions\n• Story development\n\n**Learning & Education:**\n• Concept explanations\n• Study guides\n• Problem solving\n• Language translation\n\nWhat would you like to work on?`
-                ],
-                coding: [
-                    "I can help with coding in Python, JavaScript, Java, C++, and many other languages. What specific coding task do you need assistance with?",
-                    `As a coding assistant, I can:\n\n• Write functions and algorithms\n• Debug and fix code errors\n• Explain programming concepts\n• Suggest best practices and optimizations\n• Convert code between languages\n• Write tests and documentation\n\nWhat language or framework are you working with?`
-                ],
-                creative: [
-                    `Let's get creative! I can help with:\n\n**Content Creation:**\n• Story writing and narratives\n• Marketing copy and slogans\n• Business names and branding\n• Creative concepts\n• Design ideas\n• Artistic inspiration\n\n**Brainstorming:**\n• Project ideas\n• Problem solutions\n• Innovation strategies\n• Creative approaches\n\nWhat kind of creative project are you working on?`
-                ],
-                default: [
-                    `I've analyzed your query about "${userMessage}" and here's my response:\n\nThis appears to be an interesting topic. Let me provide you with a comprehensive overview.`
-                ]
-            };
-
             // Categorize the user message
             let category = 'default';
             const lowerMessage = userMessage.toLowerCase();
+            
+            // Store for use in default response
+            window.placeholderMessage = userMessage;
 
-            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey') || lowerMessage.includes('greetings')) {
                 category = 'greetings';
-            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do') || lowerMessage.includes('capabilities')) {
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do') || lowerMessage.includes('capabilities') || lowerMessage.includes('features')) {
                 category = 'help';
-            } else if (lowerMessage.match(/\b(code|program|python|javascript|java|c\+\+|html|css|react|node|sql|algorithm)\b/)) {
+            } else if (lowerMessage.match(/\b(code|program|python|javascript|java|c\+\+|html|css|react|node|sql|algorithm|function|debug|error)\b/)) {
                 category = 'coding';
-            } else if (lowerMessage.match(/\b(creative|write|story|idea|brainstorm|design|art)\b/)) {
+            } else if (lowerMessage.match(/\b(creative|write|story|idea|brainstorm|design|art|content|marketing|brand)\b/)) {
                 category = 'creative';
             }
 
-            const categoryResponses = responses[category];
-            let response = categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
-
-            // Add some detail based on the message
-            if (category === 'default') {
-                response += "\n\n" + generateDetailedMockResponse(userMessage);
-            }
-
+            const categoryResponses = mockResponses[category] || mockResponses.default;
+            const response = categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+            
+            // Add processing time simulation
             return response;
-        }
-
-        function generateDetailedMockResponse(message) {
-            const detailParts = [
-                "**Key Points:**\n• First, it's important to understand the core concepts involved\n• Consider the practical applications and real-world implications\n• Evaluate different approaches and methodologies\n\n",
-                
-                "**Detailed Analysis:**\nThis topic intersects with several important areas. The fundamental principles are crucial for proper understanding. Recent developments have significantly impacted this field, making it an exciting area of exploration.\n\n",
-                
-                "**Practical Considerations:**\nWhen approaching this topic, consider these aspects:\n1. Start with foundational knowledge\n2. Explore current trends and developments\n3. Consider implementation challenges\n4. Evaluate future potential\n\n",
-                
-                "**Structured Approach:**\nHere's how to think about this systematically:\n\n**Understanding:** Break down the key components\n**Analysis:** Examine relationships and dependencies\n**Application:** Consider practical uses\n**Innovation:** Explore potential advancements\n\n"
-            ];
-
-            const conclusion = [
-                "I hope this provides a solid foundation. Feel free to ask for more specific details or clarification on any point.",
-                "This overview should give you a good starting point. Would you like me to elaborate on any particular aspect?",
-                "Let me know if you need more detailed information or have specific questions about this topic.",
-                "I'm here to help you explore this further. What specific angle would you like to focus on?"
-            ];
-
-            const randomDetail = detailParts[Math.floor(Math.random() * detailParts.length)];
-            const randomConclusion = conclusion[Math.floor(Math.random() * conclusion.length)];
-
-            return randomDetail + randomConclusion;
         }
 
         // ==================== CHAT INTERFACE ====================
         function showChatInterface() {
-            document.getElementById('authContainer').style.display = 'none';
-            document.getElementById('chatContainer').classList.add('active');
+            const authContainer = document.getElementById('authContainer');
+            const chatContainer = document.getElementById('chatContainer');
+            
+            if (authContainer) authContainer.style.display = 'none';
+            if (chatContainer) chatContainer.classList.add('active');
             
             // Update user info
             if (currentUser) {
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('userEmail').textContent = currentUser.email;
-                document.getElementById('userAvatar').textContent = currentUser.avatar;
+                const userName = document.getElementById('userName');
+                const userEmail = document.getElementById('userEmail');
+                const userAvatar = document.getElementById('userAvatar');
+                
+                if (userName) userName.textContent = currentUser.name;
+                if (userEmail) userEmail.textContent = currentUser.email;
+                if (userAvatar) userAvatar.textContent = currentUser.avatar;
             }
         }
 
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const mainChat = document.getElementById('mainChat');
+            
+            if (!sidebar || !mainChat) return;
             
             isSidebarOpen = !isSidebarOpen;
             
@@ -2429,6 +2952,8 @@
 
         function toggleUserMenu() {
             const userMenu = document.getElementById('userMenu');
+            if (!userMenu) return;
+            
             userMenuOpen = !userMenuOpen;
             
             if (userMenuOpen) {
@@ -2447,6 +2972,8 @@
             const userMenu = document.getElementById('userMenu');
             const userProfile = document.querySelector('.user-profile');
             
+            if (!userMenu || !userProfile) return;
+            
             if (!userMenu.contains(event.target) && !userProfile.contains(event.target)) {
                 userMenu.classList.remove('active');
                 userMenuOpen = false;
@@ -2455,90 +2982,117 @@
         }
 
         function newChat() {
-            currentChatId = 'chat_' + Date.now();
-            document.getElementById('messagesContainer').innerHTML = '';
-            document.getElementById('chatTitle').textContent = 'New Chat';
-            
-            // Show welcome screen
-            const welcomeScreen = document.getElementById('welcomeScreen').cloneNode(true);
-            welcomeScreen.style.display = 'block';
-            document.getElementById('messagesContainer').appendChild(welcomeScreen);
-            
-            // Add to conversations
-            const conversation = {
-                id: currentChatId,
-                title: 'New Chat',
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-                messages: []
-            };
-            
-            conversations.unshift(conversation);
-            updateConversationList();
-            
-            if (isSidebarOpen) toggleSidebar();
+            try {
+                currentChatId = 'chat_' + Date.now();
+                const messagesContainer = document.getElementById('messagesContainer');
+                const chatTitle = document.getElementById('chatTitle');
+                
+                if (messagesContainer) messagesContainer.innerHTML = '';
+                if (chatTitle) chatTitle.textContent = 'New Chat';
+                
+                // Show welcome screen
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                if (welcomeScreen) {
+                    const welcomeClone = welcomeScreen.cloneNode(true);
+                    welcomeClone.style.display = 'block';
+                    if (messagesContainer) {
+                        messagesContainer.appendChild(welcomeClone);
+                    }
+                }
+                
+                // Add to conversations
+                const conversation = {
+                    id: currentChatId,
+                    title: 'New Chat',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    messages: []
+                };
+                
+                conversations.unshift(conversation);
+                updateConversationList();
+                
+                if (isSidebarOpen) toggleSidebar();
+                
+                showToast('New chat started', 'success');
+            } catch (error) {
+                console.error('Error creating new chat:', error);
+                showToast('Error creating new chat', 'error');
+            }
         }
 
         function loadConversations() {
-            // Load from mock database or localStorage
-            const savedConversations = localStorage.getItem(`cyanix_conversations_${currentUser.id}`);
-            if (savedConversations) {
-                conversations = JSON.parse(savedConversations);
-                updateConversationList();
-            } else {
-                // Create demo conversations for new users
-                conversations = [
-                    {
-                        id: 'chat_1',
-                        title: 'Python Programming Help',
-                        createdAt: new Date(Date.now() - 3600000).toISOString(),
-                        updatedAt: new Date(Date.now() - 3600000).toISOString(),
-                        messages: []
-                    },
-                    {
-                        id: 'chat_2',
-                        title: 'Business Idea Brainstorming',
-                        createdAt: new Date(Date.now() - 86400000).toISOString(),
-                        updatedAt: new Date(Date.now() - 86400000).toISOString(),
-                        messages: []
-                    },
-                    {
-                        id: 'chat_3',
-                        title: 'Learning Quantum Computing',
-                        createdAt: new Date(Date.now() - 172800000).toISOString(),
-                        updatedAt: new Date(Date.now() - 172800000).toISOString(),
-                        messages: []
-                    }
-                ];
-                updateConversationList();
+            try {
+                if (!currentUser) return;
+                
+                const savedConversations = localStorage.getItem(`cyanix_conversations_${currentUser.id}`);
+                if (savedConversations) {
+                    conversations = JSON.parse(savedConversations);
+                    updateConversationList();
+                } else {
+                    // Create demo conversations for new users
+                    conversations = [
+                        {
+                            id: 'chat_1',
+                            title: 'Python Programming Help',
+                            createdAt: new Date(Date.now() - 3600000).toISOString(),
+                            updatedAt: new Date(Date.now() - 3600000).toISOString(),
+                            messages: []
+                        },
+                        {
+                            id: 'chat_2',
+                            title: 'Business Idea Brainstorming',
+                            createdAt: new Date(Date.now() - 86400000).toISOString(),
+                            updatedAt: new Date(Date.now() - 86400000).toISOString(),
+                            messages: []
+                        },
+                        {
+                            id: 'chat_3',
+                            title: 'Learning Quantum Computing',
+                            createdAt: new Date(Date.now() - 172800000).toISOString(),
+                            updatedAt: new Date(Date.now() - 172800000).toISOString(),
+                            messages: []
+                        }
+                    ];
+                    updateConversationList();
+                }
+            } catch (error) {
+                console.error('Error loading conversations:', error);
+                conversations = [];
             }
         }
 
         function updateConversationList() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            const weekAgo = new Date(today);
-            weekAgo.setDate(weekAgo.getDate() - 7);
-            
-            const todayConvos = conversations.filter(c => new Date(c.updatedAt) >= today);
-            const yesterdayConvos = conversations.filter(c => 
-                new Date(c.updatedAt) >= yesterday && new Date(c.updatedAt) < today
-            );
-            const weekConvos = conversations.filter(c => 
-                new Date(c.updatedAt) >= weekAgo && new Date(c.updatedAt) < yesterday
-            );
-            
-            updateConversationSection('todayConversations', todayConvos);
-            updateConversationSection('yesterdayConversations', yesterdayConvos);
-            updateConversationSection('weekConversations', weekConvos);
+            try {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+                
+                const weekAgo = new Date(today);
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                
+                const todayConvos = conversations.filter(c => new Date(c.updatedAt) >= today);
+                const yesterdayConvos = conversations.filter(c => 
+                    new Date(c.updatedAt) >= yesterday && new Date(c.updatedAt) < today
+                );
+                const weekConvos = conversations.filter(c => 
+                    new Date(c.updatedAt) >= weekAgo && new Date(c.updatedAt) < yesterday
+                );
+                
+                updateConversationSection('todayConversations', todayConvos);
+                updateConversationSection('yesterdayConversations', yesterdayConvos);
+                updateConversationSection('weekConversations', weekConvos);
+            } catch (error) {
+                console.error('Error updating conversation list:', error);
+            }
         }
 
         function updateConversationSection(sectionId, convos) {
             const section = document.getElementById(sectionId);
+            if (!section) return;
+            
             section.innerHTML = '';
             
             convos.forEach(convo => {
@@ -2557,77 +3111,121 @@
         }
 
         function loadChat(chatId) {
-            currentChatId = chatId;
-            const conversation = conversations.find(c => c.id === chatId);
-            
-            if (conversation) {
-                document.getElementById('chatTitle').textContent = conversation.title;
-                document.getElementById('messagesContainer').innerHTML = '';
+            try {
+                currentChatId = chatId;
+                const conversation = conversations.find(c => c.id === chatId);
                 
-                // Load messages
-                conversation.messages.forEach(msg => {
-                    addMessageToUI(msg.content, msg.sender, msg.timestamp);
-                });
-                
-                updateConversationList();
-                if (isSidebarOpen) toggleSidebar();
+                if (conversation) {
+                    const chatTitle = document.getElementById('chatTitle');
+                    const messagesContainer = document.getElementById('messagesContainer');
+                    
+                    if (chatTitle) chatTitle.textContent = conversation.title;
+                    if (messagesContainer) messagesContainer.innerHTML = '';
+                    
+                    // Load messages
+                    conversation.messages.forEach(msg => {
+                        addMessageToUI(msg.content, msg.sender, msg.timestamp);
+                    });
+                    
+                    updateConversationList();
+                    if (isSidebarOpen) toggleSidebar();
+                }
+            } catch (error) {
+                console.error('Error loading chat:', error);
+                showToast('Error loading chat', 'error');
             }
         }
 
         // ==================== MESSAGING ====================
         async function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
+            if (isProcessingMessage) {
+                showToast('Please wait for the current response', 'warning');
+                return;
+            }
             
-            if (!message) return;
+            const input = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            const message = input?.value?.trim() || '';
+            
+            if (!message) {
+                showToast('Please enter a message', 'warning');
+                return;
+            }
+            
+            // Check if offline and OpenAI is enabled
+            if (!navigator.onLine && useOpenAI) {
+                showToast('You are offline. Please check your connection.', 'error');
+                return;
+            }
+            
+            isProcessingMessage = true;
+            retryCount = 0;
+            
+            // Disable send button
+            if (sendButton) {
+                sendButton.disabled = true;
+                sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            }
             
             // Hide welcome screen
-            document.getElementById('welcomeScreen')?.remove();
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (welcomeScreen) {
+                welcomeScreen.remove();
+            }
             
             // Add user message
             addMessageToUI(message, 'user');
             
             // Clear input
-            input.value = '';
-            autoResizeInput(input);
+            if (input) {
+                input.value = '';
+                autoResizeInput(input);
+            }
             
             // Show typing indicator
             showTypingIndicator();
             
             // Save to conversation
-            const conversation = conversations.find(c => c.id === currentChatId);
-            if (conversation) {
-                conversation.messages.push({
-                    id: 'msg_' + Date.now(),
-                    content: message,
-                    sender: 'user',
-                    timestamp: new Date().toISOString()
-                });
-                
-                // Update conversation title if first message
-                if (conversation.messages.length === 1) {
-                    conversation.title = message.substring(0, 30) + (message.length > 30 ? '...' : '');
-                    document.getElementById('chatTitle').textContent = conversation.title;
-                }
-                
-                conversation.updatedAt = new Date().toISOString();
-                saveConversations();
+            let conversation = conversations.find(c => c.id === currentChatId);
+            if (!conversation) {
+                // Create new conversation if none exists
+                currentChatId = 'chat_' + Date.now();
+                conversation = {
+                    id: currentChatId,
+                    title: message.substring(0, 30) + (message.length > 30 ? '...' : ''),
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    messages: []
+                };
+                conversations.unshift(conversation);
+                updateConversationList();
             }
+            
+            conversation.messages.push({
+                id: 'msg_' + Date.now(),
+                content: message,
+                sender: 'user',
+                timestamp: new Date().toISOString()
+            });
+            
+            // Update conversation title if first message
+            if (conversation.messages.length === 1) {
+                conversation.title = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+                const chatTitle = document.getElementById('chatTitle');
+                if (chatTitle) chatTitle.textContent = conversation.title;
+            }
+            
+            conversation.updatedAt = new Date().toISOString();
+            saveConversations();
             
             try {
                 // Generate AI response
                 let aiResponse;
                 if (useOpenAI && openaiApiKey) {
-                    try {
-                        aiResponse = await generateAIResponseWithOpenAI(message, conversation?.messages || []);
-                    } catch (error) {
-                        console.error('OpenAI API Error:', error);
-                        showToast(`API Error: ${error.message}. Using fallback.`, 'error');
-                        aiResponse = generateMockAIResponse(message);
-                    }
+                    aiResponse = await generateAIResponseWithRetry(message, conversation.messages);
                 } else {
-                    // Small delay for realistic feel
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // Use mock response with delay
+                    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
                     aiResponse = generateMockAIResponse(message);
                 }
                 
@@ -2635,23 +3233,26 @@
                 addMessageToUI(aiResponse, 'assistant');
                 
                 // Save AI response
-                if (conversation) {
-                    conversation.messages.push({
-                        id: 'msg_' + Date.now(),
-                        content: aiResponse,
-                        sender: 'assistant',
-                        timestamp: new Date().toISOString()
-                    });
-                    conversation.updatedAt = new Date().toISOString();
-                    saveConversations();
-                }
+                conversation.messages.push({
+                    id: 'msg_' + Date.now(),
+                    content: aiResponse,
+                    sender: 'assistant',
+                    timestamp: new Date().toISOString()
+                });
+                conversation.updatedAt = new Date().toISOString();
+                saveConversations();
+                
+                showToast('Response received', 'success');
                 
             } catch (error) {
                 hideTypingIndicator();
                 console.error('Error generating response:', error);
-                const errorMessage = "I apologize, but I encountered an error processing your request. Please check your AI settings or try again later.";
+                
+                // Add error message
+                const errorMessage = `I apologize, but I encountered an error: ${error.message}. Please check your AI settings or try again.`;
                 addMessageToUI(errorMessage, 'assistant');
                 
+                // Save error response
                 if (conversation) {
                     conversation.messages.push({
                         id: 'msg_' + Date.now(),
@@ -2661,21 +3262,53 @@
                     });
                     saveConversations();
                 }
+                
+                showToast(`Error: ${error.message}`, 'error');
+            } finally {
+                // Re-enable send button
+                if (sendButton) {
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                }
+                isProcessingMessage = false;
             }
+        }
+
+        async function generateAIResponseWithRetry(userMessage, conversationHistory) {
+            while (retryCount < MAX_RETRIES) {
+                try {
+                    return await generateAIResponseWithOpenAI(userMessage, conversationHistory);
+                } catch (error) {
+                    retryCount++;
+                    
+                    if (retryCount === MAX_RETRIES) {
+                        throw error;
+                    }
+                    
+                    // Wait before retrying (exponential backoff)
+                    const delay = Math.pow(2, retryCount) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    
+                    showToast(`Retrying... (${retryCount}/${MAX_RETRIES})`, 'info');
+                }
+            }
+            throw new Error('Max retries exceeded');
         }
 
         function addMessageToUI(content, sender, timestamp = null) {
             const container = document.getElementById('messagesContainer');
+            if (!container) return;
+            
             const messageDiv = document.createElement('div');
             
             messageDiv.className = `message ${sender}`;
             messageDiv.innerHTML = `
                 <div class="message-header">
                     <div class="message-avatar ${sender}">
-                        ${sender === 'user' ? currentUser.avatar : 'AI'}
+                        ${sender === 'user' ? (currentUser?.avatar || 'U') : 'AI'}
                     </div>
                     <div class="message-sender">
-                        ${sender === 'user' ? currentUser.name : 'Cyanix AI'}
+                        ${sender === 'user' ? (currentUser?.name || 'You') : 'Cyanix AI'}
                     </div>
                     <div class="message-time">
                         ${timestamp ? formatTime(timestamp) : formatTime(new Date().toISOString())}
@@ -2701,6 +3334,8 @@
 
         function showTypingIndicator() {
             const container = document.getElementById('messagesContainer');
+            if (!container) return;
+            
             const typingDiv = document.createElement('div');
             
             typingDiv.className = 'typing-indicator';
@@ -2731,12 +3366,18 @@
                 analyze: "Analyze the pros and cons of renewable energy sources (solar, wind, hydro) compared to fossil fuels. Consider factors like cost, efficiency, environmental impact, and scalability."
             };
 
-            document.getElementById('chatInput').value = examples[type];
-            autoResizeInput(document.getElementById('chatInput'));
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput && examples[type]) {
+                chatInput.value = examples[type];
+                autoResizeInput(chatInput);
+                chatInput.focus();
+            }
         }
 
         // ==================== UI UTILITIES ====================
         function autoResizeInput(textarea) {
+            if (!textarea) return;
+            
             textarea.style.height = 'auto';
             const newHeight = Math.min(textarea.scrollHeight, 200);
             textarea.style.height = newHeight + 'px';
@@ -2750,29 +3391,71 @@
         }
 
         function formatMessage(text) {
-            // Enhanced markdown formatting with code blocks
-            return text
-                .replace(/```(\w+)?\n([\s\S]*?)\n```/g, '<pre><code class="$1">$2</code></pre>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-                .replace(/^\s*-\s+(.*$)/gm, '<li>$1</li>')
-                .replace(/^\s*\d+\.\s+(.*$)/gm, '<li>$1</li>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>')
-                .replace(/^<p>/, '')
-                .replace(/<\/p>$/, '');
+            if (!text) return '';
+            
+            // Escape HTML to prevent XSS
+            let escapedText = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+            
+            // Process code blocks first
+            escapedText = escapedText.replace(/```(\w+)?\n([\s\S]*?)\n```/g, (match, lang, code) => {
+                const language = lang ? ` class="language-${lang}"` : '';
+                return `<pre><code${language}>${code.trim()}</code></pre>`;
+            });
+            
+            // Process inline code
+            escapedText = escapedText.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // Process headers
+            escapedText = escapedText.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            escapedText = escapedText.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            escapedText = escapedText.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+            
+            // Process bold and italic
+            escapedText = escapedText.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            escapedText = escapedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            escapedText = escapedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Process lists
+            escapedText = escapedText.replace(/^\s*[-*]\s+(.*$)/gm, '<li>$1</li>');
+            escapedText = escapedText.replace(/^\s*\d+\.\s+(.*$)/gm, '<li>$1</li>');
+            
+            // Process blockquotes
+            escapedText = escapedText.replace(/^>\s+(.*$)/gm, '<blockquote>$1</blockquote>');
+            
+            // Process links
+            escapedText = escapedText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+            
+            // Process line breaks
+            escapedText = escapedText.replace(/\n\n/g, '</p><p>');
+            escapedText = escapedText.replace(/\n/g, '<br>');
+            
+            // Wrap in paragraph if not already wrapped
+            if (!escapedText.startsWith('<')) {
+                escapedText = '<p>' + escapedText + '</p>';
+            }
+            
+            return escapedText;
         }
 
         function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            try {
+                const date = new Date(timestamp);
+                return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } catch (error) {
+                return 'Now';
+            }
         }
 
         function showToast(message, type = 'info') {
+            // Remove existing toasts
+            const existingToasts = document.querySelectorAll('.toast');
+            existingToasts.forEach(toast => toast.remove());
+            
             // Create toast element
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -2780,23 +3463,43 @@
             
             document.body.appendChild(toast);
             
+            // Remove toast after timeout
             setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
+                if (toast.parentNode) {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
             }, 3000);
         }
 
         // ==================== MESSAGE ACTIONS ====================
         function copyMessage(button) {
-            const messageContent = button.closest('.message').querySelector('.message-content').textContent;
-            navigator.clipboard.writeText(messageContent)
-                .then(() => showToast('Copied to clipboard', 'success'))
-                .catch(() => showToast('Failed to copy', 'error'));
+            try {
+                const messageContent = button.closest('.message')?.querySelector('.message-content')?.textContent;
+                if (!messageContent) {
+                    showToast('Nothing to copy', 'warning');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(messageContent)
+                    .then(() => showToast('Copied to clipboard', 'success'))
+                    .catch(() => showToast('Failed to copy', 'error'));
+            } catch (error) {
+                console.error('Error copying message:', error);
+                showToast('Error copying message', 'error');
+            }
         }
 
         function regenerateMessage(button) {
             const messageDiv = button.closest('.message');
-            const messageContent = messageDiv.querySelector('.message-content').textContent;
+            if (!messageDiv) return;
+            
+            const messageContent = messageDiv.querySelector('.message-content')?.textContent;
+            if (!messageContent) return;
             
             // Show typing indicator
             showTypingIndicator();
@@ -2804,13 +3507,18 @@
             setTimeout(() => {
                 hideTypingIndicator();
                 const newResponse = generateMockAIResponse("Regenerate: " + messageContent);
-                messageDiv.querySelector('.message-content').innerHTML = formatMessage(newResponse);
+                const contentElement = messageDiv.querySelector('.message-content');
+                if (contentElement) {
+                    contentElement.innerHTML = formatMessage(newResponse);
+                }
                 showToast('Message regenerated', 'success');
             }, 1000);
         }
 
         function likeMessage(button) {
             const icon = button.querySelector('i');
+            if (!icon) return;
+            
             if (icon.classList.contains('far')) {
                 icon.classList.remove('far');
                 icon.classList.add('fas');
@@ -2841,24 +3549,35 @@
         }
 
         function exportData() {
-            const data = {
-                user: currentUser,
-                conversations: conversations,
-                exportDate: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cyanix-export-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast('Data exported successfully', 'success');
-            toggleUserMenu();
+            try {
+                if (!currentUser) {
+                    showToast('Please login first', 'error');
+                    return;
+                }
+                
+                const data = {
+                    user: currentUser,
+                    conversations: conversations,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cyanix-export-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('Data exported successfully', 'success');
+                toggleUserMenu();
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                showToast('Error exporting data', 'error');
+            }
         }
 
         function logout() {
@@ -2870,16 +3589,26 @@
                 localStorage.removeItem('cyanix_user');
                 sessionStorage.removeItem('cyanix_user');
                 
-                document.getElementById('chatContainer').classList.remove('active');
-                document.getElementById('authContainer').style.display = 'flex';
+                const chatContainer = document.getElementById('chatContainer');
+                const authContainer = document.getElementById('authContainer');
+                
+                if (chatContainer) chatContainer.classList.remove('active');
+                if (authContainer) authContainer.style.display = 'flex';
                 
                 // Reset forms
-                document.getElementById('signinEmail').value = '';
-                document.getElementById('signinPassword').value = '';
-                document.getElementById('signupName').value = '';
-                document.getElementById('signupEmail').value = '';
-                document.getElementById('signupPassword').value = '';
-                document.getElementById('signupConfirmPassword').value = '';
+                const signinEmail = document.getElementById('signinEmail');
+                const signinPassword = document.getElementById('signinPassword');
+                const signupName = document.getElementById('signupName');
+                const signupEmail = document.getElementById('signupEmail');
+                const signupPassword = document.getElementById('signupPassword');
+                const signupConfirmPassword = document.getElementById('signupConfirmPassword');
+                
+                if (signinEmail) signinEmail.value = '';
+                if (signinPassword) signinPassword.value = '';
+                if (signupName) signupName.value = '';
+                if (signupEmail) signupEmail.value = '';
+                if (signupPassword) signupPassword.value = '';
+                if (signupConfirmPassword) signupConfirmPassword.value = '';
                 
                 switchAuthTab('signin');
                 showToast('Logged out successfully', 'success');
@@ -2889,18 +3618,29 @@
 
         function clearChat() {
             if (confirm('Clear this chat? This cannot be undone.')) {
-                const conversation = conversations.find(c => c.id === currentChatId);
-                if (conversation) {
-                    conversation.messages = [];
-                    saveConversations();
+                try {
+                    const conversation = conversations.find(c => c.id === currentChatId);
+                    if (conversation) {
+                        conversation.messages = [];
+                        saveConversations();
+                    }
+                    
+                    const messagesContainer = document.getElementById('messagesContainer');
+                    if (messagesContainer) {
+                        messagesContainer.innerHTML = '';
+                        const welcomeScreen = document.getElementById('welcomeScreen');
+                        if (welcomeScreen) {
+                            const welcomeClone = welcomeScreen.cloneNode(true);
+                            welcomeClone.style.display = 'block';
+                            messagesContainer.appendChild(welcomeClone);
+                        }
+                    }
+                    
+                    showToast('Chat cleared', 'success');
+                } catch (error) {
+                    console.error('Error clearing chat:', error);
+                    showToast('Error clearing chat', 'error');
                 }
-                
-                document.getElementById('messagesContainer').innerHTML = '';
-                const welcomeScreen = document.getElementById('welcomeScreen').cloneNode(true);
-                welcomeScreen.style.display = 'block';
-                document.getElementById('messagesContainer').appendChild(welcomeScreen);
-                
-                showToast('Chat cleared', 'success');
             }
         }
 
@@ -2909,610 +3649,12 @@
         }
 
         function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            const icon = document.querySelector('.header-btn:nth-child(3) i');
-            
-            if (isDarkMode) {
-                document.body.style.backgroundColor = 'var(--purple-dark)';
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                showToast('Dark mode enabled', 'success');
-            } else {
-                document.body.style.backgroundColor = '#f5f5f7';
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                showToast('Light mode enabled', 'success');
-            }
-        }
-
-        function attachFile() {
-            showToast('File attachment coming soon!', 'info');
-        }
-
-        function voiceInput() {
-            showToast('Voice input coming soon!', 'info');
-        }
-
-        // ==================== MODAL FUNCTIONS ====================
-        function showTermsModal() {
-            document.getElementById('termsModal').classList.add('active');
-        }
-
-        function hideTermsModal() {
-            document.getElementById('termsModal').classList.remove('active');
-        }
-
-        function acceptTerms() {
-            document.getElementById('acceptTerms').checked = true;
-            hideTermsModal();
-            showToast('Terms accepted', 'success');
-        }
-
-        function showForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.add('active');
-        }
-
-        function hideForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.remove('active');
-        }
-
-        function sendResetEmail() {
-            const email = document.getElementById('resetEmail').value;
-            if (validateEmail(email)) {
-                hideForgotPassword();
-                showToast('Password reset email sent!', 'success');
-            } else {
-                showToast('Please enter a valid email', 'error');
-            }
-        }
-
-        // ==================== HELPER FUNCTIONS ====================
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function getAvatarInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-        }
-
-        function saveConversations() {
-            if (currentUser) {
-                localStorage.setItem(`cyanix_conversations_${currentUser.id}`, JSON.stringify(conversations));
-            }
-        }
-
-        function showWelcomeMessage() {
-            // This is called after sign up
-            newChat();
-            
-            setTimeout(() => {
-                const welcomeMsg = "Welcome to Cyanix AI! I'm your intelligent assistant, ready to help you with writing, coding, analysis, creative tasks, and much more. Feel free to ask me anything!";
-                addMessageToUI(welcomeMsg, 'assistant');
+            try {
+                isDarkMode = !isDarkMode;
+                const icon = document.querySelector('.header-btn:nth-child(3) i');
                 
-                // Save to conversation
-                const conversation = conversations.find(c => c.id === currentChatId);
-                if (conversation) {
-                    conversation.messages.push({
-                        id: 'msg_welcome',
-                        content: welcomeMsg,
-                        sender: 'assistant',
-                        timestamp: new Date().toISOString()
-                    });
-                    saveConversations();
-                }
-            }, 1000);
-        }
-    </script>
-</body>
-</html> {
-            currentChatId = chatId;
-            const conversation = conversations.find(c => c.id === chatId);
-            
-            if (conversation) {
-                document.getElementById('chatTitle').textContent = conversation.title;
-                document.getElementById('messagesContainer').innerHTML = '';
+                if (isDarkMode) {
+                    document.body.style.backgroundColor = 'var(--purple-dark)';
+                    if (icon) {
+                        icon.classList.remove('fa-sun');
                 
-                // Load messages
-                conversation.messages.forEach(msg => {
-                    addMessageToUI(msg.content, msg.sender, msg.timestamp);
-                });
-                
-                updateConversationList();
-                if (isSidebarOpen) toggleSidebar();
-            }
-        }
-
-        // ==================== MESSAGING ====================
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Hide welcome screen
-            document.getElementById('welcomeScreen')?.remove();
-            
-            // Add user message
-            addMessageToUI(message, 'user');
-            
-            // Clear input
-            input.value = '';
-            autoResizeInput(input);
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            // Save to conversation
-            const conversation = conversations.find(c => c.id === currentChatId);
-            if (conversation) {
-                conversation.messages.push({
-                    id: 'msg_' + Date.now(),
-                    content: message,
-                    sender: 'user',
-                    timestamp: new Date().toISOString()
-                });
-                
-                // Update conversation title if first message
-                if (conversation.messages.length === 1) {
-                    conversation.title = message.substring(0, 30) + (message.length > 30 ? '...' : '');
-                    document.getElementById('chatTitle').textContent = conversation.title;
-                }
-                
-                conversation.updatedAt = new Date().toISOString();
-                saveConversations();
-            }
-            
-            // Simulate AI response
-            setTimeout(() => {
-                hideTypingIndicator();
-                const aiResponse = generateAIResponse(message);
-                addMessageToUI(aiResponse, 'assistant');
-                
-                // Save AI response
-                if (conversation) {
-                    conversation.messages.push({
-                        id: 'msg_' + Date.now(),
-                        content: aiResponse,
-                        sender: 'assistant',
-                        timestamp: new Date().toISOString()
-                    });
-                    conversation.updatedAt = new Date().toISOString();
-                    saveConversations();
-                }
-            }, 1000 + Math.random() * 1000);
-        }
-
-        function addMessageToUI(content, sender, timestamp = null) {
-            const container = document.getElementById('messagesContainer');
-            const messageDiv = document.createElement('div');
-            
-            messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar ${sender}">
-                        ${sender === 'user' ? currentUser.avatar : 'AI'}
-                    </div>
-                    <div class="message-sender">
-                        ${sender === 'user' ? currentUser.name : 'Cyanix AI'}
-                    </div>
-                    <div class="message-time">
-                        ${timestamp ? formatTime(timestamp) : formatTime(new Date().toISOString())}
-                    </div>
-                </div>
-                <div class="message-content">${formatMessage(content)}</div>
-                <div class="message-actions">
-                    <button class="message-action" onclick="copyMessage(this)">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                    <button class="message-action" onclick="regenerateMessage(this)">
-                        <i class="fas fa-redo"></i>
-                    </button>
-                    <button class="message-action" onclick="likeMessage(this)">
-                        <i class="far fa-thumbs-up"></i>
-                    </button>
-                </div>
-            `;
-            
-            container.appendChild(messageDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function showTypingIndicator() {
-            const container = document.getElementById('messagesContainer');
-            const typingDiv = document.createElement('div');
-            
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typingIndicator';
-            typingDiv.innerHTML = `
-                <div class="typing-avatar">AI</div>
-                <div class="typing-dots">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
-            
-            container.appendChild(typingDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) indicator.remove();
-        }
-
-        function generateAIResponse(userMessage) {
-            // Simulate different AI responses based on message content
-            const responses = {
-                greetings: [
-                    "Hello! I'm Cyanix AI, your intelligent assistant. How can I help you today?",
-                    "Hi there! I'm here to help with anything you need. What's on your mind?",
-                    "Greetings! Ready to dive into some interesting topics together?"
-                ],
-                help: [
-                    "I can help you with a wide range of tasks including:\n• Writing and editing\n• Code generation and debugging\n• Research and analysis\n• Creative brainstorming\n• Learning explanations\n• Problem solving",
-                    "I'm designed to assist with various tasks. You can ask me to:\n• Explain complex concepts\n• Generate creative ideas\n• Write code in multiple languages\n• Analyze data or text\n• Help with planning and organization"
-                ],
-                coding: [
-                    "I can help with coding in Python, JavaScript, Java, C++, and many other languages. What specific coding task do you need assistance with?",
-                    "As a coding assistant, I can:\n• Write functions and algorithms\n• Debug code\n• Explain programming concepts\n• Suggest best practices\n• Convert code between languages"
-                ],
-                creative: [
-                    "Let's get creative! I can help with:\n• Story writing\n• Marketing copy\n• Business names\n• Creative concepts\n• Design ideas\n• Artistic inspiration",
-                    "For creative tasks, I can assist with brainstorming, generating ideas, writing content, and providing creative feedback."
-                ],
-                default: [
-                    "I understand you're asking about: \"" + userMessage + "\"\n\nLet me provide you with a comprehensive response...",
-                    "That's an interesting question. Based on my analysis, here's what I can tell you...",
-                    "I've processed your query and here's my detailed response..."
-                ]
-            };
-
-            // Categorize the user message
-            let category = 'default';
-            const lowerMessage = userMessage.toLowerCase();
-
-            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                category = 'greetings';
-            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
-                category = 'help';
-            } else if (lowerMessage.includes('code') || lowerMessage.includes('program') || lowerMessage.includes('python') || lowerMessage.includes('javascript')) {
-                category = 'coding';
-            } else if (lowerMessage.includes('creative') || lowerMessage.includes('write') || lowerMessage.includes('story') || lowerMessage.includes('idea')) {
-                category = 'creative';
-            }
-
-            const categoryResponses = responses[category];
-            const response = categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
-
-            // Add some detail based on the message
-            if (category === 'default') {
-                return response + "\n\n" + generateDetailedResponse(userMessage);
-            }
-
-            return response;
-        }
-
-        function generateDetailedResponse(message) {
-            const topics = [
-                "This is an important topic because it affects many areas of modern technology and society.",
-                "Let me break this down into key points for better understanding.",
-                "Here's a structured approach to thinking about this:",
-                "Based on current best practices and research, here's what you should know:",
-                "I've analyzed this from multiple perspectives to give you a comprehensive answer."
-            ];
-
-            const details = [
-                "First, consider the fundamental principles involved.",
-                "Next, look at practical applications and real-world examples.",
-                "It's also important to understand the limitations and challenges.",
-                "Recent developments have significantly impacted this area.",
-                "For implementation, here are some actionable steps you can take."
-            ];
-
-            const conclusion = [
-                "I hope this provides a clear understanding. Would you like me to elaborate on any specific aspect?",
-                "This should give you a solid foundation. Feel free to ask follow-up questions.",
-                "Let me know if you need more detailed information on any of these points.",
-                "Is there anything specific about this topic you'd like to explore further?"
-            ];
-
-            return topics[Math.floor(Math.random() * topics.length)] + "\n\n" +
-                   details[Math.floor(Math.random() * details.length)] + " " +
-                   details[Math.floor(Math.random() * details.length)] + "\n\n" +
-                   conclusion[Math.floor(Math.random() * conclusion.length)];
-        }
-
-        function useExample(type) {
-            const examples = {
-                brainstorm: "Help me brainstorm creative project ideas for a tech startup that combines AI with environmental sustainability.",
-                explain: "Explain quantum computing in simple terms. How does it differ from classical computing, and what are its potential applications?",
-                code: "Write a Python function to sort a list using quicksort algorithm. Include comments explaining each step and provide example usage.",
-                analyze: "Analyze the pros and cons of renewable energy sources (solar, wind, hydro) compared to fossil fuels. Consider factors like cost, efficiency, environmental impact, and scalability."
-            };
-
-            document.getElementById('chatInput').value = examples[type];
-            autoResizeInput(document.getElementById('chatInput'));
-        }
-
-        // ==================== UI UTILITIES ====================
-        function autoResizeInput(textarea) {
-            textarea.style.height = 'auto';
-            const newHeight = Math.min(textarea.scrollHeight, 200);
-            textarea.style.height = newHeight + 'px';
-        }
-
-        function handleKeyDown(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-
-        function formatMessage(text) {
-            // Simple markdown-like formatting
-            return text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\n/g, '<br>');
-        }
-
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function showToast(message, type = 'info') {
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#3742fa'};
-                color: white;
-                padding: 12px 24px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 10000;
-                animation: slideIn 0.3s ease;
-            `;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // ==================== MESSAGE ACTIONS ====================
-        function copyMessage(button) {
-            const messageContent = button.closest('.message').querySelector('.message-content').textContent;
-            navigator.clipboard.writeText(messageContent)
-                .then(() => showToast('Copied to clipboard', 'success'))
-                .catch(() => showToast('Failed to copy', 'error'));
-        }
-
-        function regenerateMessage(button) {
-            const messageDiv = button.closest('.message');
-            const messageContent = messageDiv.querySelector('.message-content').textContent;
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            setTimeout(() => {
-                hideTypingIndicator();
-                const newResponse = generateAIResponse("Regenerate: " + messageContent);
-                messageDiv.querySelector('.message-content').innerHTML = formatMessage(newResponse);
-                showToast('Message regenerated', 'success');
-            }, 1000);
-        }
-
-        function likeMessage(button) {
-            const icon = button.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                button.style.color = '#2ed573';
-                showToast('Liked', 'success');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                button.style.color = '';
-                showToast('Unliked', 'info');
-            }
-        }
-
-        // ==================== USER ACTIONS ====================
-        function exportData() {
-            const data = {
-                user: currentUser,
-                conversations: conversations,
-                exportDate: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cyanix-export-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast('Data exported successfully', 'success');
-            toggleUserMenu();
-        }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                currentUser = null;
-                currentChatId = null;
-                conversations = [];
-                
-                localStorage.removeItem('cyanix_user');
-                sessionStorage.removeItem('cyanix_user');
-                
-                document.getElementById('chatContainer').classList.remove('active');
-                document.getElementById('authContainer').style.display = 'flex';
-                
-                // Reset forms
-                document.getElementById('signinEmail').value = '';
-                document.getElementById('signinPassword').value = '';
-                document.getElementById('signupName').value = '';
-                document.getElementById('signupEmail').value = '';
-                document.getElementById('signupPassword').value = '';
-                document.getElementById('signupConfirmPassword').value = '';
-                
-                switchAuthTab('signin');
-                showToast('Logged out successfully', 'success');
-                toggleUserMenu();
-            }
-        }
-
-        function clearChat() {
-            if (confirm('Clear this chat? This cannot be undone.')) {
-                const conversation = conversations.find(c => c.id === currentChatId);
-                if (conversation) {
-                    conversation.messages = [];
-                    saveConversations();
-                }
-                
-                document.getElementById('messagesContainer').innerHTML = '';
-                const welcomeScreen = document.getElementById('welcomeScreen').cloneNode(true);
-                welcomeScreen.style.display = 'block';
-                document.getElementById('messagesContainer').appendChild(welcomeScreen);
-                
-                showToast('Chat cleared', 'success');
-            }
-        }
-
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            const icon = document.querySelector('.header-btn:nth-child(3) i');
-            
-            if (isDarkMode) {
-                document.body.style.backgroundColor = 'var(--purple-dark)';
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                showToast('Dark mode enabled', 'success');
-            } else {
-                document.body.style.backgroundColor = '#f5f5f7';
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                showToast('Light mode enabled', 'success');
-            }
-        }
-
-        // ==================== MODAL FUNCTIONS ====================
-        function showTermsModal() {
-            document.getElementById('termsModal').classList.add('active');
-        }
-
-        function hideTermsModal() {
-            document.getElementById('termsModal').classList.remove('active');
-        }
-
-        function acceptTerms() {
-            document.getElementById('acceptTerms').checked = true;
-            hideTermsModal();
-            showToast('Terms accepted', 'success');
-        }
-
-        function showForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.add('active');
-        }
-
-        function hideForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.remove('active');
-        }
-
-        function sendResetEmail() {
-            const email = document.getElementById('resetEmail').value;
-            if (validateEmail(email)) {
-                hideForgotPassword();
-                showToast('Password reset email sent!', 'success');
-            } else {
-                showToast('Please enter a valid email', 'error');
-            }
-        }
-
-        // ==================== HELPER FUNCTIONS ====================
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function getAvatarInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-        }
-
-        function saveConversations() {
-            if (currentUser) {
-                localStorage.setItem(`cyanix_conversations_${currentUser.id}`, JSON.stringify(conversations));
-            }
-        }
-
-        function showWelcomeMessage() {
-            // This is called after sign up
-            newChat();
-            
-            setTimeout(() => {
-                const welcomeMsg = "Welcome to Cyanix AI! I'm your intelligent assistant, ready to help you with writing, coding, analysis, creative tasks, and much more. Feel free to ask me anything!";
-                addMessageToUI(welcomeMsg, 'assistant');
-                
-                // Save to conversation
-                const conversation = conversations.find(c => c.id === currentChatId);
-                if (conversation) {
-                    conversation.messages.push({
-                        id: 'msg_welcome',
-                        content: welcomeMsg,
-                        sender: 'assistant',
-                        timestamp: new Date().toISOString()
-                    });
-                    saveConversations();
-                }
-            }, 1000);
-        }
-
-        // Add CSS for toast animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
-</body>
-</html>
-[file content end] sources (solar, wind, hydro) compared to fossil fuels. Consider factors like cost, efficiency, environmental impact, and scalability."
-            };
-
-            document.getElementById('chatInput').value = examples[type];
-            autoResizeInput(document.getElementById('chatInput'));
-        }
-
-        // ==================== UI UTILITIES ====================
-        function autoResizeInput(textarea) {
-            textarea.style.height = 'auto';
-            const newHeight = Math.min(textarea.scrollHeight, 200);
-            textarea.style.height = newHeight + 'px';
-        }
-
-        function handleKeyDown(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-     eventDefault();
-     
