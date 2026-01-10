@@ -2628,6 +2628,55 @@ Would you like me to elaborate on any specific aspect or provide more detailed e
             signInWithMicrosoft();
         }
 
+        // ==================== UTILITY FUNCTIONS ====================
+        function getAvatarInitials(name) {
+            if (!name) return 'U';
+            return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function showToast(message, type = 'info') {
+            // Remove existing toasts
+            const existingToasts = document.querySelectorAll('.toast');
+            existingToasts.forEach(toast => toast.remove());
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            // Remove toast after timeout
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+
+        function showLoading(message = 'Processing your request...') {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            
+            if (loadingText) loadingText.textContent = message;
+            if (loadingOverlay) loadingOverlay.classList.add('active');
+        }
+
+        function hideLoading() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) loadingOverlay.classList.remove('active');
+        }
+
         // ==================== AI SETTINGS ====================
         function loadAISettings() {
             try {
@@ -2764,6 +2813,57 @@ Would you like me to elaborate on any specific aspect or provide more detailed e
                 statusDot.className = 'status-dot offline';
                 statusText.textContent = 'Offline Mode';
             }
+        }
+
+        // ==================== MODAL FUNCTIONS ====================
+        function showTermsModal() {
+            document.getElementById('termsModal').classList.add('active');
+        }
+
+        function hideTermsModal() {
+            document.getElementById('termsModal').classList.remove('active');
+        }
+
+        function acceptTerms() {
+            document.getElementById('acceptTerms').checked = true;
+            hideTermsModal();
+            showToast('Terms accepted', 'success');
+        }
+
+        function showForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.add('active');
+        }
+
+        function hideForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+        }
+
+        function sendResetEmail() {
+            const email = document.getElementById('resetEmail')?.value?.trim() || '';
+            if (!validateEmail(email)) {
+                showToast('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Show loading
+            const btn = document.querySelector('#forgotPasswordModal .modal-btn.primary');
+            if (btn) {
+                const originalText = btn.textContent;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                btn.disabled = true;
+            }
+            
+            // Simulate sending reset email
+            setTimeout(() => {
+                hideForgotPassword();
+                showToast('Password reset link sent to ' + email, 'success');
+                
+                // Reset button
+                if (btn) {
+                    btn.textContent = 'Send Reset Link';
+                    btn.disabled = false;
+                }
+            }, 1500);
         }
 
         // ==================== OPENAI API INTEGRATION ====================
@@ -3451,31 +3551,6 @@ Would you like me to elaborate on any specific aspect or provide more detailed e
             }
         }
 
-        function showToast(message, type = 'info') {
-            // Remove existing toasts
-            const existingToasts = document.querySelectorAll('.toast');
-            existingToasts.forEach(toast => toast.remove());
-            
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            
-            document.body.appendChild(toast);
-            
-            // Remove toast after timeout
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.style.animation = 'slideOut 0.3s ease';
-                    setTimeout(() => {
-                        if (toast.parentNode) {
-                            toast.remove();
-                        }
-                    }, 300);
-                }
-            }, 3000);
-        }
-
         // ==================== MESSAGE ACTIONS ====================
         function copyMessage(button) {
             try {
@@ -3596,65 +3671,4 @@ Would you like me to elaborate on any specific aspect or provide more detailed e
                 if (authContainer) authContainer.style.display = 'flex';
                 
                 // Reset forms
-                const signinEmail = document.getElementById('signinEmail');
-                const signinPassword = document.getElementById('signinPassword');
-                const signupName = document.getElementById('signupName');
-                const signupEmail = document.getElementById('signupEmail');
-                const signupPassword = document.getElementById('signupPassword');
-                const signupConfirmPassword = document.getElementById('signupConfirmPassword');
-                
-                if (signinEmail) signinEmail.value = '';
-                if (signinPassword) signinPassword.value = '';
-                if (signupName) signupName.value = '';
-                if (signupEmail) signupEmail.value = '';
-                if (signupPassword) signupPassword.value = '';
-                if (signupConfirmPassword) signupConfirmPassword.value = '';
-                
-                switchAuthTab('signin');
-                showToast('Logged out successfully', 'success');
-                toggleUserMenu();
-            }
-        }
-
-        function clearChat() {
-            if (confirm('Clear this chat? This cannot be undone.')) {
-                try {
-                    const conversation = conversations.find(c => c.id === currentChatId);
-                    if (conversation) {
-                        conversation.messages = [];
-                        saveConversations();
-                    }
-                    
-                    const messagesContainer = document.getElementById('messagesContainer');
-                    if (messagesContainer) {
-                        messagesContainer.innerHTML = '';
-                        const welcomeScreen = document.getElementById('welcomeScreen');
-                        if (welcomeScreen) {
-                            const welcomeClone = welcomeScreen.cloneNode(true);
-                            welcomeClone.style.display = 'block';
-                            messagesContainer.appendChild(welcomeClone);
-                        }
-                    }
-                    
-                    showToast('Chat cleared', 'success');
-                } catch (error) {
-                    console.error('Error clearing chat:', error);
-                    showToast('Error clearing chat', 'error');
-                }
-            }
-        }
-
-        function shareChat() {
-            showToast('Share feature coming soon!', 'info');
-        }
-
-        function toggleDarkMode() {
-            try {
-                isDarkMode = !isDarkMode;
-                const icon = document.querySelector('.header-btn:nth-child(3) i');
-                
-                if (isDarkMode) {
-                    document.body.style.backgroundColor = 'var(--purple-dark)';
-                    if (icon) {
-                        icon.classList.remove('fa-sun');
-                
+                const signinEmail = documen
