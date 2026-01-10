@@ -423,120 +423,6 @@
             text-decoration: underline;
         }
 
-        /* Email Verification Container */
-        .verification-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--purple-dark);
-            z-index: 10001;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .verification-container.active {
-            display: flex;
-        }
-
-        .verification-card {
-            background: var(--gray-dark);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: var(--card-shadow);
-            border: 2px solid var(--cyan-primary);
-            text-align: center;
-        }
-
-        .verification-icon {
-            font-size: 64px;
-            color: var(--cyan-primary);
-            margin-bottom: 20px;
-        }
-
-        .verification-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--white);
-        }
-
-        .verification-subtitle {
-            color: var(--cyan-light);
-            margin-bottom: 30px;
-            font-size: 16px;
-            opacity: 0.8;
-        }
-
-        .verification-email {
-            color: var(--cyan-primary);
-            font-weight: 600;
-            background: rgba(0, 243, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: inline-block;
-            margin: 10px 0;
-        }
-
-        .verification-code-input {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .code-input {
-            width: 50px;
-            height: 60px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 600;
-            background: var(--gray-medium);
-            border: 2px solid transparent;
-            border-radius: 10px;
-            color: var(--white);
-            transition: var(--transition);
-        }
-
-        .code-input:focus {
-            outline: none;
-            border-color: var(--cyan-primary);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-        }
-
-        .verification-timer {
-            color: var(--cyan-light);
-            margin: 20px 0;
-            font-size: 14px;
-        }
-
-        .verification-timer span {
-            color: var(--cyan-primary);
-            font-weight: 600;
-        }
-
-        .verification-resend {
-            color: var(--cyan-primary);
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .verification-resend:hover {
-            text-decoration: underline;
-        }
-
-        .verification-resend.disabled {
-            color: var(--gray-medium);
-            cursor: not-allowed;
-        }
-
         /* Terms Modal */
         .modal-overlay {
             position: fixed;
@@ -624,23 +510,619 @@
             border: 2px solid var(--gray-medium);
         }
 
-        /* Error Messages */
-        .error-message {
-            color: #ff4757;
+        /* Chat Interface */
+        .chat-container {
+            display: none;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-container.active {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100%;
+            background: var(--purple-deep);
+            border-right: 1px solid rgba(0, 243, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--cyan-secondary), var(--cyan-primary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: var(--neon-glow);
+        }
+
+        .sidebar-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--cyan-primary);
+            color: var(--purple-dark);
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--neon-glow);
+        }
+
+        .new-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+        }
+
+        .history-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--cyan-light);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .conversation-list {
+            list-style: none;
+        }
+
+        .conversation-item {
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            color: var(--cyan-light);
+        }
+
+        .conversation-item:hover {
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .conversation-item.active {
+            background: rgba(0, 243, 255, 0.2);
+            color: var(--cyan-primary);
+        }
+
+        .conversation-icon {
+            font-size: 18px;
+        }
+
+        .conversation-text {
+            flex: 1;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-secondary), var(--cyan-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--purple-dark);
+            font-size: 16px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
+
+        .user-email {
             font-size: 12px;
-            margin-top: 4px;
+            color: var(--cyan-light);
+            opacity: 0.7;
+        }
+
+        .user-menu-btn {
+            background: none;
+            border: none;
+            color: var(--cyan-light);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Main Chat Area */
+        .main-chat {
+            margin-left: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-chat.sidebar-active {
+            margin-left: 260px;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: rgba(13, 2, 33, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--cyan-primary);
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .chat-title {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 243, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: var(--cyan-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .header-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 20px;
+            background: var(--purple-dark);
+        }
+
+        .welcome-screen {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .welcome-icon {
+            font-size: 64px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--cyan-secondary), var(--cyan-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-title {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            color: var(--cyan-light);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .example-prompts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .example-prompt {
+            padding: 20px;
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .example-prompt:hover {
+            background: rgba(0, 243, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .example-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--cyan-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example-text {
+            font-size: 14px;
+            color: var(--cyan-light);
+            opacity: 0.9;
+        }
+
+        .message {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            animation: messageAppear 0.3s ease;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(0, 168, 181, 0.05));
+            border-radius: 18px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        .message.assistant {
+            background: rgba(0, 243, 255, 0.03);
+            border-radius: 18px;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .message-avatar.user {
+            background: linear-gradient(135deg, var(--cyan-secondary), var(--cyan-primary));
+            color: var(--purple-dark);
+        }
+
+        .message-avatar.assistant {
+            background: linear-gradient(135deg, #9d4edd, #5a189a);
+            color: var(--white);
+        }
+
+        .message-sender {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--cyan-light);
+            opacity: 0.7;
+            margin-left: auto;
+        }
+
+        .message-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--cyan-light);
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .message:hover .message-actions {
+            opacity: 1;
+        }
+
+        .message-action {
+            background: none;
+            border: none;
+            color: var(--cyan-light);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 6px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .message-action:hover {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--cyan-primary);
+        }
+
+        .typing-indicator {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            background: rgba(0, 243, 255, 0.03);
+            border-radius: 18px;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .typing-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9d4edd, #5a189a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cyan-primary);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .input-container {
+            padding: 20px;
+            background: rgba(13, 2, 33, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            min-height: 56px;
+            max-height: 200px;
+            padding: 16px 70px 16px 20px;
+            background: rgba(0, 243, 255, 0.05);
+            border: 2px solid rgba(0, 243, 255, 0.2);
+            border-radius: 16px;
+            font-size: 16px;
+            color: var(--white);
+            resize: none;
+            transition: var(--transition);
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--cyan-primary);
+            box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.1);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-buttons {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 243, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: var(--cyan-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .input-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+        }
+
+        .input-btn.send {
+            background: linear-gradient(135deg, var(--cyan-secondary), var(--cyan-primary));
+            color: var(--purple-dark);
+            box-shadow: var(--neon-glow);
+        }
+
+        .input-btn.send:hover {
+            transform: scale(1.1);
+        }
+
+        /* User Menu */
+        .user-menu {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: var(--purple-deep);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            min-width: 200px;
+            z-index: 1000;
             display: none;
         }
 
-        .error-message.show {
+        .user-menu.active {
             display: block;
-            animation: shake 0.3s ease;
+            animation: slideUp 0.3s ease;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        .menu-item {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--cyan-light);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--cyan-primary);
+        }
+
+        .menu-item.danger {
+            color: #ff4757;
+        }
+
+        .menu-item.danger:hover {
+            background: rgba(255, 71, 87, 0.1);
         }
 
         /* Responsive */
@@ -658,14 +1140,59 @@
                 grid-template-columns: 1fr;
             }
 
-            .verification-code-input {
-                gap: 5px;
+            .sidebar {
+                width: 100%;
+                transform: translateX(-100%);
             }
 
-            .code-input {
-                width: 40px;
-                height: 50px;
-                font-size: 20px;
+            .main-chat.sidebar-active {
+                margin-left: 0;
+            }
+
+            .example-prompts {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-title {
+                font-size: 32px;
+            }
+
+            .welcome-subtitle {
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -683,47 +1210,6 @@
         </div>
         <h1 class="splash-title">Cyanix AI</h1>
         <p class="splash-subtitle">Loading your AI assistant...</p>
-    </div>
-
-    <!-- Email Verification Container -->
-    <div id="verificationContainer" class="verification-container">
-        <div class="verification-card">
-            <div class="verification-icon">
-                <i class="fas fa-envelope"></i>
-            </div>
-            <h2 class="verification-title">Verify Your Email</h2>
-            <p class="verification-subtitle">
-                We've sent a 6-digit verification code to your email address.
-                Please enter it below to complete your registration.
-            </p>
-            <div class="verification-email" id="verificationEmail"></div>
-            
-            <div class="verification-code-input" id="codeInputs">
-                <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 1)" onkeyup="handleCodeKeyUp(event, 1)" onfocus="this.select()">
-                <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 2)" onkeyup="handleCodeKeyUp(event, 2)" onfocus="this.select()">
-                <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 3)" onkeyup="handleCodeKeyUp(event, 3)" onfocus="this.select()">
-                <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 4)" onkeyup="handleCodeKeyUp(event, 4)" onfocus="this.select()">
-                <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 5)" onkeyup="handleCodeKeyUp(event, 5)" onfocus="this.select()">
-                <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 6)" onkeyup="handleCodeKeyUp(event, 6)" onfocus="this.select()">
-            </div>
-            
-            <div class="verification-timer">
-                Code expires in: <span id="timer">05:00</span>
-            </div>
-            
-            <a href="#" class="verification-resend" onclick="resendVerificationCode()" id="resendLink">
-                Didn't receive the code? Resend
-            </a>
-            
-            <div style="margin-top: 30px; display: flex; gap: 10px;">
-                <button class="modal-btn secondary" onclick="goBackToSignup()">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <button class="modal-btn primary" onclick="verifyEmailCode()">
-                    <i class="fas fa-check"></i> Verify
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- Auth Container -->
@@ -778,19 +1264,17 @@
                 <div id="signinForm" class="auth-form-content">
                     <div class="form-group">
                         <label class="form-label">Email Address</label>
-                        <input type="email" id="signinEmail" class="form-input" placeholder="Enter your email" required>
-                        <div class="error-message" id="signinEmailError"></div>
+                        <input type="email" id="signinEmail" class="form-input" placeholder="Enter your email">
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="signinPassword" class="form-input" placeholder="Enter your password" required>
+                            <input type="password" id="signinPassword" class="form-input" placeholder="Enter your password">
                             <button class="password-toggle" type="button" onclick="togglePassword('signinPassword')">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div class="error-message" id="signinPasswordError"></div>
                     </div>
                     
                     <div class="form-options">
@@ -801,7 +1285,7 @@
                         <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
                     </div>
                     
-                    <button class="auth-btn" id="signinBtn" onclick="signInWithEmail()">Sign In</button>
+                    <button class="auth-btn" onclick="signInWithEmail()">Sign In</button>
                     
                     <div class="auth-divider">
                         <span>Or continue with</span>
@@ -828,36 +1312,32 @@
                 <div id="signupForm" class="auth-form-content" style="display: none;">
                     <div class="form-group">
                         <label class="form-label">Full Name</label>
-                        <input type="text" id="signupName" class="form-input" placeholder="Enter your full name" required>
-                        <div class="error-message" id="signupNameError"></div>
+                        <input type="text" id="signupName" class="form-input" placeholder="Enter your full name">
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Email Address</label>
-                        <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
-                        <div class="error-message" id="signupEmailError"></div>
+                        <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email">
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="signupPassword" class="form-input" placeholder="Create a password (min. 8 characters)" required>
+                            <input type="password" id="signupPassword" class="form-input" placeholder="Create a password">
                             <button class="password-toggle" type="button" onclick="togglePassword('signupPassword')">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div class="error-message" id="signupPasswordError"></div>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Confirm Password</label>
                         <div class="password-wrapper">
-                            <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Confirm your password" required>
+                            <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Confirm your password">
                             <button class="password-toggle" type="button" onclick="togglePassword('signupConfirmPassword')">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div class="error-message" id="signupConfirmPasswordError"></div>
                     </div>
                     
                     <div class="form-group">
@@ -865,10 +1345,9 @@
                             <input type="checkbox" id="acceptTerms" class="checkbox">
                             <span>I agree to the <a href="#" class="forgot-password" onclick="showTermsModal()">Terms & Privacy</a></span>
                         </label>
-                        <div class="error-message" id="acceptTermsError"></div>
                     </div>
                     
-                    <button class="auth-btn" id="signupBtn" onclick="signUpWithEmail()">Create Account</button>
+                    <button class="auth-btn" onclick="signUpWithEmail()">Create Account</button>
                     
                     <div class="auth-divider">
                         <span>Or sign up with</span>
@@ -927,958 +1406,11 @@
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
                     <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email">
-                    <div class="error-message" id="resetEmailError"></div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn secondary" onclick="hideForgotPassword()">Cancel</button>
                 <button class="modal-btn primary" onclick="sendResetEmail()">Send Reset Link</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ==================== APP STATE ====================
-        let currentUser = null;
-        let verificationCode = null;
-        let verificationTimer = null;
-        let pendingUser = null;
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-        });
-
-        function initApp() {
-            // Hide splash screen after delay
-            setTimeout(() => {
-                document.getElementById('splashScreen').style.display = 'none';
-                
-                // Check if user is already logged in
-                const savedUser = localStorage.getItem('cyanix_user');
-                if (savedUser) {
-                    try {
-                        currentUser = JSON.parse(savedUser);
-                        showChatInterface();
-                    } catch (e) {
-                        console.error('Error parsing saved user:', e);
-                        localStorage.removeItem('cyanix_user');
-                    }
-                }
-            }, 2000);
-            
-            // Initialize form event listeners
-            initializeAuthForms();
-        }
-
-        // ==================== FORM UTILITIES ====================
-        function initializeAuthForms() {
-            // Add enter key support for forms
-            const signinEmail = document.getElementById('signinEmail');
-            const signinPassword = document.getElementById('signinPassword');
-            const signupName = document.getElementById('signupName');
-            const signupEmail = document.getElementById('signupEmail');
-            const signupPassword = document.getElementById('signupPassword');
-            const signupConfirmPassword = document.getElementById('signupConfirmPassword');
-            
-            if (signinEmail) {
-                signinEmail.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') signInWithEmail();
-                });
-            }
-            
-            if (signinPassword) {
-                signinPassword.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') signInWithEmail();
-                });
-            }
-            
-            if (signupEmail) {
-                signupEmail.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') signUpWithEmail();
-                });
-            }
-            
-            if (signupPassword) {
-                signupPassword.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') signUpWithEmail();
-                });
-            }
-            
-            if (signupConfirmPassword) {
-                signupConfirmPassword.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') signUpWithEmail();
-                });
-            }
-            
-            // Clear errors on input
-            document.querySelectorAll('.form-input').forEach(input => {
-                input.addEventListener('input', () => {
-                    const errorId = input.id + 'Error';
-                    const errorElement = document.getElementById(errorId);
-                    if (errorElement) {
-                        errorElement.classList.remove('show');
-                    }
-                });
-            });
-        }
-
-        function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.classList.add('show');
-            }
-        }
-
-        function clearErrors() {
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.classList.remove('show');
-            });
-        }
-
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const toggle = input.nextElementSibling.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                toggle.classList.remove('fa-eye');
-                toggle.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                toggle.classList.remove('fa-eye-slash');
-                toggle.classList.add('fa-eye');
-            }
-        }
-
-        // ==================== AUTHENTICATION ====================
-        function switchAuthTab(tab) {
-            const signinTab = document.querySelector('[onclick="switchAuthTab(\'signin\')"]');
-            const signupTab = document.querySelector('[onclick="switchAuthTab(\'signup\')"]');
-            const signinForm = document.getElementById('signinForm');
-            const signupForm = document.getElementById('signupForm');
-            
-            clearErrors();
-            
-            if (tab === 'signin') {
-                signinTab.classList.add('active');
-                signupTab.classList.remove('active');
-                signinForm.style.display = 'block';
-                signupForm.style.display = 'none';
-            } else {
-                signinTab.classList.remove('active');
-                signupTab.classList.add('active');
-                signinForm.style.display = 'none';
-                signupForm.style.display = 'block';
-            }
-        }
-
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function showToast(message, type = 'info') {
-            // Remove existing toasts
-            const existingToasts = document.querySelectorAll('.custom-toast');
-            existingToasts.forEach(toast => toast.remove());
-            
-            const toast = document.createElement('div');
-            toast.className = `custom-toast ${type}`;
-            toast.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#3742fa'};
-                color: white;
-                padding: 12px 24px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 10000;
-                animation: slideIn 0.3s ease;
-                max-width: 400px;
-            `;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // Add CSS for toast animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // ==================== SIGN UP FUNCTION ====================
-        function signUpWithEmail() {
-            console.log('Sign up button clicked'); // Debug log
-            
-            // Get form values
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            const acceptTerms = document.getElementById('acceptTerms').checked;
-            
-            // Clear previous errors
-            clearErrors();
-            
-            // Validation
-            let isValid = true;
-            
-            if (!name) {
-                showError('signupNameError', 'Please enter your full name');
-                isValid = false;
-            }
-            
-            if (!email) {
-                showError('signupEmailError', 'Please enter your email address');
-                isValid = false;
-            } else if (!validateEmail(email)) {
-                showError('signupEmailError', 'Please enter a valid email address');
-                isValid = false;
-            }
-            
-            if (!password) {
-                showError('signupPasswordError', 'Please create a password');
-                isValid = false;
-            } else if (password.length < 8) {
-                showError('signupPasswordError', 'Password must be at least 8 characters');
-                isValid = false;
-            }
-            
-            if (!confirmPassword) {
-                showError('signupConfirmPasswordError', 'Please confirm your password');
-                isValid = false;
-            } else if (password !== confirmPassword) {
-                showError('signupConfirmPasswordError', 'Passwords do not match');
-                isValid = false;
-            }
-            
-            if (!acceptTerms) {
-                showError('acceptTermsError', 'You must accept the terms and privacy policy');
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                showToast('Please fix the errors in the form', 'error');
-                return;
-            }
-            
-            // Check if user already exists in localStorage
-            const existingUsers = JSON.parse(localStorage.getItem('cyanix_users') || '[]');
-            if (existingUsers.some(u => u.email === email)) {
-                showError('signupEmailError', 'An account with this email already exists');
-                showToast('An account with this email already exists. Please sign in instead.', 'error');
-                return;
-            }
-            
-            // Disable signup button and show loading
-            const signupBtn = document.getElementById('signupBtn');
-            const originalText = signupBtn.innerHTML;
-            signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
-            signupBtn.disabled = true;
-            
-            // Simulate API call delay
-            setTimeout(() => {
-                // Generate verification code
-                verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-                
-                // Store pending user data
-                pendingUser = {
-                    id: 'user_' + Date.now(),
-                    name: name,
-                    email: email,
-                    password: password, // In real app, this should be hashed
-                    avatar: getAvatarInitials(name),
-                    plan: 'free',
-                    createdAt: new Date().toISOString(),
-                    provider: 'email',
-                    verified: false
-                };
-                
-                // Save to pending users
-                const pendingUsers = JSON.parse(localStorage.getItem('cyanix_pending_users') || '[]');
-                pendingUsers.push({
-                    user: pendingUser,
-                    verificationCode: verificationCode,
-                    expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
-                });
-                localStorage.setItem('cyanix_pending_users', JSON.stringify(pendingUsers));
-                
-                // Send verification email (simulated)
-                sendVerificationEmail(email, verificationCode);
-                
-                // Show verification screen
-                document.getElementById('authContainer').style.display = 'none';
-                document.getElementById('verificationContainer').classList.add('active');
-                document.getElementById('verificationEmail').textContent = email;
-                
-                // Start timer
-                startVerificationTimer();
-                
-                // Focus first code input
-                document.querySelector('.code-input').focus();
-                
-                // Reset button
-                signupBtn.innerHTML = originalText;
-                signupBtn.disabled = false;
-                
-                console.log('Sign up successful, verification code:', verificationCode); // Debug log
-            }, 1500);
-        }
-
-        function getAvatarInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-        }
-
-        function sendVerificationEmail(email, code) {
-            // In production, this would call your backend API
-            // For demo, we'll simulate email sending
-            console.log(`📧 Verification code for ${email}: ${code}`);
-            
-            // Show success message
-            showToast(`Verification code sent to ${email}. Check your inbox!`, 'success');
-            
-            // In demo, also show the code in an alert for testing
-            setTimeout(() => {
-                alert(`DEMO: Your verification code is ${code}\n\nIn production, this would be sent via email.\n\nUse this code to complete verification.`);
-            }, 500);
-        }
-
-        // ==================== VERIFICATION FUNCTIONS ====================
-        function startVerificationTimer() {
-            let timeLeft = 300; // 5 minutes in seconds
-            const timerElement = document.getElementById('timer');
-            const resendLink = document.getElementById('resendLink');
-            
-            // Disable resend link initially
-            resendLink.classList.add('disabled');
-            
-            // Update timer every second
-            verificationTimer = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(verificationTimer);
-                    resendLink.classList.remove('disabled');
-                    showToast('Verification code expired', 'warning');
-                }
-                
-                timeLeft--;
-            }, 1000);
-        }
-
-        function moveToNext(input, nextIndex) {
-            // Allow only numbers
-            input.value = input.value.replace(/\D/g, '');
-            
-            // Move to next input if value entered
-            if (input.value && nextIndex <= 6) {
-                const nextInput = document.querySelector(`.code-input:nth-child(${nextIndex})`);
-                if (nextInput) nextInput.focus();
-            }
-            
-            // Auto-submit if all fields filled
-            const inputs = document.querySelectorAll('.code-input');
-            const allFilled = Array.from(inputs).every(input => input.value.length === 1);
-            if (allFilled && nextIndex === 6) {
-                verifyEmailCode();
-            }
-        }
-
-        function handleCodeKeyUp(event, currentIndex) {
-            if (event.key === 'Backspace') {
-                const currentInput = document.querySelector(`.code-input:nth-child(${currentIndex})`);
-                if (!currentInput.value && currentIndex > 1) {
-                    const prevInput = document.querySelector(`.code-input:nth-child(${currentIndex - 1})`);
-                    if (prevInput) prevInput.focus();
-                }
-            }
-        }
-
-        function verifyEmailCode() {
-            const inputs = document.querySelectorAll('.code-input');
-            const enteredCode = Array.from(inputs).map(input => input.value).join('');
-            
-            if (enteredCode.length !== 6) {
-                showToast('Please enter the 6-digit code', 'error');
-                return;
-            }
-            
-            // Get pending users from localStorage
-            const pendingUsers = JSON.parse(localStorage.getItem('cyanix_pending_users') || '[]');
-            const pendingUserData = pendingUsers.find(pu => pu.user.email === pendingUser?.email);
-            
-            if (!pendingUserData) {
-                showToast('Verification session expired. Please sign up again.', 'error');
-                goBackToSignup();
-                return;
-            }
-            
-            if (enteredCode !== pendingUserData.verificationCode) {
-                showToast('Invalid verification code. Please try again.', 'error');
-                
-                // Clear inputs with shake animation
-                inputs.forEach(input => {
-                    input.style.animation = 'shake 0.5s';
-                    setTimeout(() => input.style.animation = '', 500);
-                });
-                
-                // Focus first input
-                inputs[0].focus();
-                return;
-            }
-            
-            // Code is correct
-            clearInterval(verificationTimer);
-            
-            // Mark user as verified
-            pendingUser.verified = true;
-            pendingUser.verifiedAt = new Date().toISOString();
-            
-            // Remove from pending users
-            const updatedPendingUsers = pendingUsers.filter(pu => pu.user.email !== pendingUser.email);
-            localStorage.setItem('cyanix_pending_users', JSON.stringify(updatedPendingUsers));
-            
-            // Add to regular users
-            const existingUsers = JSON.parse(localStorage.getItem('cyanix_users') || '[]');
-            existingUsers.push(pendingUser);
-            localStorage.setItem('cyanix_users', JSON.stringify(existingUsers));
-            
-            // Set as current user
-            currentUser = { ...pendingUser };
-            delete currentUser.password;
-            
-            // Save user session
-            localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-            
-            // Hide verification screen
-            document.getElementById('verificationContainer').classList.remove('active');
-            
-            // Show chat interface
-            showChatInterface();
-            
-            // Show welcome message
-            setTimeout(() => {
-                showToast('Email verified successfully! Welcome to Cyanix AI!', 'success');
-            }, 500);
-            
-            // Reset pending user
-            pendingUser = null;
-            verificationCode = null;
-        }
-
-        function resendVerificationCode() {
-            const resendLink = document.getElementById('resendLink');
-            if (resendLink.classList.contains('disabled')) return;
-            
-            // Generate new code
-            verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-            
-            // Update pending user data
-            const pendingUsers = JSON.parse(localStorage.getItem('cyanix_pending_users') || '[]');
-            const pendingUserIndex = pendingUsers.findIndex(pu => pu.user.email === pendingUser?.email);
-            
-            if (pendingUserIndex !== -1) {
-                pendingUsers[pendingUserIndex].verificationCode = verificationCode;
-                pendingUsers[pendingUserIndex].expiresAt = Date.now() + 5 * 60 * 1000;
-                localStorage.setItem('cyanix_pending_users', JSON.stringify(pendingUsers));
-            }
-            
-            // Send new code
-            sendVerificationEmail(pendingUser.email, verificationCode);
-            
-            // Reset timer
-            clearInterval(verificationTimer);
-            startVerificationTimer();
-            
-            // Clear input fields
-            const inputs = document.querySelectorAll('.code-input');
-            inputs.forEach(input => input.value = '');
-            inputs[0].focus();
-            
-            showToast('New verification code sent!', 'success');
-        }
-
-        function goBackToSignup() {
-            document.getElementById('verificationContainer').classList.remove('active');
-            document.getElementById('authContainer').style.display = 'flex';
-            clearInterval(verificationTimer);
-            
-            // Switch to signup tab
-            switchAuthTab('signup');
-        }
-
-        // ==================== SIGN IN FUNCTION ====================
-        function signInWithEmail() {
-            const email = document.getElementById('signinEmail').value.trim();
-            const password = document.getElementById('signinPassword').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
-            
-            // Clear previous errors
-            clearErrors();
-            
-            // Validation
-            if (!email) {
-                showError('signinEmailError', 'Please enter your email address');
-                return;
-            }
-            
-            if (!validateEmail(email)) {
-                showError('signinEmailError', 'Please enter a valid email address');
-                return;
-            }
-            
-            if (!password) {
-                showError('signinPasswordError', 'Please enter your password');
-                return;
-            }
-            
-            // Show loading
-            const signinBtn = document.getElementById('signinBtn');
-            const originalText = signinBtn.innerHTML;
-            signinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
-            signinBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Check users in localStorage
-                const existingUsers = JSON.parse(localStorage.getItem('cyanix_users') || '[]');
-                const user = existingUsers.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    if (!user.verified && user.provider === 'email') {
-                        showError('signinEmailError', 'Please verify your email first');
-                        showToast('Please verify your email before signing in', 'error');
-                    } else {
-                        // Successful login
-                        currentUser = {
-                            id: user.id,
-                            name: user.name,
-                            email: user.email,
-                            avatar: user.avatar,
-                            plan: user.plan || 'free',
-                            createdAt: user.createdAt,
-                            verified: user.verified
-                        };
-                        
-                        // Save user session
-                        if (rememberMe) {
-                            localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                        } else {
-                            sessionStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                        }
-                        
-                        showChatInterface();
-                        showToast('Welcome back!', 'success');
-                    }
-                } else {
-                    showError('signinEmailError', 'Invalid email or password');
-                    showToast('Invalid email or password', 'error');
-                }
-                
-                // Reset button
-                signinBtn.innerHTML = originalText;
-                signinBtn.disabled = false;
-            }, 1500);
-        }
-
-        // ==================== SOCIAL AUTHENTICATION ====================
-        function signInWithGoogle() {
-            // Simulate Google OAuth
-            showToast('Connecting to Google...', 'info');
-            
-            // Disable button
-            const btn = event.target.closest('button');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                // Google users are auto-verified
-                const googleUser = {
-                    id: 'google_' + Date.now(),
-                    name: 'Google User',
-                    email: 'user@gmail.com',
-                    avatar: 'G',
-                    plan: 'free',
-                    provider: 'google',
-                    verified: true,
-                    createdAt: new Date().toISOString()
-                };
-                
-                // Check if user exists
-                const existingUsers = JSON.parse(localStorage.getItem('cyanix_users') || '[]');
-                let user = existingUsers.find(u => u.email === googleUser.email);
-                
-                if (!user) {
-                    user = googleUser;
-                    existingUsers.push(user);
-                    localStorage.setItem('cyanix_users', JSON.stringify(existingUsers));
-                }
-                
-                currentUser = { ...user };
-                delete currentUser.password;
-                
-                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                showChatInterface();
-                showToast('Signed in with Google', 'success');
-                
-                // Reset button
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
-            }, 1500);
-        }
-
-        function signUpWithGoogle() {
-            signInWithGoogle();
-        }
-
-        function signInWithMicrosoft() {
-            showToast('Connecting to Microsoft...', 'info');
-            
-            // Disable button
-            const btn = event.target.closest('button');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                // Microsoft users are auto-verified
-                const microsoftUser = {
-                    id: 'microsoft_' + Date.now(),
-                    name: 'Microsoft User',
-                    email: 'user@outlook.com',
-                    avatar: 'M',
-                    plan: 'free',
-                    provider: 'microsoft',
-                    verified: true,
-                    createdAt: new Date().toISOString()
-                };
-                
-                // Check if user exists
-                const existingUsers = JSON.parse(localStorage.getItem('cyanix_users') || '[]');
-                let user = existingUsers.find(u => u.email === microsoftUser.email);
-                
-                if (!user) {
-                    user = microsoftUser;
-                    existingUsers.push(user);
-                    localStorage.setItem('cyanix_users', JSON.stringify(existingUsers));
-                }
-                
-                currentUser = { ...user };
-                delete currentUser.password;
-                
-                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                showChatInterface();
-                showToast('Signed in with Microsoft', 'success');
-                
-                // Reset button
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
-            }, 1500);
-        }
-
-        function signUpWithMicrosoft() {
-            signInWithMicrosoft();
-        }
-
-        // ==================== CHAT INTERFACE ====================
-        function showChatInterface() {
-            document.getElementById('authContainer').style.display = 'none';
-            document.getElementById('verificationContainer').classList.remove('active');
-            
-            // Create and show chat interface
-            const chatHTML = `
-                <div id="chatContainer" style="height: 100vh; display: flex; flex-direction: column; background: var(--purple-dark);">
-                    <div style="padding: 20px; background: rgba(0, 168, 181, 0.1); border-bottom: 1px solid var(--cyan-primary);">
-                        <h1 style="color: var(--cyan-primary); text-align: center;">Cyanix AI</h1>
-                    </div>
-                    <div style="flex: 1; padding: 20px; overflow-y: auto;">
-                        <div style="max-width: 800px; margin: 0 auto; text-align: center; padding-top: 60px;">
-                            <div style="font-size: 64px; margin-bottom: 30px; color: var(--cyan-primary);">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <h1 style="font-size: 48px; font-weight: 700; background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;">
-                                Welcome to Cyanix AI!
-                            </h1>
-                            <p style="font-size: 18px; color: var(--cyan-light); opacity: 0.8; max-width: 600px; margin: 0 auto 40px; line-height: 1.6;">
-                                Hello ${currentUser?.name || 'User'}! I'm your intelligent assistant. I can help with writing, analysis, coding, creative tasks, and much more.
-                            </p>
-                            <button onclick="startNewChat()" style="padding: 15px 30px; background: var(--cyan-primary); color: var(--purple-dark); border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px;">
-                                Start New Chat
-                            </button>
-                        </div>
-                    </div>
-                    <div style="padding: 20px; background: rgba(13, 2, 33, 0.95); border-top: 1px solid rgba(0, 243, 255, 0.1);">
-                        <div style="max-width: 800px; margin: 0 auto; display: flex; gap: 10px;">
-                            <input type="text" id="chatInput" placeholder="Message Cyanix AI..." style="flex: 1; padding: 15px; background: rgba(0, 168, 181, 0.1); border: 2px solid rgba(0, 243, 255, 0.2); border-radius: 12px; color: white; font-size: 16px;">
-                            <button onclick="sendMessage()" style="padding: 15px 30px; background: var(--cyan-primary); color: var(--purple-dark); border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">
-                                Send
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            const chatContainer = document.createElement('div');
-            chatContainer.innerHTML = chatHTML;
-            document.body.appendChild(chatContainer);
-            
-            // Add logout button
-            const logoutBtn = document.createElement('button');
-            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-            logoutBtn.style.cssText = 'position: fixed; top: 20px; right: 20px; padding: 10px 20px; background: rgba(255, 71, 87, 0.1); color: #ff4757; border: 1px solid #ff4757; border-radius: 8px; cursor: pointer;';
-            logoutBtn.onclick = logout;
-            document.body.appendChild(logoutBtn);
-        }
-
-        function startNewChat() {
-            showToast('Starting new chat...', 'info');
-            // In a full implementation, this would initialize a new chat session
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if (!message) {
-                showToast('Please enter a message', 'error');
-                return;
-            }
-            
-            showToast('Message sent! (Demo mode)', 'success');
-            input.value = '';
-        }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                currentUser = null;
-                localStorage.removeItem('cyanix_user');
-                sessionStorage.removeItem('cyanix_user');
-                
-                // Remove chat interface
-                document.querySelector('#chatContainer')?.remove();
-                document.querySelector('button[onclick="logout"]')?.remove();
-                
-                // Show auth container
-                document.getElementById('authContainer').style.display = 'flex';
-                switchAuthTab('signin');
-                
-                showToast('Logged out successfully', 'success');
-            }
-        }
-
-        // ==================== MODAL FUNCTIONS ====================
-        function showTermsModal() {
-            document.getElementById('termsModal').classList.add('active');
-        }
-
-        function hideTermsModal() {
-            document.getElementById('termsModal').classList.remove('active');
-        }
-
-        function acceptTerms() {
-            document.getElementById('acceptTerms').checked = true;
-            hideTermsModal();
-            showToast('Terms accepted', 'success');
-        }
-
-        function showForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.add('active');
-        }
-
-        function hideForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.remove('active');
-        }
-
-        function sendResetEmail() {
-            const email = document.getElementById('resetEmail').value;
-            if (!email) {
-                showError('resetEmailError', 'Please enter your email address');
-                return;
-            }
-            
-            if (!validateEmail(email)) {
-                showError('resetEmailError', 'Please enter a valid email address');
-                return;
-            }
-            
-            // Simulate sending reset email
-            showToast('Password reset email sent! Check your inbox.', 'success');
-            hideForgotPassword();
-        }
-    </script>
-</body>
-</html>ges</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Priority responses</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Advanced file support</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Unlimited history</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Voice input/output</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Code execution</li>
-                    </ul>
-                    <button class="modal-btn primary" style="width: 100%;" onclick="upgradeToPro()">
-                        Upgrade Now
-                    </button>
-                </div>
-                
-                <div class="plan-card">
-                    <div class="plan-name">Team</div>
-                    <div class="plan-price">$24.99</div>
-                    <div class="plan-period">per user/month</div>
-                    <ul class="plan-features">
-                        <li class="plan-feature"><i class="fas fa-check"></i> Everything in Pro</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Team collaboration</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Admin dashboard</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> API access</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Priority support</li>
-                        <li class="plan-feature"><i class="fas fa-check"></i> Custom models</li>
-                    </ul>
-                    <button class="modal-btn secondary" style="width: 100%;" onclick="upgradeToTeam()">
-                        Contact Sales
-                    </button>
-                </div>
-            </div>
-            
-            <button class="modal-btn secondary" onclick="hideUpgradeModal()" style="width: 100%; margin-top: 20px;">
-                Maybe Later
-            </button>
-        </div>
-    </div>
-
-    <!-- File Upload Modal -->
-    <div id="fileUploadModal" class="modal-overlay">
-        <div class="modal file-upload-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">Upload Files</h2>
-                <p class="modal-subtitle">Upload files for AI analysis or reference</p>
-            </div>
-            
-            <div class="upload-area" onclick="triggerFileUpload()">
-                <div class="upload-icon">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                </div>
-                <div class="upload-text">Click to upload or drag and drop</div>
-                <div class="upload-hint">Supports: PDF, TXT, DOC, IMAGES, CODE (max 10MB)</div>
-                <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileUpload(this.files)">
-            </div>
-            
-            <div id="uploadedFiles" style="margin-top: 20px;"></div>
-            
-            <div class="modal-footer">
-                <button class="modal-btn secondary" onclick="hideFileUploadModal()">Cancel</button>
-                <button class="modal-btn primary" onclick="processUploadedFiles()">Analyze Files</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Voice Recording Modal -->
-    <div id="voiceRecording" class="voice-recording">
-        <div style="text-align: center;">
-            <div class="verification-icon">
-                <i class="fas fa-microphone"></i>
-            </div>
-            <h3 class="verification-title">Listening...</h3>
-            <p class="verification-subtitle">Speak now. Click stop when done.</p>
-            
-            <div class="voice-animation">
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-            </div>
-            
-            <div style="margin-top: 30px; display: flex; gap: 10px;">
-                <button class="modal-btn secondary" onclick="stopVoiceRecording()">
-                    <i class="fas fa-stop"></i> Stop
-                </button>
-                <button class="modal-btn primary" onclick="cancelVoiceRecording()">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Share Modal -->
-    <div id="shareModal" class="modal-overlay">
-        <div class="modal share-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">Share Conversation</h2>
-                <p class="modal-subtitle">Share this conversation with others</p>
-            </div>
-            
-            <div class="share-options">
-                <div class="share-option" onclick="shareViaEmail()">
-                    <div class="share-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="share-label">Email</div>
-                </div>
-                <div class="share-option" onclick="shareViaWhatsApp()">
-                    <div class="share-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="share-label">WhatsApp</div>
-                </div>
-                <div class="share-option" onclick="shareViaTwitter()">
-                    <div class="share-icon">
-                        <i class="fab fa-twitter"></i>
-                    </div>
-                    <div class="share-label">Twitter</div>
-                </div>
-                <div class="share-option" onclick="copyShareLink()">
-                    <div class="share-icon">
-                        <i class="fas fa-link"></i>
-                    </div>
-                    <div class="share-label">Copy Link</div>
-                </div>
-            </div>
-            
-            <div class="share-link">
-                <input type="text" id="shareLinkInput" value="https://cyanix.ai/chat/abc123" readonly>
-                <button class="input-btn" onclick="copyShareLink()">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-            
-            <div class="settings-option">
-                <div>
-                    <div class="option-label">Include my messages</div>
-                    <div class="option-description">Share both my questions and AI responses</div>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" id="includeMyMessages" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-            
-            <div class="modal-footer">
-                <button class="modal-btn secondary" onclick="hideShareModal()">Close</button>
-                <button class="modal-btn primary" onclick="generateShareLink()">Generate Link</button>
             </div>
         </div>
     </div>
@@ -1940,15 +1472,15 @@
         
         <!-- User Menu -->
         <div id="userMenu" class="user-menu">
-            <div class="menu-item" onclick="showProfileModal()">
+            <div class="menu-item" onclick="showProfile()">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </div>
-            <div class="menu-item" onclick="showSettingsModal()">
+            <div class="menu-item" onclick="showSettings()">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </div>
-            <div class="menu-item" onclick="showUpgradeModal()">
+            <div class="menu-item" onclick="showUpgrade()">
                 <i class="fas fa-crown"></i>
                 <span>Upgrade to Pro</span>
             </div>
@@ -1973,7 +1505,7 @@
                     <button class="header-btn" onclick="clearChat()">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-                    <button class="header-btn" onclick="showShareModal()">
+                    <button class="header-btn" onclick="shareChat()">
                         <i class="fas fa-share-alt"></i>
                     </button>
                     <button class="header-btn" onclick="toggleDarkMode()">
@@ -2034,20 +1566,17 @@
                     <textarea 
                         id="chatInput" 
                         class="chat-input" 
-                        placeholder="Message Cyanix AI... (Press Ctrl+Enter for voice, Ctrl+U for upload)"
+                        placeholder="Message Cyanix AI..."
                         rows="1"
                         oninput="autoResizeInput(this)"
                         onkeydown="handleKeyDown(event)"
                     ></textarea>
                     <div class="input-buttons">
-                        <button class="input-btn" onclick="showFileUploadModal()">
+                        <button class="input-btn" onclick="attachFile()">
                             <i class="fas fa-paperclip"></i>
                         </button>
-                        <button class="input-btn" onclick="startVoiceRecording()">
+                        <button class="input-btn" onclick="voiceInput()">
                             <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="input-btn" onclick="toggleImageMode()">
-                            <i class="fas fa-image"></i>
                         </button>
                         <button class="input-btn send" onclick="sendMessage()">
                             <i class="fas fa-paper-plane"></i>
@@ -2066,11 +1595,6 @@
         let isSidebarOpen = false;
         let isDarkMode = true;
         let userMenuOpen = false;
-        let verificationCode = null;
-        let verificationTimer = null;
-        let pendingUser = null;
-        let voiceRecordingActive = false;
-        let uploadedFiles = [];
 
         // Mock database for demo purposes
         const mockDatabase = {
@@ -2100,147 +1624,6 @@
             
             // Initialize form event listeners
             initializeAuthForms();
-        }
-
-        // ==================== EMAIL VERIFICATION SYSTEM ====================
-        function generateVerificationCode() {
-            // Generate 6-digit code
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        function sendVerificationEmail(email, code) {
-            // In production, this would call your backend API
-            // For demo, we'll simulate email sending
-            console.log(`📧 Verification code for ${email}: ${code}`);
-            
-            // Show success message
-            showToast(`Verification code sent to ${email}. Check your inbox!`, 'success');
-            
-            // In demo, also show the code in an alert for testing
-            alert(`DEMO: Your verification code is ${code}\n\nIn production, this would be sent via email.`);
-        }
-
-        function startVerificationTimer() {
-            let timeLeft = 300; // 5 minutes in seconds
-            const timerElement = document.getElementById('timer');
-            const resendLink = document.getElementById('resendLink');
-            
-            // Disable resend link initially
-            resendLink.classList.add('disabled');
-            
-            // Update timer every second
-            verificationTimer = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(verificationTimer);
-                    resendLink.classList.remove('disabled');
-                    showToast('Verification code expired', 'warning');
-                }
-                
-                timeLeft--;
-            }, 1000);
-        }
-
-        function resendVerificationCode() {
-            const resendLink = document.getElementById('resendLink');
-            if (resendLink.classList.contains('disabled')) return;
-            
-            // Generate new code
-            verificationCode = generateVerificationCode();
-            
-            // Send new code
-            sendVerificationEmail(pendingUser.email, verificationCode);
-            
-            // Reset timer
-            clearInterval(verificationTimer);
-            startVerificationTimer();
-            
-            // Clear input fields
-            const inputs = document.querySelectorAll('.code-input');
-            inputs.forEach(input => input.value = '');
-            inputs[0].focus();
-            
-            showToast('New verification code sent!', 'success');
-        }
-
-        function moveToNext(input, nextIndex) {
-            // Allow only numbers
-            input.value = input.value.replace(/\D/g, '');
-            
-            // Move to next input if value entered
-            if (input.value && nextIndex <= 6) {
-                const nextInput = document.querySelector(`.code-input:nth-child(${nextIndex})`);
-                if (nextInput) nextInput.focus();
-            }
-            
-            // Auto-submit if all fields filled
-            const inputs = document.querySelectorAll('.code-input');
-            const allFilled = Array.from(inputs).every(input => input.value.length === 1);
-            if (allFilled && nextIndex === 6) {
-                verifyEmailCode();
-            }
-        }
-
-        function verifyEmailCode() {
-            const inputs = document.querySelectorAll('.code-input');
-            const enteredCode = Array.from(inputs).map(input => input.value).join('');
-            
-            if (enteredCode.length !== 6) {
-                showToast('Please enter the 6-digit code', 'error');
-                return;
-            }
-            
-            if (enteredCode === verificationCode) {
-                // Code is correct
-                clearInterval(verificationTimer);
-                
-                // Mark user as verified
-                pendingUser.verified = true;
-                pendingUser.verifiedAt = new Date().toISOString();
-                
-                // Add to mock database
-                mockDatabase.users.push(pendingUser);
-                
-                // Set as current user
-                currentUser = { ...pendingUser };
-                delete currentUser.password;
-                
-                // Save user session
-                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
-                
-                // Hide verification screen
-                document.getElementById('verificationContainer').classList.remove('active');
-                
-                // Show chat interface
-                showChatInterface();
-                showWelcomeMessage();
-                showToast('Email verified successfully! Welcome to Cyanix AI!', 'success');
-                
-                // Reset pending user
-                pendingUser = null;
-                verificationCode = null;
-            } else {
-                // Wrong code
-                showToast('Invalid verification code. Please try again.', 'error');
-                
-                // Clear inputs with shake animation
-                inputs.forEach(input => {
-                    input.style.animation = 'shake 0.5s';
-                    setTimeout(() => input.style.animation = '', 500);
-                });
-                
-                // Focus first input
-                inputs[0].focus();
-            }
-        }
-
-        function goBackToSignup() {
-            document.getElementById('verificationContainer').classList.remove('active');
-            document.getElementById('authContainer').style.display = 'flex';
-            clearInterval(verificationTimer);
         }
 
         // ==================== AUTHENTICATION ====================
@@ -2297,6 +1680,7 @@
             }
         }
 
+        // ==================== EMAIL AUTHENTICATION ====================
         function signInWithEmail() {
             const email = document.getElementById('signinEmail').value.trim();
             const password = document.getElementById('signinPassword').value;
@@ -2308,6 +1692,884 @@
             }
             
             if (password.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            // Show loading
+            const btn = document.querySelector('#signinForm .auth-btn');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Check mock database or create new user
+                let user = mockDatabase.users.find(u => u.email === email);
+                
+                if (user && user.password === password) {
+                    // Successful login
+                    currentUser = {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        avatar: user.avatar,
+                        plan: user.plan || 'free',
+                        createdAt: user.createdAt
+                    };
+                    
+                    // Save user session
+                    if (rememberMe) {
+                        localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                    } else {
+                        sessionStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                    }
+                    
+                    showChatInterface();
+                    loadConversations();
+                    showToast('Welcome back!', 'success');
+                } else {
+                    showToast('Invalid email or password', 'error');
+                }
+                
+                // Reset button
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        function signUpWithEmail() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const acceptTerms = document.getElementById('acceptTerms').checked;
+            
+            // Validation
+            if (!name) {
+                showToast('Please enter your name', 'error');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showToast('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showToast('Password must be at least 8 characters', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (!acceptTerms) {
+                showToast('Please accept the terms and privacy policy', 'error');
+                return;
+            }
+            
+            // Check if user already exists
+            if (mockDatabase.users.some(u => u.email === email)) {
+                showToast('An account with this email already exists', 'error');
+                return;
+            }
+            
+            // Show loading
+            const btn = document.querySelector('#signupForm .auth-btn');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Create new user
+                const newUser = {
+                    id: 'user_' + Date.now(),
+                    name: name,
+                    email: email,
+                    password: password, // In real app, this would be hashed
+                    avatar: getAvatarInitials(name),
+                    plan: 'free',
+                    createdAt: new Date().toISOString(),
+                    provider: 'email'
+                };
+                
+                mockDatabase.users.push(newUser);
+                currentUser = { ...newUser };
+                delete currentUser.password;
+                
+                // Save user session
+                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                
+                showChatInterface();
+                showWelcomeMessage();
+                showToast('Account created successfully!', 'success');
+                
+                // Reset button
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        // ==================== SOCIAL AUTHENTICATION ====================
+        function signInWithGoogle() {
+            // In a real app, this would integrate with Google OAuth
+            // For demo, we'll simulate the process
+            showToast('Redirecting to Google authentication...', 'info');
+            
+            setTimeout(() => {
+                // Simulate Google user data
+                const googleUser = {
+                    id: 'google_' + Date.now(),
+                    name: 'Demo User',
+                    email: 'demo@example.com',
+                    avatar: 'G',
+                    plan: 'free',
+                    provider: 'google'
+                };
+                
+                // Check if user exists
+                let user = mockDatabase.users.find(u => u.email === googleUser.email);
+                if (!user) {
+                    user = {
+                        ...googleUser,
+                        createdAt: new Date().toISOString()
+                    };
+                    mockDatabase.users.push(user);
+                }
+                
+                currentUser = { ...user };
+                delete currentUser.password;
+                
+                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                showChatInterface();
+                loadConversations();
+                showToast('Signed in with Google', 'success');
+            }, 1500);
+        }
+
+        function signUpWithGoogle() {
+            // Same as sign in for social providers (they handle both)
+            signInWithGoogle();
+        }
+
+        function signInWithMicrosoft() {
+            showToast('Redirecting to Microsoft authentication...', 'info');
+            
+            setTimeout(() => {
+                // Simulate Microsoft user data
+                const microsoftUser = {
+                    id: 'microsoft_' + Date.now(),
+                    name: 'Business User',
+                    email: 'business@example.com',
+                    avatar: 'M',
+                    plan: 'free',
+                    provider: 'microsoft'
+                };
+                
+                // Check if user exists
+                let user = mockDatabase.users.find(u => u.email === microsoftUser.email);
+                if (!user) {
+                    user = {
+                        ...microsoftUser,
+                        createdAt: new Date().toISOString()
+                    };
+                    mockDatabase.users.push(user);
+                }
+                
+                currentUser = { ...user };
+                delete currentUser.password;
+                
+                localStorage.setItem('cyanix_user', JSON.stringify(currentUser));
+                showChatInterface();
+                loadConversations();
+                showToast('Signed in with Microsoft', 'success');
+            }, 1500);
+        }
+
+        function signUpWithMicrosoft() {
+            signInWithMicrosoft();
+        }
+
+        // ==================== CHAT INTERFACE ====================
+        function showChatInterface() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('chatContainer').classList.add('active');
+            
+            // Update user info
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userEmail').textContent = currentUser.email;
+                document.getElementById('userAvatar').textContent = currentUser.avatar;
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainChat = document.getElementById('mainChat');
+            
+            isSidebarOpen = !isSidebarOpen;
+            
+            if (isSidebarOpen) {
+                sidebar.classList.add('active');
+                mainChat.classList.add('sidebar-active');
+            } else {
+                sidebar.classList.remove('active');
+                mainChat.classList.remove('sidebar-active');
+            }
+        }
+
+        function toggleUserMenu() {
+            const userMenu = document.getElementById('userMenu');
+            userMenuOpen = !userMenuOpen;
+            
+            if (userMenuOpen) {
+                userMenu.classList.add('active');
+                // Close menu when clicking outside
+                setTimeout(() => {
+                    document.addEventListener('click', closeUserMenuOnClickOutside);
+                }, 10);
+            } else {
+                userMenu.classList.remove('active');
+                document.removeEventListener('click', closeUserMenuOnClickOutside);
+            }
+        }
+
+        function closeUserMenuOnClickOutside(event) {
+            const userMenu = document.getElementById('userMenu');
+            const userProfile = document.querySelector('.user-profile');
+            
+            if (!userMenu.contains(event.target) && !userProfile.contains(event.target)) {
+                userMenu.classList.remove('active');
+                userMenuOpen = false;
+                document.removeEventListener('click', closeUserMenuOnClickOutside);
+            }
+        }
+
+        function newChat() {
+            currentChatId = 'chat_' + Date.now();
+            document.getElementById('messagesContainer').innerHTML = '';
+            document.getElementById('chatTitle').textContent = 'New Chat';
+            
+            // Show welcome screen
+            const welcomeScreen = document.getElementById('welcomeScreen').cloneNode(true);
+            welcomeScreen.style.display = 'block';
+            document.getElementById('messagesContainer').appendChild(welcomeScreen);
+            
+            // Add to conversations
+            const conversation = {
+                id: currentChatId,
+                title: 'New Chat',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                messages: []
+            };
+            
+            conversations.unshift(conversation);
+            updateConversationList();
+            
+            if (isSidebarOpen) toggleSidebar();
+        }
+
+        function loadConversations() {
+            // Load from mock database or localStorage
+            const savedConversations = localStorage.getItem(`cyanix_conversations_${currentUser.id}`);
+            if (savedConversations) {
+                conversations = JSON.parse(savedConversations);
+                updateConversationList();
+            } else {
+                // Create demo conversations for new users
+                conversations = [
+                    {
+                        id: 'chat_1',
+                        title: 'Python Programming Help',
+                        createdAt: new Date(Date.now() - 3600000).toISOString(),
+                        updatedAt: new Date(Date.now() - 3600000).toISOString(),
+                        messages: []
+                    },
+                    {
+                        id: 'chat_2',
+                        title: 'Business Idea Brainstorming',
+                        createdAt: new Date(Date.now() - 86400000).toISOString(),
+                        updatedAt: new Date(Date.now() - 86400000).toISOString(),
+                        messages: []
+                    },
+                    {
+                        id: 'chat_3',
+                        title: 'Learning Quantum Computing',
+                        createdAt: new Date(Date.now() - 172800000).toISOString(),
+                        updatedAt: new Date(Date.now() - 172800000).toISOString(),
+                        messages: []
+                    }
+                ];
+                updateConversationList();
+            }
+        }
+
+        function updateConversationList() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            const weekAgo = new Date(today);
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            
+            const todayConvos = conversations.filter(c => new Date(c.updatedAt) >= today);
+            const yesterdayConvos = conversations.filter(c => 
+                new Date(c.updatedAt) >= yesterday && new Date(c.updatedAt) < today
+            );
+            const weekConvos = conversations.filter(c => 
+                new Date(c.updatedAt) >= weekAgo && new Date(c.updatedAt) < yesterday
+            );
+            
+            updateConversationSection('todayConversations', todayConvos);
+            updateConversationSection('yesterdayConversations', yesterdayConvos);
+            updateConversationSection('weekConversations', weekConvos);
+        }
+
+        function updateConversationSection(sectionId, convos) {
+            const section = document.getElementById(sectionId);
+            section.innerHTML = '';
+            
+            convos.forEach(convo => {
+                const li = document.createElement('li');
+                li.className = 'conversation-item';
+                if (convo.id === currentChatId) li.classList.add('active');
+                
+                li.innerHTML = `
+                    <i class="fas fa-comment conversation-icon"></i>
+                    <span class="conversation-text">${convo.title}</span>
+                `;
+                
+                li.onclick = () => loadChat(convo.id);
+                section.appendChild(li);
+            });
+        }
+
+        function loadChat(chatId) {
+            currentChatId = chatId;
+            const conversation = conversations.find(c => c.id === chatId);
+            
+            if (conversation) {
+                document.getElementById('chatTitle').textContent = conversation.title;
+                document.getElementById('messagesContainer').innerHTML = '';
+                
+                // Load messages
+                conversation.messages.forEach(msg => {
+                    addMessageToUI(msg.content, msg.sender, msg.timestamp);
+                });
+                
+                updateConversationList();
+                if (isSidebarOpen) toggleSidebar();
+            }
+        }
+
+        // ==================== MESSAGING ====================
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Hide welcome screen
+            document.getElementById('welcomeScreen')?.remove();
+            
+            // Add user message
+            addMessageToUI(message, 'user');
+            
+            // Clear input
+            input.value = '';
+            autoResizeInput(input);
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Save to conversation
+            const conversation = conversations.find(c => c.id === currentChatId);
+            if (conversation) {
+                conversation.messages.push({
+                    id: 'msg_' + Date.now(),
+                    content: message,
+                    sender: 'user',
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Update conversation title if first message
+                if (conversation.messages.length === 1) {
+                    conversation.title = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+                    document.getElementById('chatTitle').textContent = conversation.title;
+                }
+                
+                conversation.updatedAt = new Date().toISOString();
+                saveConversations();
+            }
+            
+            // Simulate AI response
+            setTimeout(() => {
+                hideTypingIndicator();
+                const aiResponse = generateAIResponse(message);
+                addMessageToUI(aiResponse, 'assistant');
+                
+                // Save AI response
+                if (conversation) {
+                    conversation.messages.push({
+                        id: 'msg_' + Date.now(),
+                        content: aiResponse,
+                        sender: 'assistant',
+                        timestamp: new Date().toISOString()
+                    });
+                    conversation.updatedAt = new Date().toISOString();
+                    saveConversations();
+                }
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function addMessageToUI(content, sender, timestamp = null) {
+            const container = document.getElementById('messagesContainer');
+            const messageDiv = document.createElement('div');
+            
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <div class="message-avatar ${sender}">
+                        ${sender === 'user' ? currentUser.avatar : 'AI'}
+                    </div>
+                    <div class="message-sender">
+                        ${sender === 'user' ? currentUser.name : 'Cyanix AI'}
+                    </div>
+                    <div class="message-time">
+                        ${timestamp ? formatTime(timestamp) : formatTime(new Date().toISOString())}
+                    </div>
+                </div>
+                <div class="message-content">${formatMessage(content)}</div>
+                <div class="message-actions">
+                    <button class="message-action" onclick="copyMessage(this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="message-action" onclick="regenerateMessage(this)">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <button class="message-action" onclick="likeMessage(this)">
+                        <i class="far fa-thumbs-up"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('messagesContainer');
+            const typingDiv = document.createElement('div');
+            
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-avatar">AI</div>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function generateAIResponse(userMessage) {
+            // Simulate different AI responses based on message content
+            const responses = {
+                greetings: [
+                    "Hello! I'm Cyanix AI, your intelligent assistant. How can I help you today?",
+                    "Hi there! I'm here to help with anything you need. What's on your mind?",
+                    "Greetings! Ready to dive into some interesting topics together?"
+                ],
+                help: [
+                    "I can help you with a wide range of tasks including:\n• Writing and editing\n• Code generation and debugging\n• Research and analysis\n• Creative brainstorming\n• Learning explanations\n• Problem solving",
+                    "I'm designed to assist with various tasks. You can ask me to:\n• Explain complex concepts\n• Generate creative ideas\n• Write code in multiple languages\n• Analyze data or text\n• Help with planning and organization"
+                ],
+                coding: [
+                    "I can help with coding in Python, JavaScript, Java, C++, and many other languages. What specific coding task do you need assistance with?",
+                    "As a coding assistant, I can:\n• Write functions and algorithms\n• Debug code\n• Explain programming concepts\n• Suggest best practices\n• Convert code between languages"
+                ],
+                creative: [
+                    "Let's get creative! I can help with:\n• Story writing\n• Marketing copy\n• Business names\n• Creative concepts\n• Design ideas\n• Artistic inspiration",
+                    "For creative tasks, I can assist with brainstorming, generating ideas, writing content, and providing creative feedback."
+                ],
+                default: [
+                    "I understand you're asking about: \"" + userMessage + "\"\n\nLet me provide you with a comprehensive response...",
+                    "That's an interesting question. Based on my analysis, here's what I can tell you...",
+                    "I've processed your query and here's my detailed response..."
+                ]
+            };
+
+            // Categorize the user message
+            let category = 'default';
+            const lowerMessage = userMessage.toLowerCase();
+
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                category = 'greetings';
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
+                category = 'help';
+            } else if (lowerMessage.includes('code') || lowerMessage.includes('program') || lowerMessage.includes('python') || lowerMessage.includes('javascript')) {
+                category = 'coding';
+            } else if (lowerMessage.includes('creative') || lowerMessage.includes('write') || lowerMessage.includes('story') || lowerMessage.includes('idea')) {
+                category = 'creative';
+            }
+
+            const categoryResponses = responses[category];
+            const response = categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+
+            // Add some detail based on the message
+            if (category === 'default') {
+                return response + "\n\n" + generateDetailedResponse(userMessage);
+            }
+
+            return response;
+        }
+
+        function generateDetailedResponse(message) {
+            const topics = [
+                "This is an important topic because it affects many areas of modern technology and society.",
+                "Let me break this down into key points for better understanding.",
+                "Here's a structured approach to thinking about this:",
+                "Based on current best practices and research, here's what you should know:",
+                "I've analyzed this from multiple perspectives to give you a comprehensive answer."
+            ];
+
+            const details = [
+                "First, consider the fundamental principles involved.",
+                "Next, look at practical applications and real-world examples.",
+                "It's also important to understand the limitations and challenges.",
+                "Recent developments have significantly impacted this area.",
+                "For implementation, here are some actionable steps you can take."
+            ];
+
+            const conclusion = [
+                "I hope this provides a clear understanding. Would you like me to elaborate on any specific aspect?",
+                "This should give you a solid foundation. Feel free to ask follow-up questions.",
+                "Let me know if you need more detailed information on any of these points.",
+                "Is there anything specific about this topic you'd like to explore further?"
+            ];
+
+            return topics[Math.floor(Math.random() * topics.length)] + "\n\n" +
+                   details[Math.floor(Math.random() * details.length)] + " " +
+                   details[Math.floor(Math.random() * details.length)] + "\n\n" +
+                   conclusion[Math.floor(Math.random() * conclusion.length)];
+        }
+
+        function useExample(type) {
+            const examples = {
+                brainstorm: "Help me brainstorm creative project ideas for a tech startup that combines AI with environmental sustainability.",
+                explain: "Explain quantum computing in simple terms. How does it differ from classical computing, and what are its potential applications?",
+                code: "Write a Python function to sort a list using quicksort algorithm. Include comments explaining each step and provide example usage.",
+                analyze: "Analyze the pros and cons of renewable energy sources (solar, wind, hydro) compared to fossil fuels. Consider factors like cost, efficiency, environmental impact, and scalability."
+            };
+
+            document.getElementById('chatInput').value = examples[type];
+            autoResizeInput(document.getElementById('chatInput'));
+        }
+
+        // ==================== UI UTILITIES ====================
+        function autoResizeInput(textarea) {
+            textarea.style.height = 'auto';
+            const newHeight = Math.min(textarea.scrollHeight, 200);
+            textarea.style.height = newHeight + 'px';
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function formatMessage(text) {
+            // Simple markdown-like formatting
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showToast(message, type = 'info') {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#3742fa'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // ==================== MESSAGE ACTIONS ====================
+        function copyMessage(button) {
+            const messageContent = button.closest('.message').querySelector('.message-content').textContent;
+            navigator.clipboard.writeText(messageContent)
+                .then(() => showToast('Copied to clipboard', 'success'))
+                .catch(() => showToast('Failed to copy', 'error'));
+        }
+
+        function regenerateMessage(button) {
+            const messageDiv = button.closest('.message');
+            const messageContent = messageDiv.querySelector('.message-content').textContent;
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                hideTypingIndicator();
+                const newResponse = generateAIResponse("Regenerate: " + messageContent);
+                messageDiv.querySelector('.message-content').innerHTML = formatMessage(newResponse);
+                showToast('Message regenerated', 'success');
+            }, 1000);
+        }
+
+        function likeMessage(button) {
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.style.color = '#2ed573';
+                showToast('Liked', 'success');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.style.color = '';
+                showToast('Unliked', 'info');
+            }
+        }
+
+        // ==================== USER ACTIONS ====================
+        function showProfile() {
+            showToast('Profile page coming soon!', 'info');
+            toggleUserMenu();
+        }
+
+        function showSettings() {
+            showToast('Settings page coming soon!', 'info');
+            toggleUserMenu();
+        }
+
+        function showUpgrade() {
+            showToast('Upgrade to Pro for advanced features!', 'info');
+            toggleUserMenu();
+        }
+
+        function exportData() {
+            const data = {
+                user: currentUser,
+                conversations: conversations,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cyanix-export-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Data exported successfully', 'success');
+            toggleUserMenu();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                currentChatId = null;
+                conversations = [];
+                
+                localStorage.removeItem('cyanix_user');
+                sessionStorage.removeItem('cyanix_user');
+                
+                document.getElementById('chatContainer').classList.remove('active');
+                document.getElementById('authContainer').style.display = 'flex';
+                
+                // Reset forms
+                document.getElementById('signinEmail').value = '';
+                document.getElementById('signinPassword').value = '';
+                document.getElementById('signupName').value = '';
+                document.getElementById('signupEmail').value = '';
+                document.getElementById('signupPassword').value = '';
+                document.getElementById('signupConfirmPassword').value = '';
+                
+                switchAuthTab('signin');
+                showToast('Logged out successfully', 'success');
+                toggleUserMenu();
+            }
+        }
+
+        function clearChat() {
+            if (confirm('Clear this chat? This cannot be undone.')) {
+                const conversation = conversations.find(c => c.id === currentChatId);
+                if (conversation) {
+                    conversation.messages = [];
+                    saveConversations();
+                }
+                
+                document.getElementById('messagesContainer').innerHTML = '';
+                const welcomeScreen = document.getElementById('welcomeScreen').cloneNode(true);
+                welcomeScreen.style.display = 'block';
+                document.getElementById('messagesContainer').appendChild(welcomeScreen);
+                
+                showToast('Chat cleared', 'success');
+            }
+        }
+
+        function shareChat() {
+            showToast('Share feature coming soon!', 'info');
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            const icon = document.querySelector('.header-btn:nth-child(3) i');
+            
+            if (isDarkMode) {
+                document.body.style.backgroundColor = 'var(--purple-dark)';
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                showToast('Dark mode enabled', 'success');
+            } else {
+                document.body.style.backgroundColor = '#f5f5f7';
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                showToast('Light mode enabled', 'success');
+            }
+        }
+
+        function attachFile() {
+            showToast('File attachment coming soon!', 'info');
+        }
+
+        function voiceInput() {
+            showToast('Voice input coming soon!', 'info');
+        }
+
+        // ==================== MODAL FUNCTIONS ====================
+        function showTermsModal() {
+            document.getElementById('termsModal').classList.add('active');
+        }
+
+        function hideTermsModal() {
+            document.getElementById('termsModal').classList.remove('active');
+        }
+
+        function acceptTerms() {
+            document.getElementById('acceptTerms').checked = true;
+            hideTermsModal();
+            showToast('Terms accepted', 'success');
+        }
+
+        function showForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.add('active');
+        }
+
+        function hideForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+        }
+
+        function sendResetEmail() {
+            const email = document.getElementById('resetEmail').value;
+            if (validateEmail(email)) {
+                hideForgotPassword();
+                showToast('Password reset email sent!', 'success');
+            } else {
+                showToast('Please enter a valid email', 'error');
+            }
+        }
+
+        // ==================== HELPER FUNCTIONS ====================
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function getAvatarInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        function saveConversations() {
+            if (currentUser) {
+                localStorage.setItem(`cyanix_conversations_${currentUser.id}`, JSON.stringify(conversations));
+            }
+        }
+
+        function showWelcomeMessage() {
+            // This is called after sign up
+            newChat();
+            
+            setTimeout(() => {
+                const welcomeMsg = "Welcome to Cyanix AI! I'm your intelligent assistant, ready to help you with writing, coding, analysis, creative tasks, and much more. Feel free to ask me anything!";
+                addMessageToUI(welcomeMsg, 'assistant');
+                
+                // Save to conversation
+                const conversation = conversations.find(c => c.id === currentChatId);
+                if (conversation) {
+                    conversation.messages.push({
+                        id: 'msg_welcome',
+                        content: welcomeMsg,
+                        sender: 'assistant',
+                        timestamp: new Date().toISOString()
+                    });
+                    saveConversations();
+                }
+            }, 1000);
+        }
+
+        // Add CSS for toast animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>d.length < 6) {
                 showToast('Password must be at least 6 characters', 'error');
                 return;
             }
