@@ -47,10 +47,8 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: var(--purple-dark);
             color: var(--white);
-            height: 100vh;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -109,21 +107,23 @@
             to { opacity: 0; visibility: hidden; }
         }
 
-        /* Auth Container */
+        /* Auth Container - CHANGED FOR SCROLLING */
         .auth-container {
             display: flex;
             min-height: 100vh;
+            overflow-y: auto;
         }
 
         .auth-left {
             flex: 1;
             background: linear-gradient(135deg, var(--purple-dark), var(--purple-deep));
-            padding: 60px;
+            padding: 60px 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
         }
 
         .auth-left::before {
@@ -140,10 +140,11 @@
         .auth-right {
             flex: 1;
             background: var(--gray-dark);
-            padding: 60px;
+            padding: 60px 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-height: 100vh;
         }
 
         .auth-logo {
@@ -411,6 +412,7 @@
             text-align: center;
             color: var(--cyan-light);
             font-size: 14px;
+            padding: 20px 0;
         }
 
         .auth-footer a {
@@ -1222,11 +1224,22 @@
         @media (max-width: 768px) {
             .auth-container {
                 flex-direction: column;
+                overflow-y: auto;
             }
 
             .auth-left,
             .auth-right {
                 padding: 40px 20px;
+                min-height: auto;
+                height: auto;
+            }
+
+            .auth-left {
+                padding-bottom: 60px;
+            }
+
+            .auth-right {
+                padding-top: 60px;
             }
 
             .features-list {
@@ -1251,6 +1264,14 @@
             }
 
             .welcome-subtitle {
+                font-size: 16px;
+            }
+
+            .auth-title {
+                font-size: 32px;
+            }
+
+            .auth-subtitle {
                 font-size: 16px;
             }
         }
@@ -2984,20 +3005,7 @@
         }
     </script>
 </body>
-</html>             li.className = 'conversation-item';
-                if (convo.id === currentChatId) li.classList.add('active');
-                
-                li.innerHTML = `
-                    <i class="fas fa-comment conversation-icon"></i>
-                    <span class="conversation-text">${convo.title}</span>
-                `;
-                
-                li.onclick = () => loadChat(convo.id);
-                section.appendChild(li);
-            });
-        }
-
-        function loadChat(chatId) {
+</html> {
             currentChatId = chatId;
             const conversation = conversations.find(c => c.id === chatId);
             
