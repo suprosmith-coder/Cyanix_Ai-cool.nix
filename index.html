@@ -6,17 +6,25 @@
     <title>Cyanix AI</title>
     
     <!-- PWA Configuration -->
-    <link rel="manifest" href="/CyanixAi/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0d0221">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="/CyanixAi/icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-title" content="Cyanix AI">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="description" content="Cyanix AI - Your intelligent assistant">
+    
+    <!-- PWA Splash Screen Meta -->
+    <link rel="icon" type="image/png" href="/icons/icon-192x192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Cyanix AI">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -36,6 +44,64 @@
             overflow: hidden;
             position: fixed;
             width: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--purple-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 0.5s ease-out 1.5s forwards;
+        }
+
+        .splash-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--cyan-dark), var(--cyan-bright));
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: var(--neon-glow);
+            border: 2px solid var(--cyan-neon);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .splash-title {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan-neon), var(--cyan-bright));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .splash-subtitle {
+            font-size: 16px;
+            color: var(--cyan-bright);
+            opacity: 0.8;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: var(--neon-glow); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px var(--cyan-neon); }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
         }
 
         /* Milky Way Galaxy Background */
@@ -279,8 +345,8 @@
         }
 
         .login-container {
-            background: rgba(13, 2, 33, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(13, 2, 33, 0.95);
+            backdrop-filter: blur(20px);
             border: 2px solid var(--cyan-neon);
             box-shadow: var(--neon-glow), inset 0 0 20px rgba(0, 243, 255, 0.1);
             border-radius: 24px;
@@ -324,12 +390,14 @@
         }
 
         .app-icon::before {
-            content: '';
+            content: '🤖';
             position: absolute;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="70" font-size="60" fill="%23fff">🤖</text></svg>') no-repeat center;
-            background-size: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
             filter: drop-shadow(0 0 10px var(--cyan-neon));
         }
 
@@ -444,6 +512,12 @@
             transform: translateY(0);
         }
 
+        .primary-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* Chat Screen */
         .chat-screen {
             display: none;
@@ -464,7 +538,7 @@
 
         .top-bar {
             background: rgba(13, 2, 33, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -483,6 +557,11 @@
             border-radius: 8px;
             text-shadow: 0 0 10px var(--cyan-neon);
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
         }
 
         .menu-btn:hover {
@@ -527,15 +606,11 @@
             border-bottom: 1px solid var(--cyan-dark);
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
 
         .quick-actions::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .quick-actions::-webkit-scrollbar-thumb {
-            background: var(--cyan-dark);
-            border-radius: 2px;
+            display: none;
         }
 
         .quick-action-btn {
@@ -548,6 +623,7 @@
             white-space: nowrap;
             cursor: pointer;
             transition: all 0.3s;
+            flex-shrink: 0;
         }
 
         .quick-action-btn:hover {
@@ -607,7 +683,7 @@
         }
 
         .message-bubble {
-            max-width: 80%;
+            max-width: 85%;
             padding: 12px 16px;
             border-radius: 18px;
             font-size: 15px;
@@ -634,7 +710,7 @@
         }
 
         .message-bubble.assistant {
-            background: rgba(13, 2, 33, 0.8);
+            background: rgba(13, 2, 33, 0.85);
             backdrop-filter: blur(10px);
             color: var(--cyan-bright);
             align-self: flex-start;
@@ -643,9 +719,26 @@
             box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
         }
 
+        .message-bubble.system {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            align-self: center;
+            max-width: 95%;
+            font-size: 13px;
+            text-align: center;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.6;
+            margin-top: 4px;
+            text-align: right;
+        }
+
         .input-area {
             background: rgba(13, 2, 33, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             padding: 8px 12px;
             padding-bottom: max(8px, env(safe-area-inset-bottom));
             display: flex;
@@ -666,7 +759,7 @@
             padding: 10px 16px;
             display: flex;
             align-items: center;
-            min-height: 40px;
+            min-height: 44px;
             max-height: 120px;
             overflow-y: auto;
             transition: all 0.3s;
@@ -686,7 +779,7 @@
             resize: none;
             font-family: inherit;
             line-height: 1.4;
-            min-height: 20px;
+            min-height: 24px;
             max-height: 96px;
             overflow-y: auto;
             width: 100%;
@@ -702,10 +795,10 @@
         }
 
         .send-btn {
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            min-height: 36px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--cyan-dark), var(--cyan-bright));
             border: 2px solid var(--cyan-neon);
@@ -730,13 +823,20 @@
             transform: scale(0.95);
         }
 
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
             display: none;
             z-index: 999;
         }
@@ -754,17 +854,19 @@
         .side-menu {
             position: fixed;
             top: 0;
-            left: -300px;
+            left: -320px;
             width: 300px;
             height: 100%;
             background: rgba(13, 2, 33, 0.98);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border-right: 2px solid var(--cyan-dark);
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
             z-index: 1000;
-            transition: left 0.3s ease;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
             padding: 60px 20px 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .side-menu.active {
@@ -834,6 +936,9 @@
             cursor: pointer;
             margin-bottom: 8px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .menu-btn-item:hover {
@@ -980,7 +1085,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(13, 2, 33, 0.98);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border: 2px solid var(--cyan-neon);
             box-shadow: var(--neon-glow);
             border-radius: 20px;
@@ -1126,12 +1231,13 @@
             display: flex;
             gap: 4px;
             padding: 12px 16px;
-            background: rgba(13, 2, 33, 0.8);
+            background: rgba(13, 2, 33, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid var(--cyan-dark);
             border-radius: 18px;
             width: fit-content;
             border-bottom-left-radius: 4px;
+            align-self: flex-start;
         }
 
         .typing-dot {
@@ -1193,8 +1299,8 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(13, 2, 33, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(13, 2, 33, 0.98);
+            backdrop-filter: blur(30px);
             border: 2px solid var(--cyan-neon);
             box-shadow: var(--neon-glow);
             border-radius: 16px;
@@ -1287,9 +1393,208 @@
             color: var(--cyan-bright);
             border: 1px solid var(--cyan-dark);
         }
+
+        /* Context Menu */
+        .context-menu {
+            position: fixed;
+            background: rgba(13, 2, 33, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--cyan-dark);
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            z-index: 10000;
+            min-width: 200px;
+            display: none;
+        }
+
+        .context-menu.active {
+            display: block;
+            animation: contextMenuAppear 0.2s ease;
+        }
+
+        @keyframes contextMenuAppear {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .context-item {
+            padding: 12px 16px;
+            color: var(--cyan-bright);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .context-item:hover {
+            background: rgba(0, 168, 181, 0.1);
+            color: var(--cyan-neon);
+        }
+
+        .context-item.separator {
+            border-bottom: 1px solid var(--cyan-dark);
+            margin: 4px 0;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 2, 33, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--cyan-neon);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: var(--cyan-bright);
+            box-shadow: var(--neon-glow);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 90%;
+            animation: toastSlideUp 0.3s ease;
+        }
+
+        @keyframes toastSlideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .toast.success {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .toast.error {
+            border-color: #ff006e;
+            color: #ff006e;
+        }
+
+        .toast.warning {
+            border-color: #ffcc00;
+            color: #ffcc00;
+        }
+
+        /* Loader */
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 243, 255, 0.1);
+            border-top-color: var(--cyan-neon);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Welcome Guide */
+        .welcome-guide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .guide-content {
+            background: rgba(13, 2, 33, 0.95);
+            border: 2px solid var(--cyan-neon);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--neon-glow);
+        }
+
+        .guide-step {
+            display: none;
+        }
+
+        .guide-step.active {
+            display: block;
+        }
+
+        .guide-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        /* Quick Settings */
+        .quick-settings {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quick-settings-card {
+            background: rgba(13, 2, 33, 0.95);
+            border: 2px solid var(--cyan-neon);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Offline Indicator */
+        .offline-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 0, 110, 0.9);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            z-index: 10001;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Selection Styles */
+        ::selection {
+            background: rgba(0, 243, 255, 0.3);
+            color: var(--cyan-bright);
+        }
     </style>
 </head>
 <body>
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-icon">🤖</div>
+        <h1 class="splash-title">Cyanix AI</h1>
+        <p class="splash-subtitle">Loading your intelligent assistant...</p>
+    </div>
+
     <!-- Milky Way Galaxy Background -->
     <div class="galaxy-background">
         <div class="galaxy-core"></div>
@@ -1307,6 +1612,11 @@
     <!-- Scan line effect -->
     <div class="scanline"></div>
 
+    <!-- Offline Indicator -->
+    <div id="offlineIndicator" class="offline-indicator" style="display: none;">
+        ⚡ You are currently offline
+    </div>
+
     <!-- Install Prompt Popup -->
     <div id="installPopup" class="install-popup">
         <div class="install-popup-header">
@@ -1315,8 +1625,7 @@
             <button class="install-popup-close" onclick="hideInstallPopup()">×</button>
         </div>
         <div class="install-popup-body">
-            Install Cyanix AI on your home screen for quick access and offline use. 
-            Works just like a native app!
+            Install Cyanix AI on your home screen for quick access, offline use, and full app experience!
         </div>
         <div class="install-popup-buttons">
             <button class="install-popup-btn secondary" onclick="hideInstallPopup()">Later</button>
@@ -1324,11 +1633,14 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" style="display: none;"></div>
+
     <!-- Login Screen -->
     <div id="loginScreen" class="login-screen">
         <div class="login-container">
             <div class="app-icon">
-                <img src="cyanix_emblem.png" alt="Cyanix" onerror="this.style.display='none'" />
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 20L80 50L50 80L20 50Z' fill='%2300f3ff'/%3E%3C/svg%3E" alt="Cyanix" onerror="this.style.display='none'" />
             </div>
             <h1 class="login-title">Cyanix AI</h1>
             <p class="login-subtitle">Your intelligent assistant</p>
@@ -1336,31 +1648,37 @@
             <div class="input-group">
                 <input type="password" id="apiKeyLoginInput" class="text-input" placeholder="Enter your Groq API Key" autocomplete="off" />
                 <small>
-                    Get free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+                    Get free key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>
                 </small>
                 <small style="display: block; margin-top: 8px; color: var(--cyan-neon); font-weight: 600;">
-                    ⚠️ Your API key is your password - stored locally and never shared
+                    ⚠️ Your API key is stored locally and never shared
                 </small>
             </div>
             
-            <button class="primary-btn" onclick="login()">Enter Cyanix AI</button>
+            <button class="primary-btn" onclick="login()" id="loginBtn">Enter Cyanix AI</button>
             
             <p class="login-note">
-                🔐 Fully private - no data saved, no tracking, no accounts
+                🔐 Fully private · 💾 Local storage · 📱 Works offline
             </p>
+            
+            <div style="margin-top: 20px; padding: 12px; background: rgba(0, 168, 181, 0.1); border-radius: 10px;">
+                <small style="color: var(--cyan-neon); display: block; margin-bottom: 8px;">🎯 Quick Start:</small>
+                <small style="color: var(--cyan-bright);">Use demo key: <code style="background: rgba(0, 243, 255, 0.1); padding: 2px 6px; border-radius: 4px;">demo_key_for_testing</code> for offline demo</small>
+            </div>
         </div>
     </div>
 
     <!-- Chat Screen -->
     <div id="chatScreen" class="chat-screen">
         <div class="top-bar">
-            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">☰</button>
             <div class="app-title">Cyanix AI</div>
             <div class="status-indicator" id="statusIndicator"></div>
+            <button class="menu-btn" onclick="toggleQuickSettings()" aria-label="Settings">⚙️</button>
         </div>
 
         <!-- Quick Actions Toolbar -->
-        <div class="quick-actions">
+        <div class="quick-actions" id="quickActions">
             <button class="quick-action-btn" onclick="sendQuickMessage('Explain this concept simply')">💡 Explain</button>
             <button class="quick-action-btn" onclick="sendQuickMessage('Help me brainstorm ideas')">🧠 Brainstorm</button>
             <button class="quick-action-btn" onclick="sendQuickMessage('Write code for')">💻 Code</button>
@@ -1369,20 +1687,40 @@
             <button class="quick-action-btn" onclick="sendQuickMessage('Tell me a joke')">😄 Joke</button>
         </div>
 
-        <div class="chat-container" id="chatContainer"></div>
+        <div class="chat-container" id="chatContainer">
+            <!-- Messages will be inserted here -->
+        </div>
 
         <div class="input-area">
             <div class="message-input-wrapper">
                 <textarea 
                     id="messageInput" 
                     class="message-input" 
-                    placeholder="Message" 
+                    placeholder="Message Cyanix AI..." 
                     rows="1"
                     oninput="autoResizeInput(this)"
                     onkeydown="handleKeyDown(event)"
+                    aria-label="Message input"
                 ></textarea>
             </div>
-            <button class="send-btn" onclick="sendMessage()">↑</button>
+            <button class="send-btn" onclick="sendMessage()" id="sendBtn" aria-label="Send message">↑</button>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-item" onclick="copyMessage()">
+            📋 Copy
+        </div>
+        <div class="context-item" onclick="shareMessage()">
+            ↗️ Share
+        </div>
+        <div class="context-item" onclick="saveMessage()">
+            💾 Save
+        </div>
+        <div class="context-item separator"></div>
+        <div class="context-item danger" onclick="deleteMessage()">
+            🗑️ Delete
         </div>
     </div>
 
@@ -1390,18 +1728,24 @@
     <div id="menuOverlay" class="menu-overlay" onclick="toggleMenu()"></div>
     <div id="sideMenu" class="side-menu">
         <div class="user-profile">
-            <div class="user-avatar">C</div>
+            <div class="user-avatar" id="userAvatar">C</div>
             <div class="user-info">
-                <h3>Cyanix User</h3>
-                <p>Anonymous Session</p>
+                <h3 id="userName">Cyanix User</h3>
+                <p id="userStatus">Online</p>
             </div>
         </div>
 
         <div class="menu-section">
             <div class="menu-section-title">AI Mode</div>
-            <button class="menu-btn-item" onclick="setAIMode('nix')">⚡ Nix - Quick Responses</button>
-            <button class="menu-btn-item" onclick="setAIMode('default')">🤖 Cyanix - Balanced</button>
-            <button class="menu-btn-item" onclick="setAIMode('nova')">🧠 Nova - Deep Thinking</button>
+            <button class="menu-btn-item" onclick="setAIMode('nix')">
+                <span>⚡</span> Nix - Quick Responses
+            </button>
+            <button class="menu-btn-item active" onclick="setAIMode('default')">
+                <span>🤖</span> Cyanix - Balanced
+            </button>
+            <button class="menu-btn-item" onclick="setAIMode('nova')">
+                <span>🧠</span> Nova - Deep Thinking
+            </button>
         </div>
 
         <div class="menu-section">
@@ -1414,27 +1758,84 @@
                 </label>
             </div>
             <div class="settings-card">
+                <span class="settings-label">Dark Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="darkModeToggle" checked onchange="toggleDarkMode()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-card">
                 <span class="settings-label">Voice Speed</span>
-                <input type="range" class="range-slider" min="50" max="150" value="90" id="voiceSpeedSlider">
+                <input type="range" class="range-slider" min="50" max="150" value="90" id="voiceSpeedSlider" onchange="updateVoiceSpeed()">
+            </div>
+            <div class="settings-card">
+                <span class="settings-label">Font Size</span>
+                <input type="range" class="range-slider" min="12" max="20" value="15" id="fontSizeSlider" onchange="updateFontSize()">
             </div>
         </div>
 
         <div class="menu-section">
-            <div class="menu-section-title">API Keys</div>
-            <button class="menu-btn-item" onclick="showAPIKeyDialog()">🔑 Configure API Keys</button>
-        </div>
-
-        <div class="menu-section">
-            <div class="menu-section-title">App Installation</div>
-            <div id="installStatus" class="install-status not-available">Checking installation status...</div>
-            <button class="menu-btn-item install-btn" onclick="installPWA()" id="installBtn" style="display: none;">
-                📲 Install Cyanix AI
+            <div class="menu-section-title">Conversations</div>
+            <button class="menu-btn-item" onclick="newConversation()">
+                <span>🆕</span> New Chat
             </button>
-            <button class="menu-btn-item" onclick="showInstallInstructions()">📋 Installation Guide</button>
+            <button class="menu-btn-item" onclick="showConversations()">
+                <span>📚</span> History
+            </button>
+            <button class="menu-btn-item" onclick="exportConversations()">
+                <span>📤</span> Export
+            </button>
         </div>
 
         <div class="menu-section">
-            <button class="menu-btn-item danger" onclick="logout()">🚪 Logout</button>
+            <div class="menu-section-title">API Keys</div>
+            <button class="menu-btn-item" onclick="showAPIKeyDialog()">
+                <span>🔑</span> Configure API Keys
+            </button>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">App</div>
+            <div id="installStatus" class="install-status not-available">Checking installation...</div>
+            <button class="menu-btn-item install-btn" onclick="installPWA()" id="installBtn" style="display: none;">
+                <span>📲</span> Install Cyanix AI
+            </button>
+            <button class="menu-btn-item" onclick="showWelcomeGuide()">
+                <span>📋</span> Tutorial
+            </button>
+            <button class="menu-btn-item" onclick="showAbout()">
+                <span>ℹ️</span> About
+            </button>
+        </div>
+
+        <div style="flex: 1;"></div>
+
+        <div class="menu-section">
+            <button class="menu-btn-item danger" onclick="logout()">
+                <span>🚪</span> Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Settings -->
+    <div id="quickSettings" class="quick-settings" style="display: none;">
+        <div class="quick-settings-card">
+            <h2 style="color: var(--cyan-neon); margin-bottom: 20px;">Quick Settings</h2>
+            <div class="settings-card">
+                <span class="settings-label">Connection</span>
+                <span id="connectionStatus" style="color: var(--cyan-neon);">Online</span>
+            </div>
+            <div class="settings-card">
+                <span class="settings-label">Storage Used</span>
+                <span id="storageUsed" style="color: var(--cyan-neon);">0 KB</span>
+            </div>
+            <div class="settings-card">
+                <span class="settings-label">Clear Cache</span>
+                <button onclick="clearCache()" style="background: none; border: 1px solid var(--cyan-dark); color: var(--cyan-bright); padding: 6px 12px; border-radius: 6px; cursor: pointer;">Clear</button>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="primary-btn" onclick="toggleQuickSettings()" style="flex: 1;">Close</button>
+            </div>
         </div>
     </div>
 
@@ -1450,9 +1851,9 @@
                     <span class="api-status" id="groqStatus">Not Configured</span>
                 </label>
                 <input type="password" id="groqKeyInput" placeholder="gsk_..." autocomplete="off" />
-                <small>Get free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a></small>
+                <small>Get free key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a></small>
                 <small style="display: block; margin-top: 4px; color: #ff006e; font-weight: 600;">
-                    ⚠️ Make sure to copy the FULL key (starts with gsk_)
+                    ⚠️ Make sure to copy the FULL key
                 </small>
             </div>
 
@@ -1462,7 +1863,7 @@
                     <span class="api-status" id="anthropicStatus">Not Configured</span>
                 </label>
                 <input type="password" id="anthropicKeyInput" placeholder="sk-ant-..." autocomplete="off" />
-                <small>Get key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></small>
+                <small>Get key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a></small>
             </div>
 
             <div class="api-dialog-buttons">
@@ -1473,13 +1874,135 @@
     </div>
 
     <script>
-        // Generate Milky Way Galaxy
+        // ==================== APP INITIALIZATION ====================
+        let currentUser = 'User';
+        let chatHistory = [];
+        let conversations = [];
+        let currentMode = 'default';
+        let autoSpeak = true;
+        let darkMode = true;
+        let isOnline = true;
+        let menuOpen = false;
+        let deferredPrompt = null;
+        let isAppInstalled = false;
+        let currentConversationId = null;
+        let selectedMessage = null;
+
+        // API Configuration
+        const API_CONFIG = {
+            groq: {
+                key: '',
+                endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+                models: {
+                    nix: 'llama-3.1-8b-instant',
+                    default: 'llama-3.3-70b-versatile',
+                    nova: 'llama-3.3-70b-versatile'
+                }
+            },
+            anthropic: {
+                key: '',
+                endpoint: 'https://api.anthropic.com/v1/messages',
+                model: 'claude-sonnet-4-20250514'
+            }
+        };
+
+        // Personality
+        const PERSONALITY = `You are Cyanix AI, an intelligent assistant with a cyberpunk aesthetic.
+
+Core Personality:
+- Futuristic, helpful, and slightly mysterious
+- Clear and concise with a touch of cyberpunk flair
+- Patient and understanding
+- Proactive in offering help
+- Professional with a hint of cool
+
+Communication Style:
+- Use natural language with occasional tech references
+- Explain complex concepts simply
+- Be encouraging and positive
+- Show empathy when needed
+- Adapt to user's technical level
+
+Capabilities:
+- Answer questions across all topics
+- Help with coding and technical problems
+- Creative writing and brainstorming
+- Analysis and summarization
+- Problem-solving and planning
+
+Remember:
+- Stay in character as a futuristic AI
+- Be honest about limitations
+- Keep responses engaging but useful
+- Use markdown for code and formatting`;
+
+        // ==================== SERVICE WORKER REGISTRATION ====================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js', {
+                        scope: '/'
+                    });
+                    console.log('✅ Service Worker registered:', registration);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 Service Worker update found!');
+                        
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                showToast('🎉 New version available! Refresh for updates.', 'success');
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.error('❌ Service Worker registration failed:', error);
+                }
+            });
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+        });
+
+        async function initApp() {
+            // Load settings
+            loadSettings();
+            
+            // Initialize galaxy
+            createGalaxy();
+            
+            // Check online status
+            checkOnlineStatus();
+            
+            // Load saved conversations
+            loadConversations();
+            
+            // Check PWA installation status
+            setTimeout(checkPWAInstallation, 1000);
+            
+            // Hide splash screen after delay
+            setTimeout(() => {
+                document.getElementById('splashScreen').style.display = 'none';
+                
+                // Check if already logged in
+                const savedKey = localStorage.getItem('groq_api_key');
+                if (savedKey && savedKey !== 'demo_key_for_testing') {
+                    API_CONFIG.groq.key = savedKey;
+                    showChatScreen();
+                    testAPIKey();
+                }
+            }, 2000);
+        }
+
+        // ==================== GALAXY BACKGROUND ====================
         function createGalaxy() {
             createStars();
             createSpaceships();
         }
 
-        // Generate animated stars
         function createStars() {
             const container = document.getElementById('starsContainer');
             const starCount = 300;
@@ -1487,23 +2010,16 @@
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 const size = Math.random();
-                if (size > 0.7) {
-                    star.className = 'star large';
-                } else if (size > 0.4) {
-                    star.className = 'star medium';
-                } else {
-                    star.className = 'star small';
-                }
+                star.className = size > 0.7 ? 'star large' : size > 0.4 ? 'star medium' : 'star small';
                 
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
                 container.appendChild(star);
             }
         }
 
-        // Generate spaceships
         function createSpaceships() {
             const container = document.getElementById('spaceshipsContainer');
             const shipCount = 5;
@@ -1511,16 +2027,9 @@
             for (let i = 0; i < shipCount; i++) {
                 const spaceship = document.createElement('div');
                 const size = Math.random();
+                spaceship.className = size > 0.7 ? 'spaceship large' : size > 0.4 ? 'spaceship medium' : 'spaceship small';
                 
-                if (size > 0.7) {
-                    spaceship.className = 'spaceship large';
-                } else if (size > 0.4) {
-                    spaceship.className = 'spaceship medium';
-                } else {
-                    spaceship.className = 'spaceship small';
-                }
-                
-                // Create spaceship parts
+                // Create ship parts
                 const body = document.createElement('div');
                 body.className = 'spaceship-body';
                 
@@ -1538,167 +2047,62 @@
                 spaceship.appendChild(engine);
                 spaceship.appendChild(trail);
                 
-                // Random starting position
-                const startX = -100;
-                const startY = Math.random() * 100;
-                
                 // Random flight path
-                const endX = 100 + Math.random() * 50;
-                const endY = startY + (Math.random() * 40 - 20);
-                
-                // Random speed
-                const duration = 20 + Math.random() * 30;
-                const delay = Math.random() * 30;
-                
-                // Set initial position
-                spaceship.style.left = startX + 'px';
-                spaceship.style.top = startY + 'vh';
+                spaceship.style.left = '-100px';
+                spaceship.style.top = `${Math.random() * 100}vh`;
                 
                 // Animate
-                spaceship.style.animation = `
-                    flyShip ${duration}s linear ${delay}s infinite
-                `;
-                
-                // Define keyframes for this ship
                 const style = document.createElement('style');
                 style.textContent = `
                     @keyframes flyShip-${i} {
-                        0% {
-                            transform: translate(0, 0) rotate(0deg);
-                            opacity: 0;
-                        }
-                        10% {
-                            opacity: 1;
-                        }
-                        90% {
-                            opacity: 1;
-                        }
-                        100% {
-                            transform: translate(${endX}vw, ${endY}vh) rotate(${Math.random() * 360}deg);
-                            opacity: 0;
-                        }
+                        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+                        10% { opacity: 1; }
+                        90% { opacity: 1; }
+                        100% { transform: translate(120vw, ${Math.random() * 100}vh) rotate(${Math.random() * 360}deg); opacity: 0; }
                     }
                 `;
                 document.head.appendChild(style);
                 
-                spaceship.style.animation = `flyShip-${i} ${duration}s linear ${delay}s infinite`;
+                spaceship.style.animation = `flyShip-${i} ${20 + Math.random() * 30}s linear ${Math.random() * 30}s infinite`;
                 container.appendChild(spaceship);
             }
         }
 
-        // Initialize galaxy on load
-        window.addEventListener('load', function() {
-            createGalaxy();
-        });
-
-        // Main Application Variables
-        let currentUser = '';
-        let chatHistory = [];
-        let currentMode = 'default';
-        let autoSpeak = true;
-        let isOnline = true;
-        let menuOpen = false;
-        let deferredPrompt = null;
-        let isAppInstalled = false;
-
-        // Personality
-        const PERSONALITY = `You are Cyanix AI, a highly intelligent and helpful assistant.
-
-Core Traits:
-- Friendly, approachable, and conversational
-- Clear and concise in explanations
-- Patient and understanding
-- Proactive in offering help
-- Professional yet warm
-
-Communication Style:
-- Use natural, everyday language
-- Avoid overly technical jargon unless requested
-- Be encouraging and positive
-- Show empathy and understanding
-- Adapt tone to match the user's mood
-
-Capabilities:
-- Answer questions on a wide range of topics
-- Help with problem-solving and decision-making
-- Provide explanations and tutorials
-- Assist with creative tasks and brainstorming
-- Offer practical advice and recommendations
-
-Remember:
-- You're here to help and support the user
-- Be honest when you don't know something
-- Maintain a helpful and respectful demeanor
-- Focus on being genuinely useful`;
-
-        // API Configuration
-        const API_CONFIG = {
-            groq: {
-                key: localStorage.getItem('groq_api_key') || '',
-                endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-                models: {
-                    nix: 'llama-3.1-8b-instant',
-                    default: 'llama-3.3-70b-versatile',
-                    nova: 'llama-3.3-70b-versatile'
-                }
-            },
-            anthropic: {
-                key: localStorage.getItem('anthropic_api_key') || '',
-                endpoint: 'https://api.anthropic.com/v1/messages',
-                model: 'claude-sonnet-4-20250514'
-            }
-        };
-
-        // Check online status
-        setInterval(() => {
-            isOnline = navigator.onLine;
-            const indicator = document.getElementById('statusIndicator');
-            if (indicator) {
-                if (isOnline) {
-                    indicator.classList.remove('offline');
-                } else {
-                    indicator.classList.add('offline');
-                }
-            }
-        }, 5000);
-
-        // =============== PWA Installation Functions ===============
-        function checkIfPWAInstalled() {
-            if (window.matchMedia('(display-mode: standalone)').matches) return true;
-            if (window.navigator.standalone === true) return true;
-            if (document.referrer.includes('android-app://')) return true;
-            return false;
+        // ==================== PWA FUNCTIONS ====================
+        function checkPWAInstallation() {
+            isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                           window.navigator.standalone === true ||
+                           document.referrer.includes('android-app://');
+            
+            updateInstallStatus();
         }
 
         function updateInstallStatus() {
             const installBtn = document.getElementById('installBtn');
             const installStatus = document.getElementById('installStatus');
             
-            isAppInstalled = checkIfPWAInstalled();
-            
             if (isAppInstalled) {
-                installStatus.innerHTML = '✅ Cyanix AI is installed';
+                installStatus.innerHTML = '✅ Installed as App';
                 installStatus.className = 'install-status installed';
                 if (installBtn) installBtn.style.display = 'none';
             } else if (deferredPrompt) {
-                installStatus.innerHTML = '📲 Available for installation';
+                installStatus.innerHTML = '📲 Available for Installation';
                 installStatus.className = 'install-status available';
                 if (installBtn) installBtn.style.display = 'block';
             } else {
-                installStatus.innerHTML = 'ℹ️ Visit in Chrome/Safari to install';
+                installStatus.innerHTML = 'ℹ️ Install via Browser Menu';
                 installStatus.className = 'install-status not-available';
                 if (installBtn) installBtn.style.display = 'none';
             }
         }
 
-        // Listen for install prompt
         window.addEventListener('beforeinstallprompt', (e) => {
             console.log('📲 PWA install prompt available');
             e.preventDefault();
             deferredPrompt = e;
             updateInstallStatus();
             
-            // Show automatic popup after 3 seconds
+            // Show install popup after delay
             setTimeout(() => {
                 const lastHide = localStorage.getItem('hideInstallPopup');
                 const oneDay = 24 * 60 * 60 * 1000;
@@ -1711,17 +2115,16 @@ Remember:
             }, 3000);
         });
 
-        // Listen for app installed event
         window.addEventListener('appinstalled', () => {
-            console.log('🎉 Cyanix AI was installed');
+            console.log('🎉 App was installed');
             isAppInstalled = true;
             updateInstallStatus();
+            showToast('🎉 App installed successfully!', 'success');
         });
 
-        // Main install function
         function installPWA() {
             if (!deferredPrompt) {
-                showInstallInstructions();
+                showToast('Install via browser menu (⋮ or ...)', 'info');
                 return;
             }
             
@@ -1730,28 +2133,13 @@ Remember:
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
                     console.log('✅ User accepted installation');
-                    
-                    // Update status
-                    const installStatus = document.getElementById('installStatus');
-                    installStatus.innerHTML = '🎉 Installing... Check home screen!';
-                    installStatus.className = 'install-status installed';
-                    
-                    // Hide install button
-                    const installBtn = document.getElementById('installBtn');
-                    if (installBtn) installBtn.style.display = 'none';
-                    
-                    // Close popup if open
-                    hideInstallPopup();
-                } else {
-                    console.log('❌ User dismissed installation');
+                    showToast('Installing... Check your home screen!', 'success');
                 }
-                
                 deferredPrompt = null;
                 updateInstallStatus();
             });
         }
 
-        // Install popup functions
         function showInstallPopup() {
             const popup = document.getElementById('installPopup');
             if (popup) popup.style.display = 'block';
@@ -1763,78 +2151,127 @@ Remember:
             localStorage.setItem('hideInstallPopup', Date.now());
         }
 
-        function showInstallInstructions() {
-            const platform = detectPlatform();
-            let instructions = '';
+        // ==================== CORE APP FUNCTIONS ====================
+        function loadSettings() {
+            // Load API keys
+            API_CONFIG.groq.key = localStorage.getItem('groq_api_key') || '';
+            API_CONFIG.anthropic.key = localStorage.getItem('anthropic_api_key') || '';
             
-            switch(platform) {
-                case 'ios':
-                    instructions = `
-                        <strong>On iPhone/iPad:</strong><br>
-                        1. Tap the <strong>Share button</strong> (📤)<br>
-                        2. Scroll down, tap <strong>"Add to Home Screen"</strong><br>
-                        3. Tap <strong>"Add"</strong> in top right
-                    `;
-                    break;
-                    
-                case 'android':
-                    instructions = `
-                        <strong>On Android:</strong><br>
-                        1. Tap the <strong>three dots menu</strong> (⋮)<br>
-                        2. Tap <strong>"Install app"</strong><br>
-                        3. Tap <strong>"Install"</strong>
-                    `;
-                    break;
-                    
-                case 'desktop':
-                    instructions = `
-                        <strong>On Desktop:</strong><br>
-                        Look for the <strong>"➕" install icon</strong> in the address bar
-                    `;
-                    break;
+            // Load preferences
+            autoSpeak = localStorage.getItem('auto_speak') !== 'false';
+            darkMode = localStorage.getItem('dark_mode') !== 'false';
+            currentMode = localStorage.getItem('ai_mode') || 'default';
+            
+            // Apply settings
+            document.getElementById('autoSpeakToggle').checked = autoSpeak;
+            document.getElementById('darkModeToggle').checked = darkMode;
+            
+            const voiceSpeed = localStorage.getItem('voice_speed') || '90';
+            document.getElementById('voiceSpeedSlider').value = voiceSpeed;
+            
+            const fontSize = localStorage.getItem('font_size') || '15';
+            document.getElementById('fontSizeSlider').value = fontSize;
+            document.documentElement.style.setProperty('--font-size', `${fontSize}px`);
+        }
+
+        function saveSettings() {
+            localStorage.setItem('auto_speak', autoSpeak);
+            localStorage.setItem('dark_mode', darkMode);
+            localStorage.setItem('ai_mode', currentMode);
+            localStorage.setItem('voice_speed', document.getElementById('voiceSpeedSlider').value);
+            localStorage.setItem('font_size', document.getElementById('fontSizeSlider').value);
+        }
+
+        function checkOnlineStatus() {
+            isOnline = navigator.onLine;
+            const indicator = document.getElementById('statusIndicator');
+            const offlineIndicator = document.getElementById('offlineIndicator');
+            
+            if (indicator) {
+                if (isOnline) {
+                    indicator.classList.remove('offline');
+                    offlineIndicator.style.display = 'none';
+                } else {
+                    indicator.classList.add('offline');
+                    offlineIndicator.style.display = 'block';
+                    showToast('⚡ Working offline', 'warning');
+                }
             }
             
-            alert(`How to install Cyanix AI:\n\n${instructions.replace(/<br>/g, '\n').replace(/<strong>|<\/strong>/g, '')}`);
+            // Update send button
+            const sendBtn = document.getElementById('sendBtn');
+            if (sendBtn) {
+                sendBtn.disabled = !isOnline;
+                sendBtn.innerHTML = isOnline ? '↑' : '⚡';
+            }
         }
 
-        function detectPlatform() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            if (/iphone|ipad|ipod/.test(userAgent)) return 'ios';
-            if (/android/.test(userAgent)) return 'android';
-            return 'desktop';
-        }
+        // Online/offline event listeners
+        window.addEventListener('online', checkOnlineStatus);
+        window.addEventListener('offline', checkOnlineStatus);
 
-        // Initialize PWA status
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(updateInstallStatus, 1000);
-            setTimeout(updateInstallStatus, 3000);
-        });
-
-        // =============== Main App Functions ===============
         function login() {
             const apiKey = document.getElementById('apiKeyLoginInput').value.trim();
+            const loginBtn = document.getElementById('loginBtn');
+            
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '🔐 Authenticating...';
             
             if (!apiKey) {
-                alert('Please enter your Groq API key to continue');
+                showToast('Please enter your API key', 'error');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Enter Cyanix AI';
+                return;
+            }
+
+            // Demo key for testing
+            if (apiKey === 'demo_key_for_testing') {
+                localStorage.setItem('groq_api_key', apiKey);
+                API_CONFIG.groq.key = apiKey;
+                showChatScreen();
+                showToast('✨ Using demo mode - limited offline capabilities', 'warning');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Enter Cyanix AI';
                 return;
             }
 
             if (!apiKey.startsWith('gsk_')) {
-                alert('Invalid API key format. Groq keys start with "gsk_"');
+                showToast('Invalid API key format. Groq keys start with "gsk_"', 'error');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Enter Cyanix AI';
                 return;
             }
 
             localStorage.setItem('groq_api_key', apiKey);
             API_CONFIG.groq.key = apiKey;
-            currentUser = 'Anonymous User';
             
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('chatScreen').classList.add('active');
-            testAPIKeyOnLogin();
+            showChatScreen();
+            testAPIKey();
+            
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = 'Enter Cyanix AI';
         }
 
-        async function testAPIKeyOnLogin() {
-            addMessage('🔐 Authenticating with Cyanix AI...', false);
+        function showChatScreen() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('chatScreen').classList.add('active');
+            
+            // Create new conversation
+            newConversation();
+            
+            // Show welcome message
+            setTimeout(() => {
+                addSystemMessage('🔮 Welcome to Cyanix AI! How can I assist you today?');
+            }, 500);
+        }
+
+        async function testAPIKey() {
+            if (API_CONFIG.groq.key === 'demo_key_for_testing') {
+                addSystemMessage('🔮 Welcome to Cyanix AI Demo! You can chat with limited offline capabilities.');
+                return;
+            }
+
+            showTypingIndicator();
             
             try {
                 const response = await fetch(API_CONFIG.groq.endpoint, {
@@ -1845,50 +2282,40 @@ Remember:
                     },
                     body: JSON.stringify({
                         model: 'llama-3.1-8b-instant',
-                        messages: [
-                            { role: 'user', content: 'Hi' }
-                        ],
+                        messages: [{ role: 'user', content: 'Hi' }],
                         max_tokens: 50
                     })
                 });
 
+                hideTypingIndicator();
+                
                 if (response.ok) {
-                    const greeting = `✅ Welcome to Cyanix AI! Your connection is secure. How can I assist you today?`;
-                    addMessage(greeting, false);
-                    speak(greeting);
+                    addSystemMessage('✅ Connected successfully! Ready to assist.');
+                    showToast('🔐 Connected to AI services', 'success');
                 } else {
-                    const errorText = await response.text();
-                    let errorMsg = 'Unknown error';
-                    try {
-                        const errorData = JSON.parse(errorText);
-                        errorMsg = errorData.error?.message || errorData.message || errorMsg;
-                    } catch (e) {
-                        errorMsg = errorText;
-                    }
-                    
-                    if (response.status === 401) {
-                        addMessage('❌ Invalid API key. Please logout and enter a valid Groq API key. Get one at console.groq.com', false);
-                    } else {
-                        addMessage(`⚠️ API Warning (${response.status}): ${errorMsg}. You can still try to chat.`, false);
-                    }
+                    const error = await response.text();
+                    addSystemMessage('⚠️ API connection issue. You can still chat in demo mode.');
+                    showToast('API connection issue', 'warning');
                 }
             } catch (error) {
-                addMessage(`⚠️ Connection test failed: ${error.message}. You can still try to chat.`, false);
+                hideTypingIndicator();
+                addSystemMessage('🌐 Network error. Working in offline/demo mode.');
+                showToast('Using offline mode', 'warning');
             }
         }
 
         function logout() {
-            localStorage.removeItem('groq_api_key');
-            API_CONFIG.groq.key = '';
-            
-            currentUser = '';
-            chatHistory = [];
-            document.getElementById('chatContainer').innerHTML = '';
-            document.getElementById('apiKeyLoginInput').value = '';
-            document.getElementById('chatScreen').classList.remove('active');
-            document.getElementById('loginScreen').style.display = 'flex';
-            if (menuOpen) {
-                toggleMenu();
+            if (confirm('Are you sure you want to logout? Your conversations will be saved.')) {
+                localStorage.removeItem('groq_api_key');
+                API_CONFIG.groq.key = '';
+                
+                document.getElementById('chatScreen').classList.remove('active');
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('apiKeyLoginInput').value = '';
+                
+                if (menuOpen) toggleMenu();
+                
+                showToast('Logged out successfully', 'success');
             }
         }
 
@@ -1896,46 +2323,110 @@ Remember:
             const overlay = document.getElementById('menuOverlay');
             const menu = document.getElementById('sideMenu');
             
+            menuOpen = !menuOpen;
+            
             if (menuOpen) {
-                overlay.classList.remove('active');
-                menu.classList.remove('active');
-                menuOpen = false;
-            } else {
                 overlay.classList.add('active');
                 menu.classList.add('active');
-                menuOpen = true;
+                updateInstallStatus();
+            } else {
+                overlay.classList.remove('active');
+                menu.classList.remove('active');
             }
         }
 
-        function addMessage(text, isUser = false) {
-            const container = document.getElementById('chatContainer');
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${isUser ? 'user' : 'assistant'}`;
-            bubble.textContent = text;
-            container.appendChild(bubble);
+        function toggleQuickSettings() {
+            const quickSettings = document.getElementById('quickSettings');
+            quickSettings.style.display = quickSettings.style.display === 'none' ? 'flex' : 'none';
             
-            setTimeout(() => {
-                container.scrollTo({
-                    top: container.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 100);
-
-            chatHistory.push({ text, isUser, timestamp: Date.now() });
+            // Update storage info
+            updateStorageInfo();
         }
 
-        function sendQuickMessage(prompt) {
-            const input = document.getElementById('messageInput');
-            input.value = prompt;
-            input.focus();
+        function updateStorageInfo() {
+            let total = 0;
+            for (let key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    total += localStorage.getItem(key).length;
+                }
+            }
+            const usedKB = Math.round(total / 1024);
+            document.getElementById('storageUsed').textContent = `${usedKB} KB`;
+            document.getElementById('connectionStatus').textContent = isOnline ? 'Online' : 'Offline';
+        }
+
+        function clearCache() {
+            if (confirm('Clear all cached data? This will remove conversations and settings.')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // ==================== MESSAGE HANDLING ====================
+        function addMessage(text, isUser = false, isSystem = false) {
+            const container = document.getElementById('chatContainer');
+            const bubble = document.createElement('div');
             
-            const wrapper = input.parentElement;
-            wrapper.style.borderColor = 'var(--cyan-neon)';
-            wrapper.style.boxShadow = '0 0 20px rgba(0, 243, 255, 0.5)';
+            if (isSystem) {
+                bubble.className = 'message-bubble system';
+            } else {
+                bubble.className = `message-bubble ${isUser ? 'user' : 'assistant'}`;
+            }
+            
+            bubble.innerHTML = `
+                <div>${formatMessage(text)}</div>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            
+            // Add context menu
+            bubble.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showContextMenu(e, bubble, text, isUser);
+            });
+            
+            // Add click for mobile
+            bubble.addEventListener('click', (e) => {
+                if (e.detail === 2) {
+                    showContextMenu(e, bubble, text, isUser);
+                }
+            });
+            
+            container.appendChild(bubble);
+            
+            // Scroll to bottom
             setTimeout(() => {
-                wrapper.style.borderColor = '';
-                wrapper.style.boxShadow = '';
-            }, 1000);
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+            
+            // Save to history
+            if (!isSystem) {
+                chatHistory.push({
+                    text,
+                    isUser,
+                    timestamp: Date.now(),
+                    conversationId: currentConversationId
+                });
+                saveCurrentConversation();
+            }
+        }
+
+        function addSystemMessage(text) {
+            addMessage(text, false, true);
+        }
+
+        function formatMessage(text) {
+            // Simple markdown-like formatting
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>')
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        }
+
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
         function showTypingIndicator() {
@@ -1943,7 +2434,11 @@ Remember:
             const indicator = document.createElement('div');
             indicator.className = 'typing-indicator';
             indicator.id = 'typingIndicator';
-            indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            indicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
             container.appendChild(indicator);
             container.scrollTop = container.scrollHeight;
         }
@@ -1956,76 +2451,125 @@ Remember:
         async function sendMessage() {
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
+            
             if (!message) return;
-
-            if (message.toLowerCase() === 'logout' || message.toLowerCase() === 'exit') {
-                logout();
-                return;
-            }
-
+            
+            // Disable send button during processing
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+            
             addMessage(message, true);
             input.value = '';
+            autoResizeInput(input);
             
-            input.style.height = 'auto';
-            const wrapper = input.parentElement;
-            wrapper.style.minHeight = '40px';
-            wrapper.style.height = 'auto';
-
+            // Special commands
+            if (message.toLowerCase() === '/clear') {
+                clearChat();
+                sendBtn.disabled = false;
+                return;
+            }
+            
+            if (message.toLowerCase() === '/help') {
+                addSystemMessage('Available commands:\n/clear - Clear chat\n/help - Show this help\n/save - Save conversation\n/export - Export all chats');
+                sendBtn.disabled = false;
+                return;
+            }
+            
             showTypingIndicator();
-
+            
             try {
                 const response = await getAIResponse(message);
                 hideTypingIndicator();
                 addMessage(response, false);
-                speak(response);
+                
+                if (autoSpeak) {
+                    speak(response);
+                }
             } catch (error) {
                 hideTypingIndicator();
-                addMessage(`Error: ${error.message}. Please check your internet connection or API keys.`, false);
+                addSystemMessage(`❌ Error: ${error.message}`);
+                console.error('AI Error:', error);
+            } finally {
+                sendBtn.disabled = false;
             }
         }
 
+        function sendQuickMessage(prompt) {
+            const input = document.getElementById('messageInput');
+            input.value = prompt;
+            input.focus();
+            autoResizeInput(input);
+        }
+
         async function getAIResponse(userMessage) {
-            if (!API_CONFIG.groq.key && !API_CONFIG.anthropic.key) {
-                throw new Error('No API keys configured. Please click "Configure API Keys" in the menu.');
+            // Demo mode response
+            if (API_CONFIG.groq.key === 'demo_key_for_testing' || !isOnline) {
+                return getDemoResponse(userMessage);
             }
 
-            const systemPrompt = `${PERSONALITY}
+            if (!API_CONFIG.groq.key) {
+                throw new Error('No API key configured. Please configure in settings.');
+            }
 
-You are speaking to ${currentUser}. ${getModeInstructions()}`;
+            const systemPrompt = `${PERSONALITY}\n\nCurrent mode: ${getModeInstructions()}`;
             
             const recentHistory = chatHistory.slice(-10).map(msg => ({
                 role: msg.isUser ? 'user' : 'assistant',
                 content: msg.text
             }));
 
-            if (API_CONFIG.groq.key) {
-                try {
-                    return await callGroqAPI(systemPrompt, recentHistory, userMessage);
-                } catch (error) {
-                    console.error('Groq API failed:', error);
+            try {
+                return await callGroqAPI(systemPrompt, recentHistory, userMessage);
+            } catch (error) {
+                console.error('Groq API failed:', error);
+                
+                // Fallback to demo mode
+                if (error.message.includes('API key') || error.message.includes('401')) {
+                    throw new Error('Invalid API key. Please check your API key in settings.');
                 }
-            }
-            
-            if (API_CONFIG.anthropic.key) {
-                try {
-                    return await callAnthropicAPI(systemPrompt, recentHistory, userMessage);
-                } catch (anthropicError) {
-                    console.error('Anthropic API failed:', anthropicError);
+                
+                // Try Anthropic if available
+                if (API_CONFIG.anthropic.key) {
+                    try {
+                        return await callAnthropicAPI(systemPrompt, recentHistory, userMessage);
+                    } catch (anthropicError) {
+                        console.error('Anthropic API failed:', anthropicError);
+                    }
                 }
+                
+                // Fallback to demo
+                return getDemoResponse(userMessage);
             }
-            
-            throw new Error('All API services unavailable. Please check your API keys.');
         }
 
-        function getModeInstructions() {
-            switch(currentMode) {
-                case 'nix':
-                    return 'You are in "Nix" mode: Respond quickly, concisely, and directly. Keep answers brief and to the point.';
-                case 'nova':
-                    return 'You are in "Nova" mode: Think deeply, provide detailed reasoning, explore possibilities, and give thorough, comprehensive answers.';
-                default:
-                    return 'You are in balanced mode: Provide helpful, clear, and well-structured responses.';
+        function getDemoResponse(userMessage) {
+            const responses = [
+                `I'm in demo mode! You asked: "${userMessage}"\n\nTo use full features, add your API key in settings.`,
+                `🔮 Demo response for: "${userMessage}"\n\nVisit console.groq.com for a free API key!`,
+                `In demo mode - your message: "${userMessage}"\n\nAdd your API key for real AI responses!`,
+                `✨ You're using Cyanix AI demo! Message: "${userMessage}"\n\nGet your free API key to unlock full capabilities.`
+            ];
+            
+            // Simple AI-like responses for demo
+            if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
+                return "👋 Hello! I'm Cyanix AI in demo mode. Add your API key for full functionality!";
             }
+            
+            if (userMessage.toLowerCase().includes('help')) {
+                return "I can help with explanations, coding, analysis, and more! In demo mode, responses are limited. Add your API key for complete access.";
+            }
+            
+            if (userMessage.toLowerCase().includes('joke')) {
+                const jokes = [
+                    "Why do programmers prefer dark mode? Because light attracts bugs!",
+                    "What's a computer's favorite snack? Microchips!",
+                    "Why was the JavaScript developer sad? He didn't know how to 'null' his feelings.",
+                    "How many programmers does it take to change a light bulb? None, that's a hardware problem!"
+                ];
+                return jokes[Math.floor(Math.random() * jokes.length)];
+            }
+            
+            return responses[Math.floor(Math.random() * responses.length)];
         }
 
         async function callGroqAPI(systemPrompt, history, userMessage) {
@@ -2047,30 +2591,14 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
                     model: model,
                     messages: messages,
                     temperature: currentMode === 'nix' ? 0.5 : currentMode === 'nova' ? 0.9 : 0.7,
-                    max_tokens: currentMode === 'nix' ? 512 : currentMode === 'nova' ? 2048 : 1024
+                    max_tokens: currentMode === 'nix' ? 512 : currentMode === 'nova' ? 2048 : 1024,
+                    stream: false
                 })
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
-                let errorMessage = 'API request failed';
-                
-                try {
-                    const errorData = JSON.parse(errorText);
-                    errorMessage = errorData.error?.message || errorData.message || errorMessage;
-                } catch (e) {
-                    errorMessage = errorText;
-                }
-                
-                if (response.status === 401) {
-                    throw new Error('Invalid API key. Please check your Groq API key in settings.');
-                } else if (response.status === 429) {
-                    throw new Error('Rate limit exceeded. Please wait a moment and try again.');
-                } else if (response.status === 500 || response.status === 502 || response.status === 503) {
-                    throw new Error('Groq service is temporarily unavailable. Please try again in a moment.');
-                } else {
-                    throw new Error(`Groq API Error (${response.status}): ${errorMessage}`);
-                }
+                const error = await response.json();
+                throw new Error(error.error?.message || 'API request failed');
             }
 
             const data = await response.json();
@@ -2099,21 +2627,47 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
-                let errorMessage = 'Anthropic API request failed';
-                
-                try {
-                    const errorData = JSON.parse(errorText);
-                    errorMessage = errorData.error?.message || errorData.message || errorMessage;
-                } catch (e) {
-                    errorMessage = errorText;
-                }
-                
-                throw new Error(errorMessage);
+                const error = await response.json();
+                throw new Error(error.error?.message || 'Anthropic API request failed');
             }
 
             const data = await response.json();
             return data.content[0].text;
+        }
+
+        function getModeInstructions() {
+            switch(currentMode) {
+                case 'nix': return '⚡ Nix Mode: Quick, concise responses. Get straight to the point.';
+                case 'nova': return '🧠 Nova Mode: Deep thinking, detailed analysis, comprehensive answers.';
+                default: return '🤖 Cyanix Mode: Balanced, helpful, clear responses.';
+            }
+        }
+
+        function setAIMode(mode) {
+            currentMode = mode;
+            localStorage.setItem('ai_mode', mode);
+            
+            // Update active button
+            document.querySelectorAll('.menu-btn-item').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            addSystemMessage(`Mode switched to ${mode === 'nix' ? '⚡ Nix' : mode === 'nova' ? '🧠 Nova' : '🤖 Cyanix'}`);
+            showToast(`AI mode: ${mode}`, 'success');
+            
+            if (menuOpen) toggleMenu();
+        }
+
+        // ==================== UI UTILITIES ====================
+        function autoResizeInput(textarea) {
+            textarea.style.height = 'auto';
+            const newHeight = Math.min(textarea.scrollHeight, 96);
+            textarea.style.height = newHeight + 'px';
+            
+            const wrapper = textarea.parentElement;
+            wrapper.style.minHeight = '44px';
+            wrapper.style.height = 'auto';
         }
 
         function handleKeyDown(event) {
@@ -2123,66 +2677,258 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
             }
         }
 
-        function autoResizeInput(textarea) {
-            textarea.style.height = 'auto';
-            const newHeight = Math.min(textarea.scrollHeight, 96);
-            textarea.style.height = newHeight + 'px';
-            
-            const wrapper = textarea.parentElement;
-            wrapper.style.minHeight = '40px';
-            wrapper.style.height = 'auto';
-        }
-
-        function setAIMode(mode) {
-            const valid_modes = ["default", "nix", "nova"];
-            if (!valid_modes.includes(mode)) return;
-            
-            currentMode = mode;
-            
-            const mode_names = {
-                "default": "Cyanix",
-                "nix": "Nix",
-                "nova": "Nova"
-            };
-            
-            addMessage(`AI mode: ${mode_names[mode]}`, false);
-            if (autoSpeak && 'speechSynthesis' in window) {
-                speak(`Mode switched to ${mode_names[mode].toLowerCase()}.`);
-            }
-            
-            if (menuOpen) {
-                toggleMenu();
-            }
-        }
-
         function toggleAutoSpeak() {
             autoSpeak = document.getElementById('autoSpeakToggle').checked;
+            localStorage.setItem('auto_speak', autoSpeak);
+            showToast(`Auto-speak ${autoSpeak ? 'enabled' : 'disabled'}`, 'success');
+        }
+
+        function toggleDarkMode() {
+            darkMode = document.getElementById('darkModeToggle').checked;
+            localStorage.setItem('dark_mode', darkMode);
+            
+            if (darkMode) {
+                document.documentElement.style.setProperty('--purple-dark', '#0d0221');
+                document.documentElement.style.setProperty('--purple-deep', '#1a0633');
+            } else {
+                document.documentElement.style.setProperty('--purple-dark', '#f5f5f7');
+                document.documentElement.style.setProperty('--purple-deep', '#ffffff');
+            }
+            
+            showToast(`Dark mode ${darkMode ? 'enabled' : 'disabled'}`, 'success');
+        }
+
+        function updateVoiceSpeed() {
+            const speed = document.getElementById('voiceSpeedSlider').value;
+            localStorage.setItem('voice_speed', speed);
+        }
+
+        function updateFontSize() {
+            const size = document.getElementById('fontSizeSlider').value;
+            localStorage.setItem('font_size', size);
+            document.documentElement.style.setProperty('--font-size', `${size}px`);
+            showToast(`Font size: ${size}px`, 'success');
         }
 
         function speak(text) {
-            if (!autoSpeak || !('speechSynthesis' in window)) return;
+            if (!('speechSynthesis' in window)) return;
+            
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(text);
             const speed = document.getElementById('voiceSpeedSlider').value / 100;
             utterance.rate = speed;
+            utterance.volume = 0.8;
+            
+            // Select a voice
+            const voices = speechSynthesis.getVoices();
+            const preferredVoices = voices.filter(v => v.lang.includes('en'));
+            if (preferredVoices.length > 0) {
+                utterance.voice = preferredVoices[0];
+            }
+            
             speechSynthesis.speak(utterance);
         }
 
+        // ==================== CONVERSATION MANAGEMENT ====================
+        function loadConversations() {
+            const saved = localStorage.getItem('conversations');
+            if (saved) {
+                conversations = JSON.parse(saved);
+            }
+        }
+
+        function saveConversations() {
+            localStorage.setItem('conversations', JSON.stringify(conversations));
+        }
+
+        function saveCurrentConversation() {
+            if (!currentConversationId) return;
+            
+            const conversation = {
+                id: currentConversationId,
+                title: chatHistory.length > 0 ? chatHistory[0].text.substring(0, 30) + '...' : 'New Chat',
+                history: [...chatHistory],
+                timestamp: Date.now(),
+                mode: currentMode
+            };
+            
+            // Update or add conversation
+            const index = conversations.findIndex(c => c.id === currentConversationId);
+            if (index >= 0) {
+                conversations[index] = conversation;
+            } else {
+                conversations.push(conversation);
+            }
+            
+            saveConversations();
+            updateStorageInfo();
+        }
+
+        function newConversation() {
+            // Save current conversation first
+            if (chatHistory.length > 0) {
+                saveCurrentConversation();
+            }
+            
+            // Clear chat
+            chatHistory = [];
+            currentConversationId = 'conv_' + Date.now();
+            
+            // Update UI
+            document.getElementById('chatContainer').innerHTML = '';
+            
+            // Update title
+            document.querySelector('.app-title').textContent = 'Cyanix AI';
+        }
+
+        function showConversations() {
+            if (conversations.length === 0) {
+                showToast('No saved conversations', 'info');
+                return;
+            }
+            
+            let list = '📚 Saved Conversations:\n\n';
+            conversations.forEach((conv, i) => {
+                const date = new Date(conv.timestamp).toLocaleDateString();
+                list += `${i + 1}. ${conv.title} (${date})\n`;
+            });
+            
+            list += '\nUse /load [number] to load a conversation';
+            addSystemMessage(list);
+            
+            if (menuOpen) toggleMenu();
+        }
+
+        function exportConversations() {
+            const data = {
+                app: 'Cyanix AI',
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                conversations: conversations
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cyanix-ai-export-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Conversations exported', 'success');
+        }
+
+        function clearChat() {
+            if (confirm('Clear this conversation?')) {
+                chatHistory = [];
+                document.getElementById('chatContainer').innerHTML = '';
+                addSystemMessage('Chat cleared. Ready for new conversation.');
+            }
+        }
+
+        // ==================== CONTEXT MENU ====================
+        let contextMenu = null;
+        let contextTarget = null;
+
+        function showContextMenu(event, element, text, isUser) {
+            event.preventDefault();
+            
+            contextTarget = { element, text, isUser };
+            contextMenu = document.getElementById('contextMenu');
+            
+            // Position menu
+            contextMenu.style.left = `${event.pageX}px`;
+            contextMenu.style.top = `${event.pageY}px`;
+            contextMenu.classList.add('active');
+            
+            // Hide menu on click elsewhere
+            setTimeout(() => {
+                document.addEventListener('click', hideContextMenu);
+            }, 10);
+        }
+
+        function hideContextMenu() {
+            if (contextMenu) {
+                contextMenu.classList.remove('active');
+                document.removeEventListener('click', hideContextMenu);
+            }
+        }
+
+        function copyMessage() {
+            if (!contextTarget) return;
+            
+            navigator.clipboard.writeText(contextTarget.text)
+                .then(() => showToast('📋 Copied to clipboard', 'success'))
+                .catch(() => showToast('Failed to copy', 'error'));
+            
+            hideContextMenu();
+        }
+
+        function shareMessage() {
+            if (!contextTarget || !navigator.share) return;
+            
+            navigator.share({
+                title: 'Cyanix AI Message',
+                text: contextTarget.text,
+                url: window.location.href
+            }).catch(() => showToast('Share cancelled', 'info'));
+            
+            hideContextMenu();
+        }
+
+        function saveMessage() {
+            if (!contextTarget) return;
+            
+            // Save to localStorage
+            const savedMessages = JSON.parse(localStorage.getItem('saved_messages') || '[]');
+            savedMessages.push({
+                text: contextTarget.text,
+                timestamp: Date.now(),
+                isUser: contextTarget.isUser
+            });
+            localStorage.setItem('saved_messages', JSON.stringify(savedMessages));
+            
+            showToast('💾 Message saved', 'success');
+            hideContextMenu();
+        }
+
+        function deleteMessage() {
+            if (!contextTarget) return;
+            
+            if (confirm('Delete this message?')) {
+                contextTarget.element.remove();
+                showToast('🗑️ Message deleted', 'success');
+            }
+            
+            hideContextMenu();
+        }
+
+        // ==================== TOAST NOTIFICATIONS ====================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // ==================== API KEY DIALOG ====================
         function showAPIKeyDialog() {
             const dialog = document.getElementById('apiKeyDialog');
             dialog.classList.remove('hidden');
             
-            const groqKey = localStorage.getItem('groq_api_key') || '';
-            const anthropicKey = localStorage.getItem('anthropic_api_key') || '';
-            
-            document.getElementById('groqKeyInput').value = groqKey;
-            document.getElementById('anthropicKeyInput').value = anthropicKey;
+            // Load current keys
+            document.getElementById('groqKeyInput').value = API_CONFIG.groq.key;
+            document.getElementById('anthropicKeyInput').value = API_CONFIG.anthropic.key;
             
             updateAPIStatus();
-            
-            if (menuOpen) {
-                toggleMenu();
-            }
         }
 
         function closeAPIKeyDialog() {
@@ -2193,6 +2939,13 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
             const groqKey = document.getElementById('groqKeyInput').value.trim();
             const anthropicKey = document.getElementById('anthropicKeyInput').value.trim();
             
+            // Validate Groq key
+            if (groqKey && !groqKey.startsWith('gsk_') && groqKey !== 'demo_key_for_testing') {
+                showToast('Invalid Groq API key format', 'error');
+                return;
+            }
+            
+            // Save keys
             if (groqKey) {
                 localStorage.setItem('groq_api_key', groqKey);
                 API_CONFIG.groq.key = groqKey;
@@ -2205,53 +2958,11 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
             
             updateAPIStatus();
             closeAPIKeyDialog();
+            showToast('API keys saved successfully', 'success');
             
-            if (groqKey) {
-                testAPIKey();
-            } else {
-                addMessage('API keys saved successfully!', false);
-            }
-        }
-
-        async function testAPIKey() {
-            addMessage('Testing API connection...', false);
-            
-            try {
-                const response = await fetch(API_CONFIG.groq.endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${API_CONFIG.groq.key}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: 'llama-3.1-8b-instant',
-                        messages: [
-                            { role: 'user', content: 'Hi' }
-                        ],
-                        max_tokens: 50
-                    })
-                });
-
-                if (response.ok) {
-                    addMessage('✅ API key is working! You can now chat with AI.', false);
-                } else {
-                    const errorText = await response.text();
-                    let errorMsg = 'Unknown error';
-                    try {
-                        const errorData = JSON.parse(errorText);
-                        errorMsg = errorData.error?.message || errorData.message || errorMsg;
-                    } catch (e) {
-                        errorMsg = errorText;
-                    }
-                    
-                    if (response.status === 401) {
-                        addMessage('❌ Invalid API key. Please check your key and try again. Get a key at console.groq.com', false);
-                    } else {
-                        addMessage(`❌ API Error (${response.status}): ${errorMsg}`, false);
-                    }
-                }
-            } catch (error) {
-                addMessage(`❌ Connection error: ${error.message}. Please check your internet connection.`, false);
+            // Test the API key if it's a real one
+            if (groqKey && groqKey !== 'demo_key_for_testing') {
+                setTimeout(testAPIKey, 1000);
             }
         }
 
@@ -2260,7 +2971,7 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
             const anthropicStatus = document.getElementById('anthropicStatus');
             
             if (API_CONFIG.groq.key) {
-                groqStatus.textContent = 'Configured';
+                groqStatus.textContent = API_CONFIG.groq.key === 'demo_key_for_testing' ? 'Demo Mode' : 'Configured';
                 groqStatus.className = 'api-status configured';
             } else {
                 groqStatus.textContent = 'Not Configured';
@@ -2276,47 +2987,32 @@ You are speaking to ${currentUser}. ${getModeInstructions()}`;
             }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginInput = document.getElementById('apiKeyLoginInput');
-            if (loginInput) {
-                loginInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') login();
-                });
-            }
-        });
-
-        window.addEventListener('load', function() {
-            const input = document.getElementById('messageInput');
-            if (input) {
-                input.style.height = 'auto';
-                const wrapper = input.parentElement;
-                if (wrapper) {
-                    wrapper.style.minHeight = '40px';
-                    wrapper.style.height = 'auto';
-                }
-            }
-            
-            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                const viewport = document.querySelector('meta[name=viewport]');
-                if (viewport) {
-                    viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
-                }
-            }
-        });
-
-        // ==================== PWA Service Worker Registration ====================
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/CyanixAi/sw.js')
-                    .then(function(registration) {
-                        console.log('✅ PWA Service Worker registered:', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('❌ Service Worker failed:', error);
-                    });
-            });
+        // ==================== MISC FUNCTIONS ====================
+        function showWelcomeGuide() {
+            alert('👋 Welcome to Cyanix AI!\n\n1. Add your API key in Settings\n2. Choose your AI mode\n3. Start chatting!\n4. Install as app for best experience');
         }
+
+        function showAbout() {
+            const about = `
+Cyanix AI v1.0
+
+A futuristic AI assistant with:
+• 🤖 Multiple AI modes
+• 🔐 Local storage
+• 📱 PWA support
+• 💾 Offline capabilities
+• 🎨 Cyberpunk theme
+
+Built with modern web technologies.
+Your data stays on your device.
+
+© 2024 Cyanix AI
+            `;
+            alert(about.trim());
+        }
+
+        // Initialize app
+        initApp();
     </script>
 </body>
 </html>
