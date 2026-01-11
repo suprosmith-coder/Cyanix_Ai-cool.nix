@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyanix AI - Advanced AI Assistant</title>
+    <title>Cyanix AI | Advanced App Interface</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,150 +14,44 @@
         }
 
         :root {
-            --cyan-primary: #00f2fe;
-            --cyan-secondary: #00d4ff;
-            --cyan-light: #6efafc;
-            --cyan-dark: #00a6cb;
-            --black-primary: #0a0a0f;
-            --black-secondary: #121218;
-            --black-tertiary: #1a1a24;
-            --gray-dark: #2a2a3a;
-            --gray-light: #7a7a8c;
-            --text-primary: #f0f0f5;
-            --text-secondary: #b0b0c0;
-            --accent-purple: #9d50ff;
-            --accent-green: #00ff9d;
-            --accent-red: #ff4d7d;
+            --primary: #00b4d8;
+            --primary-dark: #0096c7;
+            --primary-light: #90e0ef;
+            --secondary: #caf0f8;
+            --dark: #03045e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --gray-dark: #495057;
+            --success: #38b000;
+            --warning: #ffb703;
+            --error: #e63946;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --border-radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
-            background-color: var(--black-primary);
-            color: var(--text-primary);
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f7ff 100%);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* App Container */
         .app-container {
             display: flex;
+            height: 100vh;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--black-primary) 0%, #0f1923 100%);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background-color: var(--black-secondary);
-            border-right: 1px solid var(--gray-dark);
-            display: flex;
-            flex-direction: column;
-            padding: 20px 0;
-            transition: all 0.3s ease;
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-            z-index: 10;
-        }
-
-        .logo-container {
-            padding: 0 20px 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--gray-dark);
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--accent-purple) 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--cyan-primary), var(--cyan-light));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .sidebar-section {
-            padding: 15px 20px;
-        }
-
-        .sidebar-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: var(--gray-light);
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--text-secondary);
-        }
-
-        .sidebar-item:hover {
-            background-color: var(--black-tertiary);
-            color: var(--text-primary);
-        }
-
-        .sidebar-item.active {
-            background: linear-gradient(90deg, rgba(0, 242, 254, 0.1), rgba(0, 212, 255, 0.05));
-            color: var(--cyan-primary);
-            border-left: 3px solid var(--cyan-primary);
-        }
-
-        .sidebar-item i {
-            width: 20px;
-            font-size: 18px;
-        }
-
-        .user-profile {
-            margin-top: auto;
-            padding: 20px;
-            border-top: 1px solid var(--gray-dark);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--cyan-primary), var(--accent-purple));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .user-info h4 {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .user-info p {
-            font-size: 12px;
-            color: var(--gray-light);
+            background: white;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border-radius: var(--border-radius-lg);
         }
 
         /* Main Content */
@@ -168,74 +62,264 @@
             overflow: hidden;
         }
 
-        /* Top Bar */
-        .top-bar {
-            height: 70px;
-            background-color: rgba(18, 18, 24, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--gray-dark);
+        /* Header */
+        .app-header {
+            height: var(--header-height);
+            background: white;
+            border-bottom: 1px solid var(--gray-light);
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            z-index: 5;
+            gap: 12px;
         }
 
-        .chat-title h2 {
-            font-size: 22px;
-            font-weight: 600;
-            background: linear-gradient(90deg, var(--cyan-primary), var(--cyan-light));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .chat-title p {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .top-controls {
-            display: flex;
-            gap: 15px;
-        }
-
-        .top-controls button {
-            background-color: var(--black-tertiary);
-            border: 1px solid var(--gray-dark);
-            color: var(--text-secondary);
+        .logo-icon {
             width: 40px;
             height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            color: white;
+            font-size: 20px;
         }
 
-        .top-controls button:hover {
-            background-color: var(--gray-dark);
-            color: var(--text-primary);
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: var(--gray);
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(56, 176, 0, 0.1);
+            border-radius: 20px;
+            color: var(--success);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .header-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+            background: white;
+            color: var(--gray-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .header-btn:hover {
+            background: var(--gray-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .header-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         /* Chat Container */
         .chat-container {
             flex: 1;
-            padding: 25px 30px;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--light);
+            border-right: 1px solid var(--gray-light);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .model-selector {
+            background: white;
+            border-radius: var(--border-radius-sm);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .model-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            background: white;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .model-selector select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
+        }
+
+        .conversation-list {
+            flex: 1;
             overflow-y: auto;
+            padding: 15px;
+        }
+
+        .conversation-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .conversation-item:hover {
+            transform: translateX(3px);
+            box-shadow: var(--shadow);
+        }
+
+        .conversation-item.active {
+            border-left-color: var(--primary);
+            background: var(--secondary);
+        }
+
+        .conv-preview {
+            font-size: 14px;
+            color: var(--dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+
+        .conv-time {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+        }
+
+        .new-chat-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 180, 216, 0.4);
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background: #fcfdff;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* Chat Messages */
         .message {
             display: flex;
             gap: 15px;
-            max-width: 85%;
-            animation: fadeIn 0.3s ease;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-out;
         }
 
         @keyframes fadeIn {
@@ -251,173 +335,133 @@
         .message-avatar {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 16px;
             flex-shrink: 0;
-            margin-top: 5px;
         }
 
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, var(--accent-purple), #6a11cb);
+        .user .message-avatar {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
         }
 
-        .message.ai .message-avatar {
-            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-dark));
+        .ai .message-avatar {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
         }
 
         .message-content {
-            background-color: var(--black-tertiary);
-            padding: 15px 20px;
-            border-radius: 18px;
-            border-top-left-radius: 5px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 16px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             position: relative;
         }
 
-        .message.user .message-content {
-            background: linear-gradient(135deg, rgba(157, 80, 255, 0.15), rgba(106, 17, 203, 0.2));
-            border-top-left-radius: 18px;
+        .user .message-content {
+            background: var(--primary);
+            color: white;
             border-top-right-radius: 5px;
-            border: 1px solid rgba(157, 80, 255, 0.2);
         }
 
-        .message.ai .message-content {
-            border: 1px solid rgba(0, 242, 254, 0.2);
+        .ai .message-content {
+            background: white;
+            color: var(--dark);
+            border-top-left-radius: 5px;
+            border: 1px solid var(--gray-light);
         }
 
         .message-text {
-            line-height: 1.5;
+            line-height: 1.6;
             font-size: 15px;
         }
 
         .message-time {
             font-size: 11px;
-            color: var(--gray-light);
             margin-top: 8px;
+            opacity: 0.7;
             text-align: right;
         }
 
-        .message-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
+        .ai .message-time {
+            color: var(--gray);
         }
 
-        .message:hover .message-actions {
-            opacity: 1;
+        .user .message-time {
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .message-action-btn {
-            background: none;
-            border: none;
-            color: var(--gray-light);
-            font-size: 13px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
-        .message-action-btn:hover {
-            color: var(--cyan-primary);
-            background-color: rgba(0, 242, 254, 0.1);
-        }
-
-        /* Input Area */
-        .input-container {
+        /* Chat Input */
+        .chat-input-container {
             padding: 20px 30px;
-            background-color: rgba(18, 18, 24, 0.8);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--gray-dark);
+            border-top: 1px solid var(--gray-light);
+            background: white;
         }
 
-        .input-area {
+        .input-wrapper {
+            position: relative;
             display: flex;
-            align-items: flex-end;
             gap: 15px;
-            background-color: var(--black-tertiary);
-            border-radius: 16px;
-            border: 1px solid var(--gray-dark);
-            padding: 15px 20px;
-            transition: border-color 0.2s ease;
         }
 
-        .input-area:focus-within {
-            border-color: var(--cyan-primary);
-            box-shadow: 0 0 0 2px rgba(0, 242, 254, 0.1);
-        }
-
-        .input-text {
+        .message-input {
             flex: 1;
-            background: none;
-            border: none;
-            color: var(--text-primary);
+            padding: 16px 20px;
+            padding-right: 50px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
             font-size: 15px;
             resize: none;
             max-height: 120px;
-            min-height: 24px;
+            transition: var(--transition);
+            background: var(--light);
+        }
+
+        .message-input:focus {
             outline: none;
-            line-height: 1.5;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
+            background: white;
         }
 
-        .input-text::placeholder {
-            color: var(--gray-light);
-        }
-
-        .input-controls {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .input-btn {
-            background-color: var(--black-secondary);
-            border: 1px solid var(--gray-dark);
-            color: var(--text-secondary);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        .send-btn {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+            flex-shrink: 0;
         }
 
-        .input-btn:hover {
-            background-color: var(--gray-dark);
-            color: var(--text-primary);
-        }
-
-        .input-btn.primary {
-            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-dark));
-            color: var(--black-primary);
-            border: none;
-            font-weight: 600;
-        }
-
-        .input-btn.primary:hover {
-            background: linear-gradient(135deg, var(--cyan-light), var(--cyan-primary));
+        .send-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
+            box-shadow: 0 6px 16px rgba(0, 180, 216, 0.4);
         }
 
-        /* Settings Panel */
+        /* Settings Panel - App Style */
         .settings-panel {
-            width: 350px;
-            background-color: var(--black-secondary);
-            border-left: 1px solid var(--gray-dark);
-            padding: 25px;
-            overflow-y: auto;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 450px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
             transform: translateX(100%);
-            transition: transform 0.3s ease;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .settings-panel.active {
@@ -425,701 +469,1005 @@
         }
 
         .settings-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--gray-light);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            background: white;
         }
 
-        .settings-header h3 {
-            font-size: 20px;
-            font-weight: 600;
-            background: linear-gradient(90deg, var(--cyan-primary), var(--cyan-light));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .settings-header h2 {
+            font-size: 24px;
+            color: var(--dark);
+            font-weight: 700;
         }
 
         .close-settings {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+            background: white;
+            color: var(--gray-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: color 0.2s ease;
+            transition: var(--transition);
         }
 
         .close-settings:hover {
-            color: var(--text-primary);
+            background: var(--gray-light);
+            transform: rotate(90deg);
+        }
+
+        .settings-tabs {
+            display: flex;
+            background: var(--light);
+            padding: 0 30px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .settings-tab {
+            padding: 18px 0;
+            margin-right: 30px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .settings-tab:hover {
+            color: var(--primary);
+        }
+
+        .settings-tab.active {
+            color: var(--primary);
+        }
+
+        .settings-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .settings-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .settings-section {
+            margin-bottom: 35px;
+        }
+
+        .settings-section h3 {
+            font-size: 18px;
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-section h3 i {
+            color: var(--primary);
+            width: 24px;
         }
 
         .setting-group {
             margin-bottom: 25px;
         }
 
-        .setting-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .setting-title i {
-            color: var(--cyan-primary);
-        }
-
-        .setting-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .setting-option {
+        .setting-label {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
-            background-color: var(--black-tertiary);
-            border-radius: 10px;
-            border: 1px solid var(--gray-dark);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            margin-bottom: 10px;
         }
 
-        .setting-option:hover {
-            border-color: var(--cyan-primary);
-            background-color: rgba(0, 242, 254, 0.05);
+        .setting-label span {
+            font-weight: 600;
+            color: var(--dark);
         }
 
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 26px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--gray-dark);
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 4px;
-            bottom: 4px;
-            background-color: var(--text-primary);
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--cyan-primary);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(24px);
-        }
-
-        .select-dropdown {
-            width: 100%;
-            padding: 10px 15px;
-            background-color: var(--black-tertiary);
-            border: 1px solid var(--gray-dark);
-            border-radius: 8px;
-            color: var(--text-primary);
+        .setting-value {
             font-size: 14px;
-            cursor: pointer;
-            outline: none;
+            color: var(--primary);
+            font-weight: 600;
         }
 
-        .select-dropdown:focus {
-            border-color: var(--cyan-primary);
+        .setting-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .setting-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
         }
 
         .slider-container {
-            padding: 10px 0;
+            position: relative;
+            padding: 8px 0;
         }
 
-        .slider-value {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .slider {
+        input[type="range"] {
             width: 100%;
             height: 6px;
             -webkit-appearance: none;
-            appearance: none;
-            background: var(--gray-dark);
+            background: var(--gray-light);
             border-radius: 3px;
             outline: none;
         }
 
-        .slider::-webkit-slider-thumb {
+        input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
-            background: var(--cyan-primary);
+            background: var(--primary);
             cursor: pointer;
-            box-shadow: 0 0 5px rgba(0, 242, 254, 0.5);
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
-        /* Responsive */
-        @media (max-width: 1100px) {
-            .sidebar {
-                width: 80px;
-                overflow: hidden;
-            }
-            
-            .logo-text, .sidebar-title, .user-info, .sidebar-item span {
-                display: none;
-            }
-            
-            .logo-container {
-                justify-content: center;
-                padding: 0 0 30px;
-            }
-            
-            .sidebar-item {
-                justify-content: center;
-                padding: 15px;
-            }
-            
-            .user-profile {
-                justify-content: center;
-                padding: 20px 0;
-            }
+        .api-key-group {
+            position: relative;
         }
 
-        @media (max-width: 768px) {
-            .settings-panel {
-                position: fixed;
-                top: 0;
-                right: 0;
-                height: 100%;
-                width: 100%;
-                z-index: 100;
-            }
-            
-            .message {
-                max-width: 95%;
-            }
+        .api-key-input {
+            padding-right: 50px;
         }
 
-        /* Typing indicator */
-        .typing-indicator {
+        .toggle-visibility {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .toggle-visibility:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-light);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .hint-text {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .settings-footer {
+            padding: 25px 30px;
+            border-top: 1px solid var(--gray-light);
+            background: white;
+            display: flex;
+            gap: 15px;
+        }
+
+        .save-btn {
+            flex: 1;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+        }
+
+        .save-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 180, 216, 0.4);
+        }
+
+        .cancel-btn {
+            flex: 1;
+            padding: 16px;
+            background: white;
+            color: var(--gray-dark);
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .cancel-btn:hover {
+            background: var(--gray-light);
+            transform: translateY(-2px);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Loading Animation */
+        .typing-indicator {
+            display: flex;
             gap: 5px;
-            padding: 10px 0;
+            padding: 15px 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-light);
+            width: fit-content;
+            box-shadow: var(--shadow);
         }
 
         .typing-dot {
             width: 8px;
             height: 8px;
+            background: var(--primary);
             border-radius: 50%;
-            background-color: var(--cyan-primary);
-            animation: typing 1.5s infinite ease-in-out;
+            animation: typing 1.4s infinite ease-in-out;
         }
 
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
         @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-            30% { transform: translateY(-10px); opacity: 1; }
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+            40% { transform: translateY(-10px); opacity: 1; }
         }
 
-        /* Code block styling */
-        .code-block {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            border-left: 3px solid var(--cyan-primary);
-            overflow-x: auto;
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .settings-panel {
+                width: 400px;
+            }
+            
+            .sidebar {
+                width: 250px;
+            }
         }
 
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            color: var(--gray-light);
-            font-size: 12px;
+        @media (max-width: 768px) {
+            .app-container {
+                border-radius: 0;
+                height: 100vh;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100%;
+                z-index: 100;
+                background: white;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .settings-panel {
+                width: 100%;
+            }
+            
+            .settings-tabs {
+                overflow-x: auto;
+                padding: 0 20px;
+            }
+            
+            .settings-tab {
+                margin-right: 20px;
+                white-space: nowrap;
+            }
         }
 
-        .copy-code {
-            background: none;
-            border: 1px solid var(--gray-dark);
-            color: var(--text-secondary);
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: all 0.2s ease;
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
         }
 
-        .copy-code:hover {
-            background-color: var(--gray-dark);
-            color: var(--text-primary);
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo-container">
-                <div class="logo">C</div>
-                <div class="logo-text">Cyanix AI</div>
-            </div>
-            
-            <div class="sidebar-section">
-                <div class="sidebar-title">Chat</div>
-                <div class="sidebar-item active">
-                    <i class="fas fa-comment-dots"></i>
-                    <span>New Chat</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-history"></i>
-                    <span>Chat History</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-star"></i>
-                    <span>Favorites</span>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <div class="sidebar-title">Tools</div>
-                <div class="sidebar-item">
-                    <i class="fas fa-code"></i>
-                    <span>Code Assistant</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-image"></i>
-                    <span>Image Generator</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-search"></i>
-                    <span>Web Search</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Document Analysis</span>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <div class="sidebar-title">Personas</div>
-                <div class="sidebar-item">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Teacher</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Professional</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-theater-masks"></i>
-                    <span>Storyteller</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-robot"></i>
-                    <span>Technical</span>
-                </div>
-            </div>
-            
-            <div class="user-profile">
-                <div class="user-avatar">JD</div>
-                <div class="user-info">
-                    <h4>John Doe</h4>
-                    <p>Pro Plan</p>
-                </div>
-            </div>
-        </div>
-        
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <div class="chat-title">
-                    <h2>Cyanix AI Assistant</h2>
-                    <p>Advanced NLP with memory & multimodal support</p>
+            <!-- Header -->
+            <header class="app-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-title">Cyanix AI</div>
+                        <div class="logo-subtitle">Advanced Groq Interface</div>
+                    </div>
                 </div>
-                <div class="top-controls">
-                    <button id="toggleSettings" title="Settings">
+                
+                <div class="header-controls">
+                    <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>API Connected</span>
+                    </div>
+                    
+                    <button class="header-btn" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <button class="header-btn" id="settingsToggle">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <button title="New Chat">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button title="Dark Mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
                 </div>
-            </div>
-            
-            <!-- Chat Container -->
-            <div class="chat-container" id="chatContainer">
-                <!-- AI Welcome Message -->
-                <div class="message ai">
-                    <div class="message-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="message-content">
-                        <div class="message-text">
-                            Hello! I'm Cyanix AI, your advanced assistant with:
-                            <br><br>
-                            • <strong>NLP</strong> - Powered by advanced language models
-                            <br>
-                            • <strong>Memory</strong> - Remembers conversation context
-                            <br>
-                            • <strong>Multimodal</strong> - Text, images, and voice support
-                            <br>
-                            • <strong>Tools</strong> - Web search, code execution, APIs
-                            <br><br>
-                            How can I assist you today?
-                        </div>
-                        <div class="message-time">Just now</div>
-                        <div class="message-actions">
-                            <button class="message-action-btn"><i class="fas fa-copy"></i> Copy</button>
-                            <button class="message-action-btn"><i class="fas fa-thumbs-up"></i> Like</button>
-                            <button class="message-action-btn"><i class="fas fa-redo"></i> Regenerate</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- User Message Example -->
-                <div class="message user">
-                    <div class="message-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="message-content">
-                        <div class="message-text">
-                            Can you write a Python function to calculate Fibonacci sequence?
-                        </div>
-                        <div class="message-time">2 min ago</div>
-                    </div>
-                </div>
-                
-                <!-- AI Response with Code -->
-                <div class="message ai">
-                    <div class="message-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="message-content">
-                        <div class="message-text">
-                            Sure! Here's a Python function to calculate Fibonacci sequence with memoization for efficiency:
-                            
-                            <div class="code-block">
-                                <div class="code-header">
-                                    <span>fibonacci.py</span>
-                                    <button class="copy-code">Copy</button>
-                                </div>
-                                <pre>def fibonacci(n, memo={}):
-    """Calculate nth Fibonacci number with memoization."""
-    if n in memo:
-        return memo[n]
-    if n <= 2:
-        return 1
-    memo[n] = fibonacci(n-1, memo) + fibonacci(n-2, memo)
-    return memo[n]
+            </header>
 
-# Example usage
-for i in range(1, 11):
-    print(f"Fibonacci({i}) = {fibonacci(i)}")</pre>
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <!-- Sidebar -->
+                <div class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <div class="sidebar-title">AI Model</div>
+                        <div class="model-selector">
+                            <select id="modelSelect">
+                                <option value="llama3-70b-8192">Llama 3 70B (Groq)</option>
+                                <option value="mixtral-8x7b-32768">Mixtral 8x7B (Groq)</option>
+                                <option value="gemma-7b-it">Gemma 7B (Groq)</option>
+                                <option value="llama3-8b-8192">Llama 3 8B (Groq)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-list" id="conversationList">
+                        <!-- Conversations will be loaded here -->
+                    </div>
+                    
+                    <div class="sidebar-footer">
+                        <button class="new-chat-btn" id="newChatBtn">
+                            <i class="fas fa-plus"></i>
+                            <span>New Chat</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will appear here -->
+                        <div class="message ai">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
                             </div>
-                            
-                            This implementation has O(n) time complexity thanks to memoization. Would you like me to explain any part of it?
-                        </div>
-                        <div class="message-time">1 min ago</div>
-                        <div class="message-actions">
-                            <button class="message-action-btn"><i class="fas fa-copy"></i> Copy</button>
-                            <button class="message-action-btn"><i class="fas fa-thumbs-up"></i> Like</button>
-                            <button class="message-action-btn"><i class="fas fa-redo"></i> Regenerate</button>
+                            <div class="message-content">
+                                <div class="message-text">
+                                    <p>Hello! I'm Cyanix AI, your advanced assistant powered by Groq's lightning-fast inference engine. I'm here to help with any questions, tasks, or creative projects you have. What can I assist you with today?</p>
+                                </div>
+                                <div class="message-time">Just now</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Input Area -->
-            <div class="input-container">
-                <div class="input-area">
-                    <textarea class="input-text" id="messageInput" placeholder="Message Cyanix AI... (Type / for commands)" rows="1"></textarea>
-                    <div class="input-controls">
-                        <button class="input-btn" title="Attach file">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <button class="input-btn" title="Voice input">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="input-btn" title="Image input">
-                            <i class="fas fa-image"></i>
-                        </button>
-                        <button class="input-btn primary" id="sendButton" title="Send message">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
+
+                    <div class="chat-input-container">
+                        <div class="input-wrapper">
+                            <textarea class="message-input" id="messageInput" placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)" rows="1"></textarea>
+                            <button class="send-btn" id="sendBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Settings Panel -->
-        <div class="settings-panel" id="settingsPanel">
-            <div class="settings-header">
-                <h3>AI Settings</h3>
-                <button class="close-settings" id="closeSettings">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="setting-group">
-                <div class="setting-title">
-                    <i class="fas fa-brain"></i>
-                    <span>AI Model</span>
-                </div>
-                <select class="select-dropdown" id="modelSelect">
-                    <option value="gpt4">GPT-4 Turbo (Default)</option>
-                    <option value="claude">Claude 3 Opus</option>
-                    <option value="llama">Llama 3 70B</option>
-                    <option value="mistral">Mistral Large</option>
-                    <option value="gemini">Gemini Ultra</option>
-                </select>
-            </div>
-            
-            <div class="setting-group">
-                <div class="setting-title">
-                    <i class="fas fa-sliders-h"></i>
-                    <span>Response Settings</span>
-                </div>
-                <div class="slider-container">
-                    <div class="slider-value">
-                        <span>Creativity</span>
-                        <span id="creativityValue">0.7</span>
-                    </div>
-                    <input type="range" min="0" max="1" step="0.1" value="0.7" class="slider" id="creativitySlider">
-                </div>
-                <div class="slider-container">
-                    <div class="slider-value">
-                        <span>Response Length</span>
-                        <span id="lengthValue">Medium</span>
-                    </div>
-                    <input type="range" min="1" max="3" step="1" value="2" class="slider" id="lengthSlider">
-                </div>
-            </div>
-            
-            <div class="setting-group">
-                <div class="setting-title">
-                    <i class="fas fa-memory"></i>
-                    <span>Memory & Context</span>
-                </div>
-                <div class="setting-option">
-                    <div>
-                        <div>Conversation Memory</div>
-                        <div style="font-size: 12px; color: var(--gray-light);">Remember context across messages</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="setting-option">
-                    <div>
-                        <div>Web Search Access</div>
-                        <div style="font-size: 12px; color: var(--gray-light);">Allow real-time web search</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-            </div>
-            
-            <div class="setting-group">
-                <div class="setting-title">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Persona & Tone</span>
-                </div>
-                <select class="select-dropdown" id="toneSelect">
-                    <option value="balanced">Balanced (Default)</option>
-                    <option value="formal">Formal/Professional</option>
-                    <option value="casual">Casual/Friendly</option>
-                    <option value="technical">Technical/Precise</option>
-                    <option value="creative">Creative/Expressive</option>
-                </select>
-            </div>
-            
-            <div class="setting-group">
-                <div class="setting-title">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Privacy & Safety</span>
-                </div>
-                <div class="setting-option">
-                    <div>
-                        <div>Content Filter</div>
-                        <div style="font-size: 12px; color: var(--gray-light);">Block harmful content</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="setting-option">
-                    <div>
-                        <div>Data Retention</div>
-                        <div style="font-size: 12px; color: var(--gray-light);">Store chat history for 30 days</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-            </div>
-            
-            <div class="setting-group">
-                <div class="setting-title">
-                    <i class="fas fa-language"></i>
-                    <span>Language</span>
-                </div>
-                <select class="select-dropdown" id="languageSelect">
-                    <option value="en">English (Default)</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                    <option value="de">German</option>
-                    <option value="ja">Japanese</option>
-                    <option value="zh">Chinese</option>
-                </select>
             </div>
         </div>
     </div>
 
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h2>Configuration</h2>
+            <button class="close-settings" id="closeSettingsBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="settings-tabs">
+            <button class="settings-tab active" data-tab="api">API Settings</button>
+            <button class="settings-tab" data-tab="model">Model</button>
+            <button class="settings-tab" data-tab="behavior">Behavior</button>
+            <button class="settings-tab" data-tab="interface">Interface</button>
+        </div>
+        
+        <div class="settings-content">
+            <!-- API Settings Tab -->
+            <div class="settings-section active" id="api-tab">
+                <h3><i class="fas fa-key"></i> API Configuration</h3>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Groq API Key</span>
+                    </div>
+                    <div class="api-key-group">
+                        <input type="password" class="setting-control api-key-input" id="apiKey" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                        <button class="toggle-visibility" id="toggleVisibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="hint-text">
+                        Your API key is stored locally in your browser and never sent to external servers.
+                        <a href="https://console.groq.com" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">Get your API key →</a>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>API Endpoint</span>
+                    </div>
+                    <input type="text" class="setting-control" id="apiEndpoint" value="https://api.groq.com/openai/v1/chat/completions">
+                    <div class="hint-text">Custom API endpoints are supported for advanced configurations.</div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="checkbox-group" id="saveApiKeyToggle">
+                        <div class="checkbox checked"></div>
+                        <span class="checkbox-label">Save API key to browser</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Model Settings Tab -->
+            <div class="settings-section" id="model-tab">
+                <h3><i class="fas fa-brain"></i> Model Parameters</h3>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Temperature</span>
+                        <span class="setting-value" id="tempValue">0.7</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                    <div class="hint-text">Controls randomness: Lower values make responses more deterministic, higher values more creative.</div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Max Tokens</span>
+                        <span class="setting-value" id="tokensValue">1024</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="maxTokens" min="128" max="4096" step="128" value="1024">
+                    </div>
+                    <div class="hint-text">Maximum length of generated responses. Higher values allow longer answers but use more tokens.</div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Top P</span>
+                        <span class="setting-value" id="topPValue">0.9</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="topP" min="0.1" max="1" step="0.1" value="0.9">
+                    </div>
+                    <div class="hint-text">Nucleus sampling: Only tokens with cumulative probability ≥ P are considered.</div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Frequency Penalty</span>
+                        <span class="setting-value" id="freqValue">0.0</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="frequencyPenalty" min="-2" max="2" step="0.1" value="0.0">
+                    </div>
+                    <div class="hint-text">Positive values penalize new tokens based on their existing frequency in the text.</div>
+                </div>
+            </div>
+            
+            <!-- Behavior Settings Tab -->
+            <div class="settings-section" id="behavior-tab">
+                <h3><i class="fas fa-user-cog"></i> Assistant Behavior</h3>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>System Prompt</span>
+                    </div>
+                    <textarea class="setting-control" id="systemPrompt" rows="4" placeholder="Define how the assistant should behave...">You are Cyanix AI, a helpful and knowledgeable assistant powered by Groq. Provide accurate, concise, and helpful responses. If you're unsure about something, admit it rather than making up information.</textarea>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="checkbox-group" id="enableContextToggle">
+                        <div class="checkbox checked"></div>
+                        <span class="checkbox-label">Enable conversation context</span>
+                    </div>
+                    <div class="hint-text">When enabled, the AI will remember previous messages in the conversation.</div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Context Window</span>
+                        <span class="setting-value" id="contextValue">4096</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="contextWindow" min="512" max="8192" step="512" value="4096">
+                    </div>
+                    <div class="hint-text">Maximum number of tokens to keep in conversation history.</div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="checkbox-group" id="streamingToggle">
+                        <div class="checkbox checked"></div>
+                        <span class="checkbox-label">Enable streaming responses</span>
+                    </div>
+                    <div class="hint-text">Show responses as they're generated for a more natural feel.</div>
+                </div>
+            </div>
+            
+            <!-- Interface Settings Tab -->
+            <div class="settings-section" id="interface-tab">
+                <h3><i class="fas fa-palette"></i> Interface Preferences</h3>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Theme</span>
+                    </div>
+                    <select class="setting-control" id="themeSelect">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto (System)</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="checkbox-group" id="animationsToggle">
+                        <div class="checkbox checked"></div>
+                        <span class="checkbox-label">Enable animations</span>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="checkbox-group" id="sidebarToggle">
+                        <div class="checkbox checked"></div>
+                        <span class="checkbox-label">Show sidebar by default</span>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-label">
+                        <span>Message Density</span>
+                    </div>
+                    <select class="setting-control" id="densitySelect">
+                        <option value="compact">Compact</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="comfortable">Comfortable</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="checkbox-group" id="markdownToggle">
+                        <div class="checkbox checked"></div>
+                        <span class="checkbox-label">Render Markdown in responses</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-footer">
+            <button class="cancel-btn" id="cancelSettingsBtn">
+                <i class="fas fa-times"></i>
+                Cancel
+            </button>
+            <button class="save-btn" id="saveSettingsBtn">
+                <i class="fas fa-save"></i>
+                Save Changes
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
     <script>
         // DOM Elements
-        const chatContainer = document.getElementById('chatContainer');
         const messageInput = document.getElementById('messageInput');
-        const sendButton = document.getElementById('sendButton');
-        const toggleSettings = document.getElementById('toggleSettings');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const newChatBtn = document.getElementById('newChatBtn');
+        const conversationList = document.getElementById('conversationList');
+        const settingsToggle = document.getElementById('settingsToggle');
         const settingsPanel = document.getElementById('settingsPanel');
-        const closeSettings = document.getElementById('closeSettings');
-        const creativitySlider = document.getElementById('creativitySlider');
-        const creativityValue = document.getElementById('creativityValue');
-        const lengthSlider = document.getElementById('lengthSlider');
-        const lengthValue = document.getElementById('lengthValue');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const cancelSettingsBtn = document.getElementById('cancelSettingsBtn');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const overlay = document.getElementById('overlay');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
         
-        // Auto-resize textarea
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
+        // Settings tabs
+        const settingsTabs = document.querySelectorAll('.settings-tab');
+        const settingsSections = document.querySelectorAll('.settings-section');
         
-        // Send message function
-        function sendMessage() {
-            const text = messageInput.value.trim();
-            if (!text) return;
+        // Settings controls
+        const apiKeyInput = document.getElementById('apiKey');
+        const toggleVisibilityBtn = document.getElementById('toggleVisibility');
+        const temperatureSlider = document.getElementById('temperature');
+        const tempValue = document.getElementById('tempValue');
+        const maxTokensSlider = document.getElementById('maxTokens');
+        const tokensValue = document.getElementById('tokensValue');
+        const topPSlider = document.getElementById('topP');
+        const topPValue = document.getElementById('topPValue');
+        const frequencyPenaltySlider = document.getElementById('frequencyPenalty');
+        const freqValue = document.getElementById('freqValue');
+        const contextWindowSlider = document.getElementById('contextWindow');
+        const contextValue = document.getElementById('contextValue');
+        const modelSelect = document.getElementById('modelSelect');
+        const systemPrompt = document.getElementById('systemPrompt');
+        
+        // Toggle elements
+        const saveApiKeyToggle = document.getElementById('saveApiKeyToggle');
+        const enableContextToggle = document.getElementById('enableContextToggle');
+        const streamingToggle = document.getElementById('streamingToggle');
+        const animationsToggle = document.getElementById('animationsToggle');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const markdownToggle = document.getElementById('markdownToggle');
+
+        // State
+        let currentConversationId = 'conv_' + Date.now();
+        let conversations = [];
+        let isTyping = false;
+        let settingsChanged = false;
+
+        // Initialize app
+        function init() {
+            loadSettings();
+            loadConversations();
+            setupEventListeners();
+            renderConversationList();
             
-            // Add user message
-            addMessage(text, 'user');
-            
-            // Clear input
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            // Simulate AI response after delay
-            setTimeout(() => {
-                removeTypingIndicator();
-                addMessage(getAIResponse(text), 'ai');
-            }, 1500);
+            // Set initial active tab
+            switchTab('api');
         }
-        
-        // Add message to chat
-        function addMessage(text, sender) {
+
+        // Load settings from localStorage
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('cyanix_settings')) || {};
+            
+            // API Settings
+            apiKeyInput.value = settings.apiKey || '';
+            document.getElementById('apiEndpoint').value = settings.apiEndpoint || 'https://api.groq.com/openai/v1/chat/completions';
+            
+            // Model Settings
+            if (settings.temperature) {
+                temperatureSlider.value = settings.temperature;
+                tempValue.textContent = settings.temperature;
+            }
+            if (settings.maxTokens) {
+                maxTokensSlider.value = settings.maxTokens;
+                tokensValue.textContent = settings.maxTokens;
+            }
+            if (settings.topP) {
+                topPSlider.value = settings.topP;
+                topPValue.textContent = settings.topP;
+            }
+            if (settings.frequencyPenalty) {
+                frequencyPenaltySlider.value = settings.frequencyPenalty;
+                freqValue.textContent = settings.frequencyPenalty;
+            }
+            if (settings.contextWindow) {
+                contextWindowSlider.value = settings.contextWindow;
+                contextValue.textContent = settings.contextWindow;
+            }
+            
+            // Behavior Settings
+            if (settings.model) modelSelect.value = settings.model;
+            if (settings.systemPrompt) systemPrompt.value = settings.systemPrompt;
+            
+            // Interface Settings
+            if (settings.theme) document.getElementById('themeSelect').value = settings.theme;
+            if (settings.density) document.getElementById('densitySelect').value = settings.density;
+            
+            // Toggle states
+            setToggleState(saveApiKeyToggle, settings.saveApiKey !== false);
+            setToggleState(enableContextToggle, settings.enableContext !== false);
+            setToggleState(streamingToggle, settings.streaming !== false);
+            setToggleState(animationsToggle, settings.animations !== false);
+            setToggleState(sidebarToggle, settings.sidebar !== false);
+            setToggleState(markdownToggle, settings.markdown !== false);
+            
+            // Apply theme if set
+            if (settings.theme === 'dark') {
+                document.documentElement.style.setProperty('--light', '#1a1a1a');
+                document.documentElement.style.setProperty('--gray-light', '#2d2d2d');
+                document.documentElement.style.setProperty('--dark', '#ffffff');
+            }
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            const settings = {
+                // API Settings
+                apiKey: apiKeyInput.value,
+                apiEndpoint: document.getElementById('apiEndpoint').value,
+                saveApiKey: getToggleState(saveApiKeyToggle),
+                
+                // Model Settings
+                temperature: parseFloat(temperatureSlider.value),
+                maxTokens: parseInt(maxTokensSlider.value),
+                topP: parseFloat(topPSlider.value),
+                frequencyPenalty: parseFloat(frequencyPenaltySlider.value),
+                contextWindow: parseInt(contextWindowSlider.value),
+                
+                // Behavior Settings
+                model: modelSelect.value,
+                systemPrompt: systemPrompt.value,
+                enableContext: getToggleState(enableContextToggle),
+                streaming: getToggleState(streamingToggle),
+                
+                // Interface Settings
+                theme: document.getElementById('themeSelect').value,
+                density: document.getElementById('densitySelect').value,
+                animations: getToggleState(animationsToggle),
+                sidebar: getToggleState(sidebarToggle),
+                markdown: getToggleState(markdownToggle)
+            };
+            
+            localStorage.setItem('cyanix_settings', JSON.stringify(settings));
+            
+            // Show success feedback
+            const originalText = saveSettingsBtn.innerHTML;
+            saveSettingsBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+            saveSettingsBtn.style.background = 'linear-gradient(to right, var(--success), #2a9d3f)';
+            
+            setTimeout(() => {
+                saveSettingsBtn.innerHTML = originalText;
+                saveSettingsBtn.style.background = 'linear-gradient(to right, var(--primary), var(--primary-dark))';
+            }, 2000);
+            
+            settingsChanged = false;
+        }
+
+        // Load conversations from localStorage
+        function loadConversations() {
+            const savedConversations = localStorage.getItem('cyanix_conversations');
+            if (savedConversations) {
+                conversations = JSON.parse(savedConversations);
+            } else {
+                // Create initial conversation
+                conversations = [{
+                    id: currentConversationId,
+                    timestamp: Date.now(),
+                    title: 'Welcome to Cyanix AI',
+                    messages: [
+                        {
+                            role: 'ai',
+                            content: 'Hello! I\'m Cyanix AI, your advanced assistant powered by Groq\'s lightning-fast inference engine. I\'m here to help with any questions, tasks, or creative projects you have. What can I assist you with today?',
+                            timestamp: Date.now()
+                        }
+                    ]
+                }];
+            }
+        }
+
+        // Render conversation list
+        function renderConversationList() {
+            conversationList.innerHTML = '';
+            
+            conversations.sort((a, b) => b.timestamp - a.timestamp).forEach(conv => {
+                const convElement = document.createElement('div');
+                convElement.className = 'conversation-item';
+                if (conv.id === currentConversationId) {
+                    convElement.classList.add('active');
+                }
+                
+                const time = new Date(conv.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                convElement.innerHTML = `
+                    <div class="conv-preview">${conv.title || 'New Conversation'}</div>
+                    <div class="conv-time">${time}</div>
+                `;
+                
+                convElement.addEventListener('click', () => {
+                    loadConversation(conv.id);
+                });
+                
+                conversationList.appendChild(convElement);
+            });
+        }
+
+        // Load a conversation
+        function loadConversation(conversationId) {
+            currentConversationId = conversationId;
+            const conversation = conversations.find(c => c.id === conversationId);
+            
+            if (!conversation) return;
+            
+            // Clear chat messages
+            chatMessages.innerHTML = '';
+            
+            // Add messages to chat
+            conversation.messages.forEach(msg => {
+                addMessageToChat(msg.role, msg.content, false);
+            });
+            
+            // Update conversation list
+            renderConversationList();
+            
+            // Scroll to bottom
+            scrollToBottom();
+        }
+
+        // Create a new conversation
+        function createNewConversation() {
+            currentConversationId = 'conv_' + Date.now();
+            conversations.unshift({
+                id: currentConversationId,
+                timestamp: Date.now(),
+                title: 'New Conversation',
+                messages: [
+                    {
+                        role: 'ai',
+                        content: 'Hello! I\'m Cyanix AI, your advanced assistant powered by Groq\'s lightning-fast inference engine. I\'m here to help with any questions, tasks, or creative projects you have. What can I assist you with today?',
+                        timestamp: Date.now()
+                    }
+                ]
+            });
+            
+            // Keep only the 20 most recent conversations
+            if (conversations.length > 20) {
+                conversations = conversations.slice(0, 20);
+            }
+            
+            // Clear chat messages
+            chatMessages.innerHTML = '';
+            
+            // Add welcome message
+            addMessageToChat('ai', 'Hello! I\'m Cyanix AI, your advanced assistant powered by Groq\'s lightning-fast inference engine. I\'m here to help with any questions, tasks, or creative projects you have. What can I assist you with today?', false);
+            
+            // Update conversation list
+            renderConversationList();
+            
+            // Save conversations
+            localStorage.setItem('cyanix_conversations', JSON.stringify(conversations));
+        }
+
+        // Add message to chat UI
+        function addMessageToChat(role, content, saveToHistory = true) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
+            messageDiv.className = `message ${role}`;
             
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
+            let avatarIcon = 'fas fa-user';
+            if (role === 'ai') avatarIcon = 'fas fa-robot';
+            
             messageDiv.innerHTML = `
                 <div class="message-avatar">
-                    <i class="fas fa-${sender === 'user' ? 'user' : 'robot'}"></i>
+                    <i class="${avatarIcon}"></i>
                 </div>
                 <div class="message-content">
-                    <div class="message-text">${formatMessage(text)}</div>
-                    <div class="message-time">${time}</div>
-                    <div class="message-actions">
-                        <button class="message-action-btn"><i class="fas fa-copy"></i> Copy</button>
-                        <button class="message-action-btn"><i class="fas fa-thumbs-up"></i> Like</button>
-                        <button class="message-action-btn"><i class="fas fa-redo"></i> Regenerate</button>
+                    <div class="message-text">
+                        ${content}
                     </div>
+                    <div class="message-time">${time}</div>
                 </div>
             `;
             
-            chatContainer.appendChild(messageDiv);
+            // Add to chat
+            chatMessages.appendChild(messageDiv);
             
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            
-            // Add copy functionality
-            const copyBtn = messageDiv.querySelector('.message-action-btn');
-            copyBtn.addEventListener('click', function() {
-                const textToCopy = messageDiv.querySelector('.message-text').innerText;
-                navigator.clipboard.writeText(textToCopy);
-                
-                // Visual feedback
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied';
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                }, 2000);
-            });
-        }
-        
-        // Format message text (add code blocks, links, etc.)
-        function formatMessage(text) {
-            // Simple formatting for demonstration
-            let formatted = text;
-            
-            // Detect code snippets
-            if (text.includes('```')) {
-                formatted = text.replace(/```([\s\S]*?)```/g, '<div class="code-block"><div class="code-header"><span>code</span><button class="copy-code">Copy</button></div><pre>$1</pre></div>');
+            // Save to conversation history
+            if (saveToHistory) {
+                const conversation = conversations.find(c => c.id === currentConversationId);
+                if (conversation) {
+                    conversation.messages.push({ role, content, timestamp: Date.now() });
+                    conversation.timestamp = Date.now();
+                    
+                    // Update conversation title if it's the first user message
+                    if (role === 'user' && conversation.messages.filter(m => m.role === 'user').length === 1) {
+                        conversation.title = content.substring(0, 50) + (content.length > 50 ? '...' : '');
+                    }
+                    
+                    // Save conversations
+                    localStorage.setItem('cyanix_conversations', JSON.stringify(conversations));
+                    
+                    // Update conversation list
+                    renderConversationList();
+                }
             }
             
-            // Add line breaks
-            formatted = formatted.replace(/\n/g, '<br>');
+            // Scroll to bottom
+            scrollToBottom();
             
-            return formatted;
+            return messageDiv;
         }
-        
+
         // Show typing indicator
         function showTypingIndicator() {
             const typingDiv = document.createElement('div');
@@ -1139,82 +1487,259 @@ for i in range(1, 11):
                 </div>
             `;
             
-            chatContainer.appendChild(typingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+            isTyping = true;
         }
-        
+
         // Remove typing indicator
         function removeTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) {
-                indicator.remove();
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
             }
+            isTyping = false;
         }
-        
-        // Simulate AI responses
-        function getAIResponse(userMessage) {
-            const lowerMessage = userMessage.toLowerCase();
+
+        // Scroll to bottom of chat
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Simulate API response
+        async function getAIResponse(userMessage) {
+            // Show typing indicator
+            showTypingIndicator();
             
-            // Sample responses based on user input
-            if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-                return "Hello! I'm Cyanix AI, ready to assist you. What would you like to explore today?";
-            } else if (lowerMessage.includes('weather')) {
-                return "I can fetch real-time weather data for you! Which city would you like me to check? (This would connect to a weather API in a real implementation)";
-            } else if (lowerMessage.includes('code') || lowerMessage.includes('program')) {
-                return "I'd be happy to help with coding! Here's an example of a clean React component:\n\n```jsx\nimport React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>\n        Increment\n      </button>\n    </div>\n  );\n}\n\n// This is a simple React counter component using hooks.\n// Would you like me to explain any part of it or help with a specific language?```";
-            } else if (lowerMessage.includes('explain') || lowerMessage.includes('what is')) {
-                return "I can provide detailed explanations! For example, **machine learning** is a subset of AI that enables systems to learn and improve from experience without being explicitly programmed. It uses algorithms to identify patterns in data and make predictions.\n\nWould you like me to elaborate on this or explain another concept?";
-            } else if (lowerMessage.includes('image') || lowerMessage.includes('generate')) {
-                return "I can generate images through integration with DALL-E or Stable Diffusion! For example, I could create: 'A futuristic cityscape with cyan neon lights reflecting in rain-soaked streets.'\n\nWhat would you like me to visualize?";
-            } else if (lowerMessage.includes('search')) {
-                return "I have web search capabilities! I can look up current information, news, or research topics. For instance, I could search for 'latest advancements in quantum computing' and provide you with a summary.\n\nWhat would you like me to search for?";
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Remove typing indicator
+            removeTypingIndicator();
+            
+            // Return simulated response
+            const responses = [
+                "I understand your question. As an AI assistant powered by Groq's high-performance inference, I can process this request efficiently. The key considerations would be accuracy, relevance, and practical application. Would you like me to elaborate on any specific aspect?",
+                "That's an interesting query! Based on my training data and the parameters set in your configuration, I'd approach this by breaking it down into manageable components. First, we need to establish the context, then identify the core requirements, and finally explore potential solutions.",
+                "Thanks for your message! I'm analyzing this with the model parameters you've configured (temperature: " + temperatureSlider.value + ", max tokens: " + maxTokensSlider.value + "). This allows me to provide responses that balance creativity with coherence. Here's what I think based on the information provided...",
+                "I've processed your request using the " + modelSelect.options[modelSelect.selectedIndex].text + " model. Given the current configuration, I'd recommend a structured approach that addresses the main points while maintaining flexibility for adjustments as new information emerges."
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || isTyping) return;
+            
+            // Clear input
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            
+            // Add user message to chat
+            addMessageToChat('user', message);
+            
+            // Get AI response
+            const aiResponse = await getAIResponse(message);
+            
+            // Add AI response to chat
+            addMessageToChat('ai', aiResponse);
+        }
+
+        // Switch settings tab
+        function switchTab(tabName) {
+            // Update tabs
+            settingsTabs.forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Update sections
+            settingsSections.forEach(section => {
+                if (section.id === tabName + '-tab') {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        }
+
+        // Toggle helper functions
+        function setToggleState(toggleElement, state) {
+            const checkbox = toggleElement.querySelector('.checkbox');
+            if (state) {
+                checkbox.classList.add('checked');
             } else {
-                return `I understand you're asking about "${userMessage}". As Cyanix AI with advanced NLP capabilities, I can provide detailed information on this topic. Could you clarify what specific aspect you'd like me to focus on?\n\nRemember, I have conversation memory, so I can reference previous parts of our chat for context.`;
+                checkbox.classList.remove('checked');
             }
         }
-        
-        // Settings panel controls
-        toggleSettings.addEventListener('click', () => {
-            settingsPanel.classList.add('active');
-        });
-        
-        closeSettings.addEventListener('click', () => {
-            settingsPanel.classList.remove('active');
-        });
-        
-        // Slider updates
-        creativitySlider.addEventListener('input', function() {
-            creativityValue.textContent = this.value;
-        });
-        
-        lengthSlider.addEventListener('input', function() {
-            const values = ['Short', 'Medium', 'Long'];
-            lengthValue.textContent = values[this.value - 1];
-        });
-        
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        
-        messageInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        // Sample messages for demo
-        setTimeout(() => {
-            addMessage("Can you explain neural networks in simple terms?", 'user');
+
+        function getToggleState(toggleElement) {
+            const checkbox = toggleElement.querySelector('.checkbox');
+            return checkbox.classList.contains('checked');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Send message
+            sendBtn.addEventListener('click', sendMessage);
             
-            setTimeout(() => {
-                showTypingIndicator();
+            messageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
                 
+                // Auto-resize textarea
                 setTimeout(() => {
-                    removeTypingIndicator();
-                    addMessage("Certainly! **Neural networks** are inspired by the human brain. Think of them as interconnected layers of 'neurons' that process information:\n\n1. **Input Layer** - Receives data (like an image's pixels)\n2. **Hidden Layers** - Process patterns (detect edges, shapes, features)\n3. **Output Layer** - Provides results (identifies 'cat' or 'dog')\n\nThey learn by adjusting connection strengths based on examples, getting better over time - similar to how we learn from experience!", 'ai');
-                }, 1500);
-            }, 2000);
-        }, 3000);
+                    messageInput.style.height = 'auto';
+                    messageInput.style.height = (messageInput.scrollHeight) + 'px';
+                }, 0);
+            });
+            
+            // New chat
+            newChatBtn.addEventListener('click', createNewConversation);
+            
+            // Settings panel
+            settingsToggle.addEventListener('click', () => {
+                settingsPanel.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeSettingsBtn.addEventListener('click', closeSettings);
+            cancelSettingsBtn.addEventListener('click', closeSettings);
+            overlay.addEventListener('click', closeSettings);
+            
+            // Save settings
+            saveSettingsBtn.addEventListener('click', () => {
+                saveSettings();
+                setTimeout(closeSettings, 500);
+            });
+            
+            // Menu toggle for mobile
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+            
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Settings tabs
+            settingsTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.dataset.tab);
+                });
+            });
+            
+            // Toggle visibility for API key
+            toggleVisibilityBtn.addEventListener('click', () => {
+                const type = apiKeyInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                apiKeyInput.setAttribute('type', type);
+                toggleVisibilityBtn.querySelector('i').className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+            });
+            
+            // Slider value updates
+            temperatureSlider.addEventListener('input', () => {
+                tempValue.textContent = temperatureSlider.value;
+                settingsChanged = true;
+            });
+            
+            maxTokensSlider.addEventListener('input', () => {
+                tokensValue.textContent = maxTokensSlider.value;
+                settingsChanged = true;
+            });
+            
+            topPSlider.addEventListener('input', () => {
+                topPValue.textContent = topPSlider.value;
+                settingsChanged = true;
+            });
+            
+            frequencyPenaltySlider.addEventListener('input', () => {
+                freqValue.textContent = frequencyPenaltySlider.value;
+                settingsChanged = true;
+            });
+            
+            contextWindowSlider.addEventListener('input', () => {
+                contextValue.textContent = contextWindowSlider.value;
+                settingsChanged = true;
+            });
+            
+            // Toggle click handlers
+            saveApiKeyToggle.addEventListener('click', () => {
+                const current = getToggleState(saveApiKeyToggle);
+                setToggleState(saveApiKeyToggle, !current);
+                settingsChanged = true;
+            });
+            
+            enableContextToggle.addEventListener('click', () => {
+                const current = getToggleState(enableContextToggle);
+                setToggleState(enableContextToggle, !current);
+                settingsChanged = true;
+            });
+            
+            streamingToggle.addEventListener('click', () => {
+                const current = getToggleState(streamingToggle);
+                setToggleState(streamingToggle, !current);
+                settingsChanged = true;
+            });
+            
+            animationsToggle.addEventListener('click', () => {
+                const current = getToggleState(animationsToggle);
+                setToggleState(animationsToggle, !current);
+                settingsChanged = true;
+            });
+            
+            sidebarToggle.addEventListener('click', () => {
+                const current = getToggleState(sidebarToggle);
+                setToggleState(sidebarToggle, !current);
+                settingsChanged = true;
+            });
+            
+            markdownToggle.addEventListener('click', () => {
+                const current = getToggleState(markdownToggle);
+                setToggleState(markdownToggle, !current);
+                settingsChanged = true;
+            });
+            
+            // Other inputs
+            modelSelect.addEventListener('change', () => settingsChanged = true);
+            systemPrompt.addEventListener('input', () => settingsChanged = true);
+            document.getElementById('apiEndpoint').addEventListener('input', () => settingsChanged = true);
+            document.getElementById('themeSelect').addEventListener('change', () => settingsChanged = true);
+            document.getElementById('densitySelect').addEventListener('change', () => settingsChanged = true);
+            
+            // Prevent closing with unsaved changes
+            window.addEventListener('beforeunload', (e) => {
+                if (settingsChanged) {
+                    e.preventDefault();
+                    e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+                }
+            });
+        }
+
+        // Close settings panel
+        function closeSettings() {
+            settingsPanel.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // If settings were changed but not saved, reload original settings
+            if (settingsChanged) {
+                loadSettings();
+                settingsChanged = false;
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
