@@ -3,472 +3,401 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyanix AI | Ultimate Assistant</title>
+    <title>Cyanix AI | Mobile Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #00ffff;
-            --primary-dark: #00cccc;
-            --primary-light: #99ffff;
-            --secondary: #003333;
-            --dark: #000000;
-            --darker: #050505;
-            --dark-gray: #111111;
-            --gray: #222222;
-            --gray-light: #333333;
-            --light: #ffffff;
-            --success: #00ff88;
-            --warning: #ffaa00;
-            --error: #ff3366;
-            --accent: #ff00ff;
-            --shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
-            --shadow-lg: 0 10px 40px rgba(0, 255, 255, 0.15);
-            --border-radius: 16px;
-            --border-radius-sm: 12px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* iOS-inspired color palette */
+            --ios-blue: #007AFF;
+            --ios-light-blue: #5AC8FA;
+            --ios-green: #34C759;
+            --ios-red: #FF3B30;
+            --ios-orange: #FF9500;
+            --ios-purple: #AF52DE;
+            --ios-pink: #FF2D55;
+            
+            /* Background colors */
+            --bg-primary: #F2F2F7;
+            --bg-secondary: #FFFFFF;
+            --bg-tertiary: #E5E5EA;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            
+            /* Text colors */
+            --text-primary: #000000;
+            --text-secondary: #3C3C43;
+            --text-tertiary: #8E8E93;
+            --text-white: #FFFFFF;
+            
+            /* Border colors */
+            --border-light: #C7C7CC;
+            --border-medium: #D1D1D6;
+            
+            /* Shadows */
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 10px 40px rgba(0, 0, 0, 0.15);
+            
+            /* Border radius */
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --radius-circle: 50%;
+            
+            /* Transitions */
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            
+            /* Typography */
+            --font-size-xs: 12px;
+            --font-size-sm: 14px;
+            --font-size-md: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 24px;
+            --font-size-xxl: 32px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            background: var(--dark);
-            color: var(--light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 100, 100, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 150, 150, 0.1) 0%, transparent 20%);
-        }
-
-        /* App Container - Perfect for 720x1560 */
-        .app-container {
-            width: 720px;
-            height: 1560px;
-            max-width: 100vw;
-            max-height: 100vh;
-            background: var(--darker);
-            border-radius: 0;
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
             position: relative;
-            border: 1px solid var(--gray);
-            box-shadow: 
-                0 0 60px rgba(0, 255, 255, 0.1),
-                inset 0 0 100px rgba(0, 100, 255, 0.05);
+            user-select: none;
         }
 
-        @media (min-width: 721px) {
+        /* App Container - Mobile-first design */
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        @media (min-width: 768px) {
             .app-container {
-                border-radius: 24px;
-                box-shadow: 
-                    0 0 80px rgba(0, 255, 255, 0.15),
-                    inset 0 0 120px rgba(0, 100, 255, 0.08);
+                height: 90vh;
+                margin: 5vh auto;
+                border-radius: var(--radius-xl);
+                overflow: hidden;
             }
         }
 
-        /* Cyberpunk Glow Effects */
-        .glow-effect {
+        /* Login Screen */
+        .screen {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+            z-index: 100;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Header */
-        .app-header {
-            height: 90px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(5, 5, 5, 0.8));
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--gray);
-            padding: 0 25px;
+        .screen.hidden {
+            transform: translateX(-100%);
+        }
+
+        .screen.active {
+            transform: translateX(0);
+        }
+
+        /* Status Bar */
+        .status-bar {
+            height: 44px;
+            background: var(--bg-secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            position: relative;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 0 var(--spacing-md);
+            color: var(--text-primary);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .logo {
+        .time {
+            font-weight: 600;
+        }
+
+        .signal-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--spacing-sm);
         }
 
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 12px;
+        .battery {
+            font-size: var(--font-size-xs);
+        }
+
+        /* Login Content */
+        .login-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            background: var(--bg-primary);
+        }
+
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--ios-blue), var(--ios-light-blue));
+            border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-medium);
             position: relative;
             overflow: hidden;
         }
 
-        .logo-icon::before {
+        .app-icon::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             animation: shine 3s infinite;
         }
 
         @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        .logo-text {
-            display: flex;
-            flex-direction: column;
+        .app-icon i {
+            font-size: 48px;
+            color: var(--text-white);
         }
 
-        .logo-title {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
+        .app-title {
+            font-size: var(--font-size-xxl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
         }
 
-        .logo-subtitle {
-            font-size: 12px;
-            color: var(--primary);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 2px;
+        .app-subtitle {
+            font-size: var(--font-size-md);
+            color: var(--text-tertiary);
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
         }
 
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        /* Input Field */
+        .input-container {
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: var(--spacing-xl);
         }
 
-        .header-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            background: rgba(0, 30, 30, 0.6);
-            color: var(--primary);
+        .input-field {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-md);
+            color: var(--text-primary);
+            transition: var(--transition-normal);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--ios-blue);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        /* Button */
+        .btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: var(--ios-blue);
+            color: var(--text-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-normal);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            gap: var(--spacing-sm);
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-            transition: 0.5s;
+            max-width: 320px;
         }
 
-        .header-btn:hover::before {
-            left: 100%;
+        .btn:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
         }
 
-        .header-btn:hover {
-            border-color: var(--primary);
-            background: rgba(0, 50, 50, 0.8);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        .btn:active {
+            transform: translateY(0);
         }
 
-        .header-btn.active {
-            background: var(--primary);
-            color: var(--dark);
-            border-color: var(--primary);
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
         }
 
-        /* Status Indicator */
-        .status-indicator {
+        .btn-secondary:hover {
+            background: #D1D1D6;
+        }
+
+        /* Chat Screen */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            height: 56px;
+            background: var(--bg-secondary);
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(0, 40, 40, 0.6);
-            border-radius: 20px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            font-size: 13px;
-            font-weight: 600;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+            z-index: 10;
         }
 
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--success);
-            box-shadow: 0 0 10px var(--success);
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ios-blue);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .menu-btn:hover {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .nav-title {
+            flex: 1;
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin-left: -40px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: var(--radius-circle);
+            background: var(--ios-green);
+            position: relative;
+        }
+
+        .status-indicator::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: var(--radius-circle);
+            background: var(--ios-green);
+            opacity: 0.3;
             animation: pulse 2s infinite;
         }
 
-        .status-dot.offline {
-            background: var(--error);
-            box-shadow: 0 0 10px var(--error);
+        .status-indicator.offline {
+            background: var(--ios-red);
         }
 
-        .status-dot.connecting {
-            background: var(--warning);
-            box-shadow: 0 0 10px var(--warning);
+        .status-indicator.offline::after {
+            background: var(--ios-red);
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
         }
 
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: absolute;
-            left: -320px;
-            top: 0;
-            width: 320px;
-            height: 100%;
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(0, 255, 255, 0.1);
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 25px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
-        }
-
-        .sidebar-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-title i {
-            font-size: 16px;
-        }
-
-        .model-selector {
-            background: rgba(0, 20, 20, 0.8);
-            border-radius: var(--border-radius-sm);
-            padding: 15px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        .model-selector select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: var(--border-radius-sm);
-            font-size: 14px;
-            background: rgba(0, 10, 10, 0.8);
-            color: var(--primary);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .model-selector select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
-        }
-
-        .model-selector select option {
-            background: var(--dark);
-            color: var(--light);
-        }
-
-        .conversation-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .conversation-item {
-            padding: 16px;
-            margin-bottom: 10px;
-            background: rgba(0, 20, 20, 0.6);
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-            border: 1px solid rgba(0, 255, 255, 0.1);
-        }
-
-        .conversation-item:hover {
-            background: rgba(0, 40, 40, 0.8);
-            transform: translateX(5px);
-            border-left-color: var(--primary);
-            border-color: rgba(0, 255, 255, 0.3);
-        }
-
-        .conversation-item.active {
-            background: rgba(0, 40, 40, 0.8);
-            border-left-color: var(--primary);
-            border-color: rgba(0, 255, 255, 0.3);
-        }
-
-        .conv-preview {
-            font-size: 14px;
-            color: var(--light);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 5px;
-        }
-
-        .conv-time {
-            font-size: 11px;
-            color: var(--primary);
-        }
-
-        .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid rgba(0, 255, 255, 0.1);
-        }
-
-        .new-chat-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
-            border: none;
-            border-radius: var(--border-radius-sm);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .new-chat-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .new-chat-btn:hover::before {
-            left: 100%;
-        }
-
-        .new-chat-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
-        }
-
-        /* Chat Area */
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: linear-gradient(to bottom, rgba(0, 5, 5, 0.9), rgba(0, 10, 10, 0.8));
-        }
-
+        /* Chat Messages */
         .chat-messages {
             flex: 1;
-            padding: 25px;
             overflow-y: auto;
+            padding: var(--spacing-md);
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(0, 100, 100, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(0, 150, 150, 0.05) 0%, transparent 50%);
+            gap: var(--spacing-md);
+            background: var(--bg-primary);
         }
 
-        /* Custom Scrollbar */
         .chat-messages::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: rgba(0, 20, 20, 0.5);
-            border-radius: 3px;
+            background: transparent;
         }
 
         .chat-messages::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, var(--primary), var(--accent));
-            border-radius: 3px;
+            background: var(--border-light);
+            border-radius: 2px;
         }
 
+        /* Message Bubbles */
         .message {
             display: flex;
-            gap: 15px;
+            gap: var(--spacing-sm);
             max-width: 85%;
-            animation: messageSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: messageSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes messageSlide {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px) scale(0.95); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message.user {
@@ -477,729 +406,378 @@
         }
 
         .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             flex-shrink: 0;
-            margin-top: 5px;
-            position: relative;
-            overflow: hidden;
+            margin-top: 4px;
         }
 
         .user .message-avatar {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            background: var(--ios-blue);
+            color: var(--text-white);
         }
 
         .ai .message-avatar {
-            background: linear-gradient(135deg, #003333, #006666);
-            color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 150, 150, 0.3);
-        }
-
-        .message-avatar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: avatarShine 3s infinite;
-        }
-
-        @keyframes avatarShine {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
         }
 
         .message-content {
-            padding: 18px 22px;
-            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
             position: relative;
-            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-light);
         }
 
         .user .message-content {
-            background: linear-gradient(135deg, rgba(0, 100, 100, 0.3), rgba(0, 150, 150, 0.2));
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-bottom-right-radius: 5px;
-            border-top-right-radius: 5px;
-            color: var(--light);
+            background: var(--ios-blue);
+            color: var(--text-white);
+            border-bottom-right-radius: var(--radius-sm);
         }
 
         .ai .message-content {
-            background: linear-gradient(135deg, rgba(0, 20, 20, 0.5), rgba(0, 30, 30, 0.4));
-            border: 1px solid rgba(0, 255, 255, 0.1);
-            border-bottom-left-radius: 5px;
-            border-top-left-radius: 5px;
-            color: var(--light);
-        }
-
-        .message-content::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg, var(--primary), transparent, var(--accent, transparent));
-            border-radius: var(--border-radius);
-            z-index: -1;
-            opacity: 0.3;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            border-bottom-left-radius: var(--radius-sm);
+            backdrop-filter: blur(10px);
         }
 
         .message-text {
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        .message-text pre {
-            background: rgba(0, 10, 10, 0.8);
-            padding: 12px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: var(--primary);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        .message-text code {
-            background: rgba(0, 20, 20, 0.8);
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: var(--primary);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        .message-text strong {
-            color: var(--primary);
-        }
-
-        .message-text em {
-            color: var(--primary-light);
+            line-height: 1.5;
+            font-size: var(--font-size-md);
+            word-wrap: break-word;
         }
 
         .message-time {
-            font-size: 11px;
-            margin-top: 10px;
-            opacity: 0.7;
+            font-size: var(--font-size-xs);
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: var(--spacing-xs);
             text-align: right;
         }
 
         .ai .message-time {
-            color: var(--primary);
-        }
-
-        .user .message-time {
-            color: var(--primary-light);
-        }
-
-        .message-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .message:hover .message-actions {
-            opacity: 1;
-        }
-
-        .action-btn {
-            background: rgba(0, 30, 30, 0.8);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 12px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .action-btn:hover {
-            background: rgba(0, 50, 50, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-2px);
+            color: var(--text-tertiary);
         }
 
         /* Chat Input */
         .chat-input-container {
-            padding: 25px;
-            background: rgba(0, 5, 5, 0.9);
-            border-top: 1px solid rgba(0, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-light);
         }
 
         .input-wrapper {
             display: flex;
-            gap: 15px;
+            gap: var(--spacing-md);
             align-items: flex-end;
         }
 
-        .message-input {
+        .chat-input {
             flex: 1;
-            padding: 18px 20px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: var(--border-radius);
-            font-size: 15px;
+            padding: var(--spacing-md);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-md);
+            color: var(--text-primary);
             resize: none;
-            max-height: 150px;
-            min-height: 60px;
-            background: rgba(0, 20, 20, 0.6);
-            color: var(--light);
-            transition: var(--transition);
-            line-height: 1.5;
+            max-height: 120px;
+            min-height: 44px;
+            transition: var(--transition-normal);
+            font-family: inherit;
         }
 
-        .message-input:focus {
+        .chat-input:focus {
             outline: none;
-            border-color: var(--primary);
-            background: rgba(0, 30, 30, 0.8);
-            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+            border-color: var(--ios-blue);
+            background: var(--bg-secondary);
         }
 
-        .message-input::placeholder {
-            color: rgba(0, 255, 255, 0.5);
+        .chat-input::placeholder {
+            color: var(--text-tertiary);
         }
 
         .send-btn {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
+            width: 44px;
+            height: 44px;
+            background: var(--ios-blue);
+            color: var(--text-white);
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: var(--radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition);
-            font-size: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .send-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .send-btn:hover::before {
-            left: 100%;
+            transition: var(--transition-normal);
+            flex-shrink: 0;
         }
 
         .send-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+            background: #0056CC;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
         }
 
         .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            background: var(--gray);
         }
 
-        .input-features {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-
-        .features-left {
-            display: flex;
-            gap: 20px;
-        }
-
-        .feature-btn {
-            background: rgba(0, 30, 30, 0.6);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border-radius: 10px;
-            transition: var(--transition);
-        }
-
-        .feature-btn:hover {
-            background: rgba(0, 50, 50, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .api-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary);
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Custom Loading Animation */
-        .cyber-loader {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 30px;
-        }
-
-        .cyber-core {
-            width: 80px;
-            height: 80px;
-            position: relative;
-        }
-
-        .cyber-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid transparent;
-            border-radius: 50%;
-            animation: rotate 2s linear infinite;
-        }
-
-        .cyber-ring:nth-child(1) {
-            border-top-color: var(--primary);
-            animation-duration: 2s;
-        }
-
-        .cyber-ring:nth-child(2) {
-            border-right-color: var(--accent);
-            animation-duration: 1.5s;
-            animation-direction: reverse;
-        }
-
-        .cyber-ring:nth-child(3) {
-            border-bottom-color: var(--primary-light);
-            animation-duration: 1s;
-        }
-
-        .cyber-dots {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: rotate 3s linear infinite;
-        }
-
-        .cyber-dots::before,
-        .cyber-dots::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .cyber-dots::before {
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .cyber-dots::after {
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .cyber-pulse {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
-            animation: pulseRing 2s ease-in-out infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulseRing {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-
-        .cyber-text {
-            color: var(--primary);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: textPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes textPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Settings Panel */
-        .settings-panel {
+        /* Side Menu */
+        .side-menu {
             position: fixed;
             top: 0;
-            right: -100%;
-            width: 100%;
+            left: -100%;
+            width: 85%;
+            max-width: 320px;
             height: 100%;
-            background: rgba(0, 5, 5, 0.98);
-            backdrop-filter: blur(30px);
-            z-index: 200;
-            transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-secondary);
+            z-index: 1000;
+            transition: var(--transition-slow);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            border-left: 1px solid rgba(0, 255, 255, 0.1);
+            box-shadow: var(--shadow-heavy);
         }
 
-        .settings-panel.active {
-            right: 0;
+        .side-menu.active {
+            left: 0;
         }
 
-        .settings-header {
-            padding: 30px 25px;
-            background: linear-gradient(to bottom, rgba(0, 10, 10, 0.9), transparent);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        .menu-header {
+            padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-primary);
+        }
+
+        .user-profile {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: var(--spacing-md);
         }
 
-        .settings-header h2 {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .close-settings {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            background: rgba(0, 30, 30, 0.6);
-            color: var(--primary);
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
+            border-radius: var(--radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-settings:hover {
-            border-color: var(--primary);
-            background: rgba(0, 50, 50, 0.8);
-            transform: rotate(90deg);
-        }
-
-        .settings-tabs {
-            display: flex;
-            background: rgba(0, 10, 10, 0.8);
-            padding: 0 25px;
-            overflow-x: auto;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
-        }
-
-        .settings-tab {
-            padding: 20px 0;
-            margin-right: 30px;
-            background: none;
-            border: none;
-            color: rgba(0, 255, 255, 0.6);
-            font-size: 15px;
+            font-size: var(--font-size-xl);
+            color: var(--text-white);
             font-weight: 600;
-            cursor: pointer;
-            position: relative;
-            white-space: nowrap;
-            transition: var(--transition);
+            box-shadow: var(--shadow-light);
         }
 
-        .settings-tab:hover {
-            color: var(--primary);
+        .user-info {
+            flex: 1;
         }
 
-        .settings-tab.active {
-            color: var(--primary);
+        .user-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
         }
 
-        .settings-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            border-radius: 3px 3px 0 0;
+        .user-status {
+            font-size: var(--font-size-sm);
+            color: var(--text-tertiary);
         }
 
-        .settings-content {
+        .menu-content {
             flex: 1;
             overflow-y: auto;
-            padding: 30px 25px;
+            padding: var(--spacing-md);
         }
 
-        .settings-section {
-            margin-bottom: 40px;
-            animation: fadeInUp 0.5s ease-out;
+        .menu-section {
+            margin-bottom: var(--spacing-xl);
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .section-title {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-sm);
+            padding-left: var(--spacing-xs);
         }
 
-        .settings-section h3 {
-            font-size: 20px;
-            color: var(--primary);
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        .menu-item {
+            padding: var(--spacing-md);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: var(--transition-fast);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: var(--spacing-md);
         }
 
-        .settings-section h3 i {
-            font-size: 20px;
+        .menu-item:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
+        }
+
+        .menu-item i {
             width: 24px;
+            text-align: center;
+            color: var(--ios-blue);
+            font-size: var(--font-size-lg);
         }
 
-        .setting-group {
-            margin-bottom: 25px;
+        .menu-item-text {
+            flex: 1;
+            font-size: var(--font-size-md);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .menu-item-badge {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: var(--ios-green);
+            color: var(--text-white);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+
+        /* AI Mode Selector */
+        .mode-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mode-option {
+            padding: var(--spacing-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .mode-option:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .mode-option.active {
+            background: var(--ios-blue);
+            color: var(--text-white);
+            border-color: var(--ios-blue);
+        }
+
+        .mode-icon {
+            font-size: 24px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .mode-name {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+        }
+
+        .mode-desc {
+            font-size: var(--font-size-xs);
+            opacity: 0.8;
+            margin-top: var(--spacing-xs);
+        }
+
+        /* Settings Items */
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            border: 1px solid var(--border-light);
         }
 
         .setting-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .setting-label span {
-            font-weight: 600;
-            color: var(--light);
-            font-size: 15px;
-        }
-
-        .setting-value {
-            font-size: 14px;
-            color: var(--primary);
-            font-weight: 700;
+            font-size: var(--font-size-md);
+            color: var(--text-primary);
         }
 
         .setting-control {
-            width: 100%;
-            padding: 16px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: var(--border-radius-sm);
-            font-size: 14px;
-            transition: var(--transition);
-            background: rgba(0, 20, 20, 0.6);
-            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
         }
 
-        .setting-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(0, 30, 30, 0.8);
-            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
-        }
-
-        .slider-container {
-            padding: 12px 0;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            height: 8px;
-            -webkit-appearance: none;
-            background: linear-gradient(to right, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.5));
-            border-radius: 4px;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            border: 3px solid var(--dark);
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .api-key-group {
+        /* Slider */
+        .slider {
+            width: 100px;
+            height: 4px;
+            background: var(--border-light);
+            border-radius: 2px;
             position: relative;
-        }
-
-        .api-key-input {
-            padding-right: 60px;
-        }
-
-        .toggle-visibility {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 30, 30, 0.8);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            color: var(--primary);
             cursor: pointer;
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
         }
 
-        .toggle-visibility:hover {
-            background: rgba(0, 50, 50, 0.8);
-            border-color: var(--primary);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            padding: 12px 0;
-        }
-
-        .checkbox {
-            width: 22px;
-            height: 22px;
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .checkbox::before {
-            content: '';
+        .slider-track {
             position: absolute;
-            width: 100%;
+            left: 0;
+            top: 0;
             height: 100%;
-            background: var(--primary);
-            border-radius: 4px;
-            transform: scale(0);
-            transition: transform 0.2s;
+            background: var(--ios-blue);
+            border-radius: 2px;
         }
 
-        .checkbox.checked::before {
-            transform: scale(1);
+        .slider-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--ios-blue);
+            border-radius: var(--radius-circle);
+            box-shadow: var(--shadow-light);
         }
 
-        .checkbox.checked::after {
-            content: '✓';
-            color: var(--dark);
-            font-size: 12px;
-            font-weight: bold;
+        /* Toggle Switch */
+        .toggle {
+            width: 51px;
+            height: 31px;
+            background: var(--border-light);
+            border-radius: 16px;
             position: relative;
-            z-index: 1;
-        }
-
-        .checkbox-label {
-            font-size: 14px;
-            color: var(--light);
-        }
-
-        .hint-text {
-            font-size: 12px;
-            color: rgba(0, 255, 255, 0.6);
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        .settings-footer {
-            padding: 25px;
-            border-top: 1px solid rgba(0, 255, 255, 0.1);
-            background: rgba(0, 10, 10, 0.9);
-            display: flex;
-            gap: 15px;
-        }
-
-        .save-btn {
-            flex: 1;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
-            border: none;
-            border-radius: var(--border-radius-sm);
-            font-size: 16px;
-            font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: var(--transition-normal);
         }
 
-        .save-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
+        .toggle.active {
+            background: var(--ios-green);
         }
 
-        .cancel-btn {
-            flex: 1;
-            padding: 18px;
-            background: rgba(0, 30, 30, 0.8);
-            color: var(--primary);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: var(--border-radius-sm);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: var(--transition);
+        .toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 27px;
+            height: 27px;
+            background: var(--text-white);
+            border-radius: var(--radius-circle);
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-light);
         }
 
-        .cancel-btn:hover {
-            background: rgba(0, 50, 50, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-3px);
+        .toggle.active .toggle-thumb {
+            left: calc(100% - 29px);
         }
 
         /* Overlay */
@@ -1209,12 +787,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 149;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition);
-            backdrop-filter: blur(5px);
+            transition: var(--transition-normal);
+            backdrop-filter: blur(2px);
         }
 
         .overlay.active {
@@ -1222,632 +800,1193 @@
             visibility: visible;
         }
 
-        /* API Status Notification */
-        .api-status {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(0, 20, 20, 0.95);
-            color: var(--primary);
-            padding: 18px 30px;
-            border-radius: var(--border-radius);
-            font-size: 14px;
-            z-index: 1000;
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(0, 255, 255, 0.2);
+        /* Loading Animation */
+        .loading-indicator {
             display: flex;
             align-items: center;
-            gap: 15px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            width: fit-content;
+            margin: var(--spacing-md) auto;
         }
 
-        .api-status.show {
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--ios-blue);
+            border-radius: var(--radius-circle);
+            animation: loadingDot 1.4s infinite ease-in-out;
+        }
+
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes loadingDot {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: var(--spacing-xl);
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--border-light);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            opacity: 0;
+            transition: var(--transition-normal);
+        }
+
+        .notification.show {
             transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
-        .api-status.success {
-            color: var(--success);
-            border-color: rgba(0, 255, 136, 0.3);
+        .notification.success {
+            border-left: 4px solid var(--ios-green);
         }
 
-        .api-status.error {
-            color: var(--error);
-            border-color: rgba(255, 51, 102, 0.3);
+        .notification.error {
+            border-left: 4px solid var(--ios-red);
         }
 
-        .api-status.warning {
-            color: var(--warning);
-            border-color: rgba(255, 170, 0, 0.3);
-        }
-
-        /* Offline Message */
-        .offline-message {
-            background: linear-gradient(135deg, rgba(255, 51, 102, 0.1), rgba(255, 0, 0, 0.05));
-            border: 1px solid rgba(255, 51, 102, 0.3);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin: 20px;
-            text-align: center;
-            animation: errorPulse 2s infinite;
-        }
-
-        @keyframes errorPulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        /* Enhanced Features */
-        .enhanced-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .feature-card {
-            background: rgba(0, 20, 20, 0.6);
-            border: 1px solid rgba(0, 255, 255, 0.1);
-            border-radius: var(--border-radius-sm);
-            padding: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .feature-card:hover {
-            background: rgba(0, 40, 40, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .feature-card i {
-            font-size: 24px;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .feature-card h4 {
-            color: var(--light);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .feature-card p {
-            color: rgba(0, 255, 255, 0.7);
-            font-size: 12px;
+        .notification.warning {
+            border-left: 4px solid var(--ios-orange);
         }
 
         /* Quick Actions */
         .quick-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
         }
 
-        .quick-action-btn {
-            flex: 1;
-            padding: 15px;
-            background: rgba(0, 30, 30, 0.6);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: var(--border-radius-sm);
-            color: var(--primary);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
+        .action-btn {
+            padding: var(--spacing-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            cursor: pointer;
+            transition: var(--transition-fast);
         }
 
-        .quick-action-btn:hover {
-            background: rgba(0, 50, 50, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-3px);
+        .action-btn:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+        }
+
+        .action-btn i {
+            font-size: 24px;
+            color: var(--ios-blue);
+        }
+
+        .action-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-primary);
+            text-align: center;
         }
 
         /* Responsive */
-        @media (max-width: 720px) {
+        @media (max-width: 480px) {
             .app-container {
-                width: 100vw;
-                height: 100vh;
-                border-radius: 0;
+                max-width: 100%;
             }
             
-            .message {
-                max-width: 90%;
+            .mode-selector {
+                grid-template-columns: 1fr;
             }
             
-            .settings-panel {
-                width: 100%;
-            }
-            
-            .enhanced-features {
+            .quick-actions {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (min-width: 721px) {
-            .settings-panel {
-                width: 500px;
-                right: -500px;
-            }
-        }
-
-        /* Utility */
+        /* Utility Classes */
         .hidden {
             display: none !important;
         }
 
-        .scrollbar-hidden {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
         }
 
-        .scrollbar-hidden::-webkit-scrollbar {
-            display: none;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .text-gradient {
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            width: fit-content;
+        }
+
+        .typing-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-tertiary);
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Glow Effects -->
-        <div class="glow-effect"></div>
-
-        <!-- Header -->
-        <header class="app-header">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="logo-text">
-                    <div class="logo-title">CYANIX AI</div>
-                    <div class="logo-subtitle">NEURAL INTERFACE</div>
+    <!-- App Container -->
+    <div class="app-container" id="appContainer">
+        <!-- Login Screen -->
+        <div class="screen active" id="loginScreen">
+            <div class="status-bar">
+                <div class="time" id="loginTime">12:00</div>
+                <div class="signal-info">
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <div class="battery">100%</div>
                 </div>
             </div>
             
-            <div class="header-controls">
-                <div class="status-indicator" id="statusIndicator">
-                    <div class="status-dot" id="statusDot"></div>
-                    <span id="statusText">SYNCING</span>
+            <div class="login-content">
+                <div class="app-icon">
+                    <i class="fas fa-robot"></i>
                 </div>
-                <button class="header-btn" id="menuToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <button class="header-btn" id="settingsToggle">
-                    <i class="fas fa-sliders-h"></i>
+                <h1 class="app-title">Cyanix AI</h1>
+                <p class="app-subtitle">Your intelligent assistant</p>
+                
+                <div class="input-container">
+                    <input type="text" class="input-field" id="usernameInput" placeholder="Enter your name" autocomplete="off">
+                </div>
+                
+                <button class="btn" id="loginBtn">
+                    <i class="fas fa-arrow-right"></i>
+                    Continue
                 </button>
             </div>
-        </header>
+        </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Sidebar -->
-            <div class="sidebar" id="sidebar">
-                <div class="sidebar-header">
-                    <div class="sidebar-title">
-                        <i class="fas fa-brain"></i>
-                        NEURAL MODELS
-                    </div>
-                    <div class="model-selector">
-                        <select id="modelSelect">
-                            <option value="llama3-70b-8192">Llama-3 70B (Ultra)</option>
-                            <option value="llama3-8b-8192">Llama-3 8B (Fast)</option>
-                            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
-                            <option value="gemma-7b-it">Gemma 7B</option>
-                            <option value="llama3-groq-70b">Groq Optimized</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="conversation-list" id="conversationList">
-                    <!-- Conversations will load here -->
-                </div>
-                
-                <div class="sidebar-footer">
-                    <button class="new-chat-btn" id="newChatBtn">
-                        <i class="fas fa-plus"></i>
-                        <span>NEW NEURAL LINK</span>
+        <!-- Chat Screen -->
+        <div class="screen hidden" id="chatScreen">
+            <div class="chat-container">
+                <!-- Navigation Bar -->
+                <div class="nav-bar">
+                    <button class="menu-btn" id="menuToggle">
+                        <i class="fas fa-bars"></i>
                     </button>
+                    <div class="nav-title">Cyanix AI</div>
+                    <div class="status-indicator" id="statusIndicator"></div>
                 </div>
-            </div>
 
-            <!-- Chat Area -->
-            <div class="chat-area">
+                <!-- Chat Messages -->
                 <div class="chat-messages" id="chatMessages">
-                    <!-- Messages will appear here -->
+                    <!-- Messages will be inserted here -->
                     <div class="message ai">
                         <div class="message-avatar">
                             <i class="fas fa-robot"></i>
                         </div>
                         <div class="message-content">
-                            <div class="message-text">
-                                <p><strong>SYSTEM INITIALIZED</strong></p>
-                                <p>CYANIX AI Neural Network online. All systems operational.</p>
-                                <p>Frequency: <span class="text-gradient">Quantum-Sync</span></p>
-                                <p>Ready for neural interface. How may I assist?</p>
-                            </div>
-                            <div class="message-time">SYSTEM TIME</div>
+                            <div class="message-text">Hello! I'm Cyanix AI, your intelligent assistant. How can I help you today?</div>
+                            <div class="message-time" id="welcomeTime">Just now</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Chat Input -->
                 <div class="chat-input-container">
                     <div class="input-wrapper">
-                        <textarea class="message-input" id="messageInput" placeholder="Input neural query..." rows="1"></textarea>
+                        <textarea class="chat-input" id="chatInput" placeholder="Message" rows="1"></textarea>
                         <button class="send-btn" id="sendBtn">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
-                    <div class="input-features">
-                        <div class="features-left">
-                            <button class="feature-btn" id="voiceBtn">
-                                <i class="fas fa-microphone"></i>
-                                <span>VOICE INPUT</span>
-                            </button>
-                            <button class="feature-btn" id="attachBtn">
-                                <i class="fas fa-paperclip"></i>
-                                <span>ATTACH FILE</span>
-                            </button>
-                            <button class="feature-btn" id="codeBtn">
-                                <i class="fas fa-code"></i>
-                                <span>CODE MODE</span>
-                            </button>
-                        </div>
-                        <div class="api-info">
-                            <i class="fas fa-bolt"></i>
-                            <span>GROQ API v2.0</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Settings Panel -->
-        <div class="settings-panel" id="settingsPanel">
-            <div class="settings-header">
-                <h2>NEURAL CONFIG</h2>
-                <button class="close-settings" id="closeSettingsBtn">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">User</div>
+                    <div class="user-status">Active</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-content">
+            <div class="menu-section">
+                <div class="section-title">AI Mode</div>
+                <div class="mode-selector">
+                    <div class="mode-option active" data-mode="nix">
+                        <div class="mode-icon">⚡</div>
+                        <div class="mode-name">Nix</div>
+                        <div class="mode-desc">Quick responses</div>
+                    </div>
+                    <div class="mode-option" data-mode="blub">
+                        <div class="mode-icon">🧠</div>
+                        <div class="mode-name">Nova</div>
+                        <div class="mode-desc">Deep thinking</div>
+                    </div>
+                    <div class="mode-option" data-mode="default">
+                        <div class="mode-icon">🤖</div>
+                        <div class="mode-name">Cyanix</div>
+                        <div class="mode-desc">Balanced</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">Settings</div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">Voice Speed</div>
+                    <div class="setting-control">
+                        <div class="slider" id="voiceSpeedSlider">
+                            <div class="slider-track" style="width: 50%"></div>
+                            <div class="slider-thumb" style="left: 50%"></div>
+                        </div>
+                        <span class="slider-value">0.9</span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">Auto-Speak</div>
+                    <div class="setting-control">
+                        <div class="toggle active" id="autoSpeakToggle">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">Actions</div>
+                
+                <div class="menu-item" id="clearChatBtn">
+                    <i class="fas fa-broom"></i>
+                    <div class="menu-item-text">Clear Chat</div>
+                </div>
+                
+                <div class="menu-item" id="exportChatBtn">
+                    <i class="fas fa-download"></i>
+                    <div class="menu-item-text">Export Chat</div>
+                </div>
+                
+                <div class="menu-item" id="loadMemoryBtn">
+                    <i class="fas fa-folder-open"></i>
+                    <div class="menu-item-text">Load Memory</div>
+                </div>
+                
+                <div class="menu-item" id="clearMemoryBtn">
+                    <i class="fas fa-trash"></i>
+                    <div class="menu-item-text">Clear Memory</div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">API Settings</div>
+                
+                <div class="menu-item" id="apiSettingsBtn">
+                    <i class="fas fa-key"></i>
+                    <div class="menu-item-text">API Configuration</div>
+                    <div class="menu-item-badge" id="apiStatusBadge">●</div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="quick-actions">
+                    <div class="action-btn" id="quickAction1">
+                        <i class="fas fa-microphone"></i>
+                        <div class="action-label">Voice Input</div>
+                    </div>
+                    <div class="action-btn" id="quickAction2">
+                        <i class="fas fa-code"></i>
+                        <div class="action-label">Code Mode</div>
+                    </div>
+                    <div class="action-btn" id="quickAction3">
+                        <i class="fas fa-image"></i>
+                        <div class="action-label">Generate Image</div>
+                    </div>
+                    <div class="action-btn" id="quickAction4">
+                        <i class="fas fa-history"></i>
+                        <div class="action-label">History</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="settings-tabs">
-                <button class="settings-tab active" data-tab="api">API CORE</button>
-                <button class="settings-tab" data-tab="model">NEURAL PARAMS</button>
-                <button class="settings-tab" data-tab="behavior">BEHAVIOR MATRIX</button>
-                <button class="settings-tab" data-tab="features">ENHANCED FEATURES</button>
-                <button class="settings-tab" data-tab="about">ABOUT SYSTEM</button>
+            <div class="menu-item" id="logoutBtn" style="margin-top: var(--spacing-xl); background: rgba(255, 59, 48, 0.1); border-color: rgba(255, 59, 48, 0.2);">
+                <i class="fas fa-sign-out-alt" style="color: var(--ios-red);"></i>
+                <div class="menu-item-text" style="color: var(--ios-red);">Logout</div>
             </div>
-            
-            <div class="settings-content">
-                <!-- API Settings -->
-                <div class="settings-section active" id="api-tab">
-                    <h3><i class="fas fa-key"></i> API CONFIGURATION</h3>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>GROQ API KEY</span>
-                            <span class="setting-value" id="apiStatusText">● OFFLINE</span>
-                        </div>
-                        <div class="api-key-group">
-                            <input type="password" class="setting-control api-key-input" id="apiKey" placeholder="Enter neural access key">
-                            <button class="toggle-visibility" id="toggleVisibility">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="hint-text">
-                            Obtain key from <a href="https://console.groq.com" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">GROQ CONSOLE</a>
-                        </div>
-                    </div>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>API ENDPOINT</span>
-                        </div>
-                        <input type="text" class="setting-control" id="apiEndpoint" value="https://api.groq.com/openai/v1/chat/completions">
-                    </div>
-                    
-                    <div class="setting-group">
-                        <button class="setting-control" id="testApiBtn" style="background: rgba(0, 40, 40, 0.8); cursor: pointer; text-align: center; color: var(--primary); font-weight: 600;">
-                            <i class="fas fa-satellite-dish"></i> TEST NEURAL CONNECTION
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Action completed</span>
+    </div>
+
+    <!-- API Settings Modal -->
+    <div class="side-menu" id="apiSettingsMenu" style="left: 100%;">
+        <div class="menu-header">
+            <button class="menu-btn" id="backToMenuBtn" style="position: absolute; left: var(--spacing-md);">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 style="text-align: center; margin: 0; font-size: var(--font-size-lg);">API Settings</h2>
+        </div>
+        
+        <div class="menu-content">
+            <div class="menu-section">
+                <div class="section-title">Groq API</div>
+                
+                <div class="input-container" style="margin-bottom: var(--spacing-md);">
+                    <input type="password" class="input-field" id="groqApiKey" placeholder="Enter Groq API Key">
+                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
+                        <button class="btn btn-secondary" style="flex: 1;" id="toggleApiKeyVisibility">
+                            <i class="fas fa-eye"></i>
+                            Show
                         </button>
-                    </div>
-                    
-                    <div class="checkbox-group" id="saveApiToggle">
-                        <div class="checkbox checked"></div>
-                        <span class="checkbox-label">Store key in neural cache</span>
+                        <button class="btn" style="flex: 1;" id="testGroqApiBtn">
+                            <i class="fas fa-bolt"></i>
+                            Test
+                        </button>
                     </div>
                 </div>
                 
-                <!-- Model Settings -->
-                <div class="settings-section" id="model-tab">
-                    <h3><i class="fas fa-cogs"></i> MODEL PARAMETERS</h3>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>CREATIVITY (Temperature)</span>
-                            <span class="setting-value" id="tempValue">0.7</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7">
-                        </div>
-                        <div class="hint-text">Lower = Logical, Higher = Creative</div>
-                    </div>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>RESPONSE LENGTH (Tokens)</span>
-                            <span class="setting-value" id="tokensValue">2048</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="maxTokens" min="128" max="8192" step="256" value="2048">
-                        </div>
-                    </div>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>TOP P SAMPLING</span>
-                            <span class="setting-value" id="topPValue">0.95</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="topP" min="0" max="1" step="0.05" value="0.95">
-                        </div>
-                    </div>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>FREQUENCY PENALTY</span>
-                            <span class="setting-value" id="freqValue">0.0</span>
-                        </div>
-                        <div class="slider-container">
-                            <input type="range" id="frequencyPenalty" min="-2" max="2" step="0.1" value="0.0">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Behavior Settings -->
-                <div class="settings-section" id="behavior-tab">
-                    <h3><i class="fas fa-user-astronaut"></i> BEHAVIOR MATRIX</h3>
-                    
-                    <div class="setting-group">
-                        <div class="setting-label">
-                            <span>SYSTEM PROMPT</span>
-                        </div>
-                        <textarea class="setting-control" id="systemPrompt" rows="6">You are CYANIX AI, an advanced neural network with cyberpunk aesthetics. You speak in a cool, technical style with occasional glitch effects. You provide accurate, helpful responses with a futuristic vibe. Format code with neon styling. Use cyber terminology. Be engaging and slightly mysterious.</textarea>
-                    </div>
-                    
-                    <div class="enhanced-features">
-                        <div class="feature-card" id="streamingToggle">
-                            <i class="fas fa-stream"></i>
-                            <h4>STREAMING RESPONSES</h4>
-                            <p>Real-time neural output</p>
-                        </div>
-                        <div class="feature-card" id="markdownToggle">
-                            <i class="fas fa-code"></i>
-                            <h4>NEON MARKDOWN</h4>
-                            <p>Cyber-styled formatting</p>
-                        </div>
-                        <div class="feature-card" id="contextToggle">
-                            <i class="fas fa-history"></i>
-                            <h4>CONTEXT MEMORY</h4>
-                            <p>Remember conversation</p>
-                        </div>
-                        <div class="feature-card" id="voiceToggle">
-                            <i class="fas fa-robot"></i>
-                            <h4>VOICE RESPONSE</h4>
-                            <p>Text-to-speech output</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Enhanced Features -->
-                <div class="settings-section" id="features-tab">
-                    <h3><i class="fas fa-star"></i> ENHANCED FEATURES</h3>
-                    
-                    <div class="quick-actions">
-                        <button class="quick-action-btn" id="exportChatBtn">
-                            <i class="fas fa-download"></i>
-                            EXPORT CHAT
-                        </button>
-                        <button class="quick-action-btn" id="importChatBtn">
-                            <i class="fas fa-upload"></i>
-                            IMPORT DATA
-                        </button>
-                    </div>
-                    
-                    <div class="quick-actions">
-                        <button class="quick-action-btn" id="clearCacheBtn">
-                            <i class="fas fa-trash"></i>
-                            CLEAR CACHE
-                        </button>
-                        <button class="quick-action-btn" id="resetBtn">
-                            <i class="fas fa-redo"></i>
-                            FACTORY RESET
-                        </button>
-                    </div>
-                    
-                    <div class="setting-group" style="margin-top: 30px;">
-                        <div class="setting-label">
-                            <span>CYBER THEME</span>
-                        </div>
-                        <select class="setting-control" id="themeSelect">
-                            <option value="cyber">CYBERPUNK</option>
-                            <option value="matrix">MATRIX GREEN</option>
-                            <option value="neon">NEON PURPLE</option>
-                            <option value="hacker">HACKER MODE</option>
+                <div class="setting-item">
+                    <div class="setting-label">Model</div>
+                    <div class="setting-control">
+                        <select style="padding: var(--spacing-sm); border: 1px solid var(--border-light); border-radius: var(--radius-md); background: var(--bg-card);" id="modelSelect">
+                            <option value="llama3-70b-8192">Llama 3 70B</option>
+                            <option value="llama3-8b-8192">Llama 3 8B</option>
+                            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+                            <option value="gemma-7b-it">Gemma 7B</option>
                         </select>
                     </div>
-                    
-                    <div class="checkbox-group" id="animationsToggle">
-                        <div class="checkbox checked"></div>
-                        <span class="checkbox-label">Enable cyber animations</span>
-                    </div>
-                    
-                    <div class="checkbox-group" id="soundToggle">
-                        <div class="checkbox"></div>
-                        <span class="checkbox-label">Enable interface sounds</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="section-title">Other APIs</div>
+                
+                <div class="input-container" style="margin-bottom: var(--spacing-sm);">
+                    <input type="text" class="input-field" placeholder="OpenAI API Key (Optional)">
+                </div>
+                
+                <div class="input-container" style="margin-bottom: var(--spacing-sm);">
+                    <input type="text" class="input-field" placeholder="Google AI Key (Optional)">
+                </div>
+                
+                <div class="input-container" style="margin-bottom: var(--spacing-sm);">
+                    <input type="text" class="input-field" placeholder="xAI Key (Optional)">
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="section-title">Advanced</div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">Temperature</div>
+                    <div class="setting-control">
+                        <div class="slider" id="temperatureSlider">
+                            <div class="slider-track" style="width: 50%"></div>
+                            <div class="slider-thumb" style="left: 50%"></div>
+                        </div>
+                        <span class="slider-value">0.7</span>
                     </div>
                 </div>
                 
-                <!-- About Section -->
-                <div class="settings-section" id="about-tab">
-                    <h3><i class="fas fa-info-circle"></i> ABOUT CYANIX AI</h3>
-                    
-                    <div class="setting-group">
-                        <div style="text-align: center; padding: 20px;">
-                            <div class="cyber-loader">
-                                <div class="cyber-core">
-                                    <div class="cyber-ring"></div>
-                                    <div class="cyber-ring"></div>
-                                    <div class="cyber-ring"></div>
-                                    <div class="cyber-dots"></div>
-                                    <div class="cyber-pulse"></div>
-                                </div>
-                                <div class="cyber-text">CYANIX AI v2.0</div>
-                            </div>
+                <div class="setting-item">
+                    <div class="setting-label">Max Tokens</div>
+                    <div class="setting-control">
+                        <div class="slider" id="maxTokensSlider">
+                            <div class="slider-track" style="width: 50%"></div>
+                            <div class="slider-thumb" style="left: 50%"></div>
                         </div>
-                        
-                        <div style="color: var(--light); font-size: 14px; line-height: 1.6; margin-top: 20px;">
-                            <p><strong>CYANIX AI</strong> is an advanced neural interface powered by Groq's quantum inference engine.</p>
-                            <p style="margin-top: 15px;">Features:</p>
-                            <ul style="margin-left: 20px; margin-top: 10px;">
-                                <li>Ultra-fast Groq API responses</li>
-                                <li>Cyberpunk UI/UX with neon aesthetics</li>
-                                <li>Advanced neural parameters</li>
-                                <li>Real-time streaming</li>
-                                <li>Offline intelligence mode</li>
-                            </ul>
-                        </div>
+                        <span class="slider-value">1024</span>
                     </div>
                 </div>
             </div>
             
-            <div class="settings-footer">
-                <button class="cancel-btn" id="cancelSettingsBtn">
-                    <i class="fas fa-times"></i>
-                    CANCEL
-                </button>
-                <button class="save-btn" id="saveSettingsBtn">
-                    <i class="fas fa-save"></i>
-                    SAVE CONFIG
-                </button>
-            </div>
-        </div>
-
-        <!-- Overlay -->
-        <div class="overlay" id="overlay"></div>
-
-        <!-- API Status Notification -->
-        <div class="api-status" id="apiStatus">
-            <i class="fas fa-satellite-dish"></i>
-            <span>Neural connection established</span>
+            <button class="btn" style="margin-top: var(--spacing-xl);" id="saveApiSettingsBtn">
+                <i class="fas fa-save"></i>
+                Save Settings
+            </button>
         </div>
     </div>
 
     <script>
         // DOM Elements
-        const appContainer = document.querySelector('.app-container');
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
+        const appContainer = document.getElementById('appContainer');
+        const loginScreen = document.getElementById('loginScreen');
+        const chatScreen = document.getElementById('chatScreen');
+        const usernameInput = document.getElementById('usernameInput');
+        const loginBtn = document.getElementById('loginBtn');
         const chatMessages = document.getElementById('chatMessages');
-        const newChatBtn = document.getElementById('newChatBtn');
-        const conversationList = document.getElementById('conversationList');
-        const menuToggle = document.getElementById('menuToggle');
-        const settingsToggle = document.getElementById('settingsToggle');
-        const sidebar = document.getElementById('sidebar');
-        const settingsPanel = document.getElementById('settingsPanel');
-        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-        const cancelSettingsBtn = document.getElementById('cancelSettingsBtn');
-        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const sideMenu = document.getElementById('sideMenu');
         const overlay = document.getElementById('overlay');
-        const apiStatus = document.getElementById('apiStatus');
+        const menuToggle = document.getElementById('menuToggle');
         const statusIndicator = document.getElementById('statusIndicator');
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const welcomeTime = document.getElementById('welcomeTime');
+        const loginTime = document.getElementById('loginTime');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
         
-        // Settings elements
-        const settingsTabs = document.querySelectorAll('.settings-tab');
-        const settingsSections = document.querySelectorAll('.settings-section');
-        const apiKeyInput = document.getElementById('apiKey');
-        const toggleVisibilityBtn = document.getElementById('toggleVisibility');
-        const testApiBtn = document.getElementById('testApiBtn');
-        const temperatureSlider = document.getElementById('temperature');
-        const tempValue = document.getElementById('tempValue');
-        const maxTokensSlider = document.getElementById('maxTokens');
-        const tokensValue = document.getElementById('tokensValue');
-        const topPSlider = document.getElementById('topP');
-        const topPValue = document.getElementById('topPValue');
-        const frequencyPenaltySlider = document.getElementById('frequencyPenalty');
-        const freqValue = document.getElementById('freqValue');
+        // API Settings
+        const apiSettingsMenu = document.getElementById('apiSettingsMenu');
+        const apiSettingsBtn = document.getElementById('apiSettingsBtn');
+        const backToMenuBtn = document.getElementById('backToMenuBtn');
+        const groqApiKey = document.getElementById('groqApiKey');
+        const toggleApiKeyVisibility = document.getElementById('toggleApiKeyVisibility');
+        const testGroqApiBtn = document.getElementById('testGroqApiBtn');
         const modelSelect = document.getElementById('modelSelect');
-        const systemPrompt = document.getElementById('systemPrompt');
-        const apiStatusText = document.getElementById('apiStatusText');
+        const saveApiSettingsBtn = document.getElementById('saveApiSettingsBtn');
+        const apiStatusBadge = document.getElementById('apiStatusBadge');
         
-        // Feature toggles
-        const streamingToggle = document.getElementById('streamingToggle');
-        const markdownToggle = document.getElementById('markdownToggle');
-        const contextToggle = document.getElementById('contextToggle');
-        const voiceToggle = document.getElementById('voiceToggle');
-        const animationsToggle = document.getElementById('animationsToggle');
-        const soundToggle = document.getElementById('soundToggle');
-        const saveApiToggle = document.getElementById('saveApiToggle');
+        // Mode Selector
+        const modeOptions = document.querySelectorAll('.mode-option');
         
-        // Quick action buttons
+        // Settings
+        const voiceSpeedSlider = document.getElementById('voiceSpeedSlider');
+        const autoSpeakToggle = document.getElementById('autoSpeakToggle');
+        const temperatureSlider = document.getElementById('temperatureSlider');
+        const maxTokensSlider = document.getElementById('maxTokensSlider');
+        
+        // Action Buttons
+        const clearChatBtn = document.getElementById('clearChatBtn');
         const exportChatBtn = document.getElementById('exportChatBtn');
-        const importChatBtn = document.getElementById('importChatBtn');
-        const clearCacheBtn = document.getElementById('clearCacheBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const voiceBtn = document.getElementById('voiceBtn');
-        const codeBtn = document.getElementById('codeBtn');
+        const loadMemoryBtn = document.getElementById('loadMemoryBtn');
+        const clearMemoryBtn = document.getElementById('clearMemoryBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        // Quick Actions
+        const quickAction1 = document.getElementById('quickAction1');
+        const quickAction2 = document.getElementById('quickAction2');
+        const quickAction3 = document.getElementById('quickAction3');
+        const quickAction4 = document.getElementById('quickAction4');
 
         // State
-        let currentConversationId = 'conv_' + Date.now();
-        let conversations = [];
-        let isTyping = false;
-        let settingsChanged = false;
-        let apiKey = '';
-        let isStreaming = true;
+        let currentUser = '';
         let isOnline = navigator.onLine;
-        let userName = 'User';
-        let codeMode = false;
+        let isTyping = false;
+        let currentMode = 'default';
+        let autoSpeak = true;
+        let voiceSpeed = 0.9;
+        let temperature = 0.7;
+        let maxTokens = 1024;
+        let selectedModel = 'llama3-70b-8192';
+        let groqApiKeyValue = '';
+        let conversationHistory = [];
+        let memoryData = {};
 
         // Initialize
         function init() {
-            checkNetworkStatus();
-            loadSettings();
-            loadConversations();
+            updateTime();
             setupEventListeners();
-            updateApiStatus();
-            autoResizeTextarea();
+            loadSettings();
+            checkNetworkStatus();
+            setupSliders();
+            setupNetworkMonitoring();
             
-            // Set initial active tab
-            switchTab('api');
+            // Update time every minute
+            setInterval(updateTime, 60000);
+        }
+
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateStr = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
             
-            // Add welcome message if no conversations
-            if (conversations.length === 0) {
-                createNewConversation();
-            } else {
-                loadConversation(currentConversationId);
+            if (loginTime) loginTime.textContent = timeStr;
+            if (welcomeTime) welcomeTime.textContent = `Today at ${timeStr}`;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Login
+            loginBtn.addEventListener('click', handleLogin);
+            usernameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+
+            // Chat
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+                
+                // Auto-resize textarea
+                setTimeout(() => {
+                    chatInput.style.height = 'auto';
+                    chatInput.style.height = (chatInput.scrollHeight) + 'px';
+                }, 0);
+            });
+
+            // Menu
+            menuToggle.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', closeMenu);
+            
+            // Mode selection
+            modeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    modeOptions.forEach(o => o.classList.remove('active'));
+                    option.classList.add('active');
+                    currentMode = option.dataset.mode;
+                    showNotification(`Mode switched to ${option.querySelector('.mode-name').textContent}`);
+                });
+            });
+
+            // API Settings
+            apiSettingsBtn.addEventListener('click', openApiSettings);
+            backToMenuBtn.addEventListener('click', closeApiSettings);
+            toggleApiKeyVisibility.addEventListener('click', toggleApiKeyVisibilityHandler);
+            testGroqApiBtn.addEventListener('click', testGroqApi);
+            saveApiSettingsBtn.addEventListener('click', saveApiSettings);
+
+            // Action buttons
+            clearChatBtn.addEventListener('click', clearChat);
+            exportChatBtn.addEventListener('click', exportChat);
+            loadMemoryBtn.addEventListener('click', loadMemory);
+            clearMemoryBtn.addEventListener('click', clearMemory);
+            logoutBtn.addEventListener('click', logout);
+
+            // Quick actions
+            quickAction1.addEventListener('click', () => showNotification('Voice input activated'));
+            quickAction2.addEventListener('click', () => showNotification('Code mode activated'));
+            quickAction3.addEventListener('click', () => showNotification('Image generation ready'));
+            quickAction4.addEventListener('click', () => showNotification('History loaded'));
+
+            // Toggle switch
+            autoSpeakToggle.addEventListener('click', () => {
+                autoSpeakToggle.classList.toggle('active');
+                autoSpeak = autoSpeakToggle.classList.contains('active');
+                showNotification(`Auto-speak ${autoSpeak ? 'enabled' : 'disabled'}`);
+            });
+        }
+
+        // Setup sliders
+        function setupSliders() {
+            // Voice speed slider
+            setupSlider(voiceSpeedSlider, 0.5, 1.5, 0.9, (value) => {
+                voiceSpeed = value;
+                document.querySelector('#voiceSpeedSlider + .setting-control .slider-value').textContent = value.toFixed(1);
+            });
+
+            // Temperature slider
+            setupSlider(temperatureSlider, 0, 2, 0.7, (value) => {
+                temperature = value;
+                document.querySelector('#temperatureSlider + .setting-control .slider-value').textContent = value.toFixed(1);
+            });
+
+            // Max tokens slider
+            setupSlider(maxTokensSlider, 128, 4096, 1024, (value) => {
+                maxTokens = Math.round(value);
+                document.querySelector('#maxTokensSlider + .setting-control .slider-value').textContent = Math.round(value);
+            });
+        }
+
+        // Setup individual slider
+        function setupSlider(sliderElement, min, max, initial, onChange) {
+            const track = sliderElement.querySelector('.slider-track');
+            const thumb = sliderElement.querySelector('.slider-thumb');
+            const valueDisplay = sliderElement.parentElement.querySelector('.slider-value');
+            
+            let isDragging = false;
+            
+            function updateSlider(clientX) {
+                const rect = sliderElement.getBoundingClientRect();
+                let percentage = (clientX - rect.left) / rect.width;
+                percentage = Math.max(0, Math.min(1, percentage));
+                
+                const value = min + percentage * (max - min);
+                const roundedValue = max === 2 ? parseFloat(value.toFixed(1)) : Math.round(value);
+                
+                track.style.width = `${percentage * 100}%`;
+                thumb.style.left = `${percentage * 100}%`;
+                if (valueDisplay) valueDisplay.textContent = roundedValue;
+                
+                onChange(roundedValue);
             }
             
-            // Setup network monitoring
+            sliderElement.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                updateSlider(e.clientX);
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+            
+            sliderElement.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                updateSlider(e.touches[0].clientX);
+                document.addEventListener('touchmove', onTouchMove);
+                document.addEventListener('touchend', onTouchEnd);
+            });
+            
+            function onMouseMove(e) {
+                if (!isDragging) return;
+                updateSlider(e.clientX);
+            }
+            
+            function onMouseUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+            
+            function onTouchMove(e) {
+                if (!isDragging) return;
+                updateSlider(e.touches[0].clientX);
+            }
+            
+            function onTouchEnd() {
+                isDragging = false;
+                document.removeEventListener('touchmove', onTouchMove);
+                document.removeEventListener('touchend', onTouchEnd);
+            }
+            
+            // Set initial value
+            const initialPercentage = (initial - min) / (max - min);
+            track.style.width = `${initialPercentage * 100}%`;
+            thumb.style.left = `${initialPercentage * 100}%`;
+            if (valueDisplay) valueDisplay.textContent = initial;
+        }
+
+        // Setup network monitoring
+        function setupNetworkMonitoring() {
             window.addEventListener('online', handleOnline);
             window.addEventListener('offline', handleOffline);
+            checkNetworkStatus();
+        }
+
+        // Handle login
+        function handleLogin() {
+            const username = usernameInput.value.trim();
+            if (!username) {
+                showNotification('Please enter your name', 'error');
+                return;
+            }
+
+            currentUser = username;
+            userName.textContent = username;
+            userAvatar.textContent = username.charAt(0).toUpperCase();
             
-            // Set initial network status
-            updateNetworkStatus();
+            // Load user memory
+            loadUserMemory(username);
+            
+            // Switch to chat screen
+            loginScreen.classList.remove('active');
+            loginScreen.classList.add('hidden');
+            chatScreen.classList.remove('hidden');
+            chatScreen.classList.add('active');
+            
+            showNotification(`Welcome ${username}!`);
+            
+            // Focus on chat input
+            setTimeout(() => {
+                chatInput.focus();
+            }, 100);
+        }
+
+        // Load user memory from localStorage
+        function loadUserMemory(username) {
+            const memoryKey = `cyanix_memory_${username}`;
+            const savedMemory = localStorage.getItem(memoryKey);
+            
+            if (savedMemory) {
+                try {
+                    memoryData = JSON.parse(savedMemory);
+                    conversationHistory = memoryData.conversations || [];
+                    
+                    // Load conversation history
+                    if (conversationHistory.length > 0) {
+                        chatMessages.innerHTML = '';
+                        conversationHistory.forEach(msg => {
+                            addMessageToChat(msg.content, msg.isUser);
+                        });
+                    }
+                    
+                    showNotification('Memory loaded successfully');
+                } catch (e) {
+                    console.error('Error loading memory:', e);
+                    memoryData = { conversations: [] };
+                }
+            } else {
+                memoryData = { conversations: [] };
+                showNotification('New user profile created');
+            }
+        }
+
+        // Save user memory to localStorage
+        function saveUserMemory() {
+            const memoryKey = `cyanix_memory_${currentUser}`;
+            memoryData.conversations = conversationHistory;
+            localStorage.setItem(memoryKey, JSON.stringify(memoryData));
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isTyping) return;
+
+            // Clear input
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            
+            // Add user message
+            addMessageToChat(message, true);
+            
+            // Check if offline
+            if (!isOnline) {
+                setTimeout(() => {
+                    addMessageToChat(`Sorry ${currentUser}, there's no internet connection for AI response. Please check your connection.`, false);
+                }, 1000);
+                return;
+            }
+
+            // Check if API key is set
+            if (!groqApiKeyValue) {
+                setTimeout(() => {
+                    addMessageToChat(`Hi ${currentUser}! Please configure your Groq API key in settings to get AI responses.`, false);
+                }, 1000);
+                return;
+            }
+
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Process query
+            await processQuery(message);
+        }
+
+        // Add message to chat
+        function addMessageToChat(content, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const avatarIcon = isUser ? 'fas fa-user' : 'fas fa-robot';
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="${avatarIcon}"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-text">${formatMessage(content)}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Save to conversation history
+            conversationHistory.push({
+                content: content,
+                isUser: isUser,
+                timestamp: Date.now()
+            });
+            
+            // Save memory
+            saveUserMemory();
+            
+            // Scroll to bottom
+            scrollToBottom();
+        }
+
+        // Format message with basic markdown
+        function formatMessage(text) {
+            // Convert **bold** to <strong>
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert *italic* to <em>
+            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Convert `code` to <code>
+            text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+            
+            // Convert line breaks
+            text = text.replace(/\n/g, '<br>');
+            
+            return text;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai';
+            typingDiv.id = 'typingIndicator';
+            
+            typingDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <div class="loading-dot"></div>
+                            <div class="loading-dot"></div>
+                            <div class="loading-dot"></div>
+                        </div>
+                        <div class="typing-text">Typing...</div>
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+            isTyping = true;
+        }
+
+        // Remove typing indicator
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            isTyping = false;
+        }
+
+        // Process query with Groq API
+        async function processQuery(userInput) {
+            try {
+                // Prepare messages for API
+                const messages = [
+                    {
+                        role: "system",
+                        content: `You are Cyanix AI, an intelligent assistant. You are speaking to ${currentUser}. 
+                        Current mode: ${currentMode === 'nix' ? 'Quick responses (be concise)' : 
+                                     currentMode === 'blub' ? 'Deep thinking (be thorough)' : 
+                                     'Balanced (be helpful)'}.`
+                    },
+                    ...conversationHistory.slice(-10).map(msg => ({
+                        role: msg.isUser ? "user" : "assistant",
+                        content: msg.content
+                    })),
+                    { role: "user", content: userInput }
+                ];
+
+                // Prepare request
+                const requestBody = {
+                    model: selectedModel,
+                    messages: messages,
+                    temperature: temperature,
+                    max_tokens: maxTokens,
+                    stream: false
+                };
+
+                // Make API call
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${groqApiKeyValue}`,
+                        'User-Agent': 'CyanixAI/1.0'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                // Check response
+                if (!response.ok) {
+                    let errorMessage = `API Error: ${response.status}`;
+                    
+                    if (response.status === 400) {
+                        errorMessage = 'Invalid request. Please check your settings.';
+                    } else if (response.status === 401) {
+                        errorMessage = 'Invalid API key. Please check your API key.';
+                    } else if (response.status === 429) {
+                        errorMessage = 'Rate limit exceeded. Please try again later.';
+                    }
+                    
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                removeTypingIndicator();
+                
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    const aiResponse = data.choices[0].message.content;
+                    addMessageToChat(aiResponse, false);
+                    
+                    // Update API status badge
+                    apiStatusBadge.style.color = '#34C759';
+                    apiStatusBadge.textContent = '●';
+                    
+                    // Show success notification
+                    showNotification('Response received successfully', 'success');
+                } else {
+                    throw new Error('Invalid response from API');
+                }
+
+            } catch (error) {
+                console.error('API Error:', error);
+                removeTypingIndicator();
+                
+                let errorMessage = error.message;
+                
+                // User-friendly error messages
+                if (error.message.includes('401')) {
+                    errorMessage = 'Invalid API key. Please check your API key in settings.';
+                } else if (error.message.includes('network') || error.message.includes('Failed to fetch')) {
+                    errorMessage = `Sorry ${currentUser}, there's no internet connection for AI response. Please check your connection.`;
+                }
+                
+                addMessageToChat(errorMessage, false);
+                showNotification('API Error: ' + error.message, 'error');
+            }
+        }
+
+        // Scroll to bottom of chat
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Toggle menu
+        function toggleMenu() {
+            sideMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Close menu
+        function closeMenu() {
+            sideMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            apiSettingsMenu.classList.remove('active');
+        }
+
+        // Open API settings
+        function openApiSettings() {
+            sideMenu.classList.remove('active');
+            apiSettingsMenu.classList.add('active');
+        }
+
+        // Close API settings
+        function closeApiSettings() {
+            apiSettingsMenu.classList.remove('active');
+            sideMenu.classList.add('active');
+        }
+
+        // Toggle API key visibility
+        function toggleApiKeyVisibilityHandler() {
+            const type = groqApiKey.getAttribute('type') === 'password' ? 'text' : 'password';
+            groqApiKey.setAttribute('type', type);
+            toggleApiKeyVisibility.innerHTML = type === 'password' ? 
+                '<i class="fas fa-eye"></i> Show' : 
+                '<i class="fas fa-eye-slash"></i> Hide';
+        }
+
+        // Test Groq API connection
+        async function testGroqApi() {
+            const apiKey = groqApiKey.value.trim();
+            
+            if (!apiKey) {
+                showNotification('Please enter an API key', 'error');
+                return;
+            }
+
+            testGroqApiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            testGroqApiBtn.disabled = true;
+
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/models', {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'User-Agent': 'CyanixAI/1.0'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const modelCount = data.data ? data.data.length : 0;
+                    showNotification(`API connected successfully (${modelCount} models available)`, 'success');
+                    apiStatusBadge.style.color = '#34C759';
+                    apiStatusBadge.textContent = '●';
+                    
+                    // Save API key
+                    groqApiKeyValue = apiKey;
+                    localStorage.setItem('cyanix_groq_api_key', apiKey);
+                } else {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+            } catch (error) {
+                showNotification(`Connection failed: ${error.message}`, 'error');
+                apiStatusBadge.style.color = '#FF3B30';
+                apiStatusBadge.textContent = '●';
+            } finally {
+                testGroqApiBtn.innerHTML = '<i class="fas fa-bolt"></i> Test';
+                testGroqApiBtn.disabled = false;
+            }
+        }
+
+        // Save API settings
+        function saveApiSettings() {
+            const apiKey = groqApiKey.value.trim();
+            
+            if (apiKey) {
+                groqApiKeyValue = apiKey;
+                localStorage.setItem('cyanix_groq_api_key', apiKey);
+            }
+            
+            selectedModel = modelSelect.value;
+            localStorage.setItem('cyanix_selected_model', selectedModel);
+            
+            showNotification('API settings saved', 'success');
+            closeApiSettings();
+        }
+
+        // Load settings from localStorage
+        function loadSettings() {
+            // Load API key
+            const savedApiKey = localStorage.getItem('cyanix_groq_api_key');
+            if (savedApiKey) {
+                groqApiKey.value = savedApiKey;
+                groqApiKeyValue = savedApiKey;
+                apiStatusBadge.style.color = '#34C759';
+            }
+            
+            // Load selected model
+            const savedModel = localStorage.getItem('cyanix_selected_model');
+            if (savedModel) {
+                modelSelect.value = savedModel;
+                selectedModel = savedModel;
+            }
+            
+            // Load other settings
+            const savedTemperature = localStorage.getItem('cyanix_temperature');
+            if (savedTemperature) {
+                temperature = parseFloat(savedTemperature);
+            }
+            
+            const savedMaxTokens = localStorage.getItem('cyanix_max_tokens');
+            if (savedMaxTokens) {
+                maxTokens = parseInt(savedMaxTokens);
+            }
+        }
+
+        // Clear chat
+        function clearChat() {
+            chatMessages.innerHTML = '';
+            conversationHistory = [];
+            saveUserMemory();
+            showNotification('Chat cleared', 'success');
+            closeMenu();
+        }
+
+        // Export chat
+        function exportChat() {
+            if (conversationHistory.length === 0) {
+                showNotification('No chat history to export', 'warning');
+                return;
+            }
+
+            let exportText = `Cyanix AI Chat Export - ${currentUser}\n`;
+            exportText += `Generated on: ${new Date().toLocaleString()}\n\n`;
+            
+            conversationHistory.forEach(msg => {
+                const sender = msg.isUser ? 'You' : 'Cyanix AI';
+                const time = new Date(msg.timestamp).toLocaleTimeString();
+                exportText += `${sender} (${time}):\n${msg.content}\n\n`;
+            });
+
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cyanix-chat-${currentUser}-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showNotification('Chat exported successfully', 'success');
+            closeMenu();
+        }
+
+        // Load memory
+        function loadMemory() {
+            loadUserMemory(currentUser);
+            showNotification('Memory loaded', 'success');
+            closeMenu();
+        }
+
+        // Clear memory
+        function clearMemory() {
+            if (confirm('Are you sure you want to clear all memory for this user?')) {
+                const memoryKey = `cyanix_memory_${currentUser}`;
+                localStorage.removeItem(memoryKey);
+                conversationHistory = [];
+                memoryData = { conversations: [] };
+                chatMessages.innerHTML = '';
+                showNotification('Memory cleared', 'success');
+                closeMenu();
+            }
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = '';
+                conversationHistory = [];
+                memoryData = {};
+                
+                chatScreen.classList.remove('active');
+                chatScreen.classList.add('hidden');
+                loginScreen.classList.remove('hidden');
+                loginScreen.classList.add('active');
+                
+                usernameInput.value = '';
+                usernameInput.focus();
+                
+                closeMenu();
+                showNotification('Logged out successfully', 'success');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type);
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
 
         // Check network status
@@ -1856,1057 +1995,30 @@
             updateNetworkStatus();
         }
 
-        // Handle online event
+        // Handle online
         function handleOnline() {
             isOnline = true;
             updateNetworkStatus();
-            showApiStatus('Neural connection restored', 'success');
+            showNotification('Back online', 'success');
         }
 
-        // Handle offline event
+        // Handle offline
         function handleOffline() {
             isOnline = false;
             updateNetworkStatus();
-            showApiStatus('Neural connection lost', 'error');
+            showNotification('No internet connection', 'error');
         }
 
         // Update network status display
         function updateNetworkStatus() {
             if (isOnline) {
-                statusDot.className = 'status-dot';
-                statusText.textContent = 'ONLINE';
-                statusIndicator.style.borderColor = 'rgba(0, 255, 136, 0.3)';
+                statusIndicator.className = 'status-indicator';
             } else {
-                statusDot.className = 'status-dot offline';
-                statusText.textContent = 'OFFLINE';
-                statusIndicator.style.borderColor = 'rgba(255, 51, 102, 0.3)';
+                statusIndicator.className = 'status-indicator offline';
             }
         }
 
-        // Load settings from localStorage
-        function loadSettings() {
-            const settings = JSON.parse(localStorage.getItem('cyanix_settings')) || {};
-            
-            // API Settings
-            apiKey = settings.apiKey || '';
-            apiKeyInput.value = settings.apiKey || '';
-            
-            // Model Settings
-            if (settings.temperature) {
-                temperatureSlider.value = settings.temperature;
-                tempValue.textContent = settings.temperature;
-            }
-            if (settings.maxTokens) {
-                maxTokensSlider.value = settings.maxTokens;
-                tokensValue.textContent = settings.maxTokens;
-            }
-            if (settings.topP) {
-                topPSlider.value = settings.topP;
-                topPValue.textContent = settings.topP;
-            }
-            if (settings.frequencyPenalty) {
-                frequencyPenaltySlider.value = settings.frequencyPenalty;
-                freqValue.textContent = settings.frequencyPenalty;
-            }
-            if (settings.model) modelSelect.value = settings.model;
-            
-            // Behavior Settings
-            if (settings.systemPrompt) systemPrompt.value = settings.systemPrompt;
-            if (settings.userName) userName = settings.userName;
-            
-            // Theme Settings
-            if (settings.theme) {
-                document.getElementById('themeSelect').value = settings.theme;
-                applyTheme(settings.theme);
-            }
-            
-            // Toggle states
-            setToggleState(saveApiToggle, settings.saveApiKey !== false);
-            setToggleState(streamingToggle, settings.streaming !== false);
-            setToggleState(markdownToggle, settings.markdown !== false);
-            setToggleState(contextToggle, settings.context !== false);
-            setToggleState(voiceToggle, settings.voice || false);
-            setToggleState(animationsToggle, settings.animations !== false);
-            setToggleState(soundToggle, settings.sound || false);
-            
-            // Update streaming state
-            isStreaming = getToggleState(streamingToggle);
-            
-            // Apply animations
-            if (getToggleState(animationsToggle)) {
-                document.body.style.animation = 'none';
-            }
-        }
-
-        // Save settings to localStorage
-        function saveSettings() {
-            const settings = {
-                // API Settings
-                apiKey: apiKeyInput.value,
-                apiEndpoint: document.getElementById('apiEndpoint').value,
-                saveApiKey: getToggleState(saveApiToggle),
-                
-                // Model Settings
-                temperature: parseFloat(temperatureSlider.value),
-                maxTokens: parseInt(maxTokensSlider.value),
-                topP: parseFloat(topPSlider.value),
-                frequencyPenalty: parseFloat(frequencyPenaltySlider.value),
-                model: modelSelect.value,
-                
-                // Behavior Settings
-                systemPrompt: systemPrompt.value,
-                streaming: getToggleState(streamingToggle),
-                markdown: getToggleState(markdownToggle),
-                context: getToggleState(contextToggle),
-                voice: getToggleState(voiceToggle),
-                animations: getToggleState(animationsToggle),
-                sound: getToggleState(soundToggle),
-                theme: document.getElementById('themeSelect').value,
-                userName: userName
-            };
-            
-            // Update API key
-            apiKey = settings.apiKey;
-            
-            localStorage.setItem('cyanix_settings', JSON.stringify(settings));
-            
-            // Update API status
-            updateApiStatus();
-            
-            // Apply theme
-            applyTheme(settings.theme);
-            
-            // Show success feedback
-            showApiStatus('Neural configuration saved', 'success');
-            
-            settingsChanged = false;
-        }
-
-        // Apply theme
-        function applyTheme(theme) {
-            // Reset to default
-            document.documentElement.style.setProperty('--primary', '#00ffff');
-            document.documentElement.style.setProperty('--accent', '#ff00ff');
-            
-            switch(theme) {
-                case 'matrix':
-                    document.documentElement.style.setProperty('--primary', '#00ff00');
-                    document.documentElement.style.setProperty('--accent', '#00cc00');
-                    break;
-                case 'neon':
-                    document.documentElement.style.setProperty('--primary', '#ff00ff');
-                    document.documentElement.style.setProperty('--accent', '#00ffff');
-                    break;
-                case 'hacker':
-                    document.documentElement.style.setProperty('--primary', '#00ff88');
-                    document.documentElement.style.setProperty('--accent', '#ffaa00');
-                    break;
-                default:
-                    // Keep cyberpunk (default)
-                    break;
-            }
-        }
-
-        // Update API status display
-        function updateApiStatus() {
-            if (apiKey && apiKey.length > 10) {
-                apiStatusText.textContent = '● ONLINE';
-                apiStatusText.style.color = 'var(--success)';
-            } else {
-                apiStatusText.textContent = '● OFFLINE';
-                apiStatusText.style.color = 'var(--error)';
-            }
-        }
-
-        // Show API status notification
-        function showApiStatus(message, type = 'success') {
-            const statusIcon = apiStatus.querySelector('i');
-            const statusText = apiStatus.querySelector('span');
-            
-            apiStatus.className = 'api-status';
-            apiStatus.classList.add(type);
-            
-            if (type === 'success') {
-                statusIcon.className = 'fas fa-check-circle';
-            } else if (type === 'error') {
-                statusIcon.className = 'fas fa-exclamation-circle';
-            } else if (type === 'warning') {
-                statusIcon.className = 'fas fa-exclamation-triangle';
-            }
-            
-            statusText.textContent = message;
-            
-            apiStatus.classList.add('show');
-            
-            setTimeout(() => {
-                apiStatus.classList.remove('show');
-            }, 3000);
-        }
-
-        // Load conversations
-        function loadConversations() {
-            const savedConversations = localStorage.getItem('cyanix_conversations');
-            if (savedConversations) {
-                conversations = JSON.parse(savedConversations);
-                if (conversations.length > 0) {
-                    currentConversationId = conversations[0].id;
-                }
-            }
-        }
-
-        // Render conversation list
-        function renderConversationList() {
-            conversationList.innerHTML = '';
-            
-            conversations.sort((a, b) => b.timestamp - a.timestamp).forEach(conv => {
-                const convElement = document.createElement('div');
-                convElement.className = 'conversation-item';
-                if (conv.id === currentConversationId) {
-                    convElement.classList.add('active');
-                }
-                
-                const time = new Date(conv.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                const title = conv.title || 'Neural Link';
-                
-                convElement.innerHTML = `
-                    <div class="conv-preview">${title.substring(0, 25)}${title.length > 25 ? '...' : ''}</div>
-                    <div class="conv-time">${time}</div>
-                `;
-                
-                convElement.addEventListener('click', () => {
-                    loadConversation(conv.id);
-                    closeSidebar();
-                });
-                
-                conversationList.appendChild(convElement);
-            });
-        }
-
-        // Load conversation
-        function loadConversation(conversationId) {
-            currentConversationId = conversationId;
-            const conversation = conversations.find(c => c.id === conversationId);
-            
-            if (!conversation) return;
-            
-            chatMessages.innerHTML = '';
-            
-            conversation.messages.forEach(msg => {
-                addMessageToChat(msg.role, msg.content, false);
-            });
-            
-            renderConversationList();
-            scrollToBottom();
-        }
-
-        // Create new conversation
-        function createNewConversation() {
-            currentConversationId = 'conv_' + Date.now();
-            conversations.unshift({
-                id: currentConversationId,
-                timestamp: Date.now(),
-                title: 'Neural Link',
-                messages: [
-                    {
-                        role: 'ai',
-                        content: '**SYSTEM INITIALIZED**\n\nCYANIX AI Neural Network online. All systems operational.\n\nFrequency: Quantum-Sync\n\nReady for neural interface. How may I assist?',
-                        timestamp: Date.now()
-                    }
-                ]
-            });
-            
-            // Keep only 25 conversations
-            if (conversations.length > 25) {
-                conversations = conversations.slice(0, 25);
-            }
-            
-            chatMessages.innerHTML = '';
-            addMessageToChat('ai', '**SYSTEM INITIALIZED**\n\nCYANIX AI Neural Network online. All systems operational.\n\nFrequency: Quantum-Sync\n\nReady for neural interface. How may I assist?', false);
-            
-            renderConversationList();
-            saveConversations();
-        }
-
-        // Add message to chat with cyber styling
-        function addMessageToChat(role, content, saveToHistory = true) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${role}`;
-            
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            let avatarIcon = 'fas fa-user';
-            if (role === 'ai') avatarIcon = 'fas fa-robot';
-            
-            // Format content with cyber markdown if enabled
-            let formattedContent = content;
-            if (getToggleState(markdownToggle) && role === 'ai') {
-                formattedContent = formatCyberMarkdown(content);
-            }
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">
-                    <i class="${avatarIcon}"></i>
-                </div>
-                <div class="message-content">
-                    <div class="message-text">${formattedContent}</div>
-                    <div class="message-time">${time}</div>
-                    <div class="message-actions">
-                        <button class="action-btn" title="Copy">
-                            <i class="fas fa-copy"></i> COPY
-                        </button>
-                        <button class="action-btn" title="Regenerate">
-                            <i class="fas fa-redo"></i> REGEN
-                        </button>
-                        ${role === 'ai' ? '<button class="action-btn" title="Voice"><i class="fas fa-volume-up"></i> VOICE</button>' : ''}
-                    </div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            
-            // Add action handlers
-            const copyBtn = messageDiv.querySelector('.fa-copy').closest('button');
-            const regenerateBtn = messageDiv.querySelector('.fa-redo').closest('button');
-            const voiceBtn = messageDiv.querySelector('.fa-volume-up')?.closest('button');
-            
-            copyBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(content);
-                
-                const icon = copyBtn.querySelector('i');
-                const original = icon.className;
-                icon.className = 'fas fa-check';
-                copyBtn.querySelector('span').textContent = ' COPIED';
-                
-                setTimeout(() => {
-                    icon.className = original;
-                    copyBtn.querySelector('span').textContent = ' COPY';
-                }, 2000);
-            });
-            
-            regenerateBtn.addEventListener('click', () => {
-                const conversation = conversations.find(c => c.id === currentConversationId);
-                if (conversation) {
-                    const lastUserMessage = [...conversation.messages].reverse().find(m => m.role === 'user');
-                    if (lastUserMessage) {
-                        conversation.messages = conversation.messages.filter(m => 
-                            !(m.role === 'ai' && m.timestamp > lastUserMessage.timestamp)
-                        );
-                        sendMessageToAPI(lastUserMessage.content);
-                    }
-                }
-            });
-            
-            if (voiceBtn) {
-                voiceBtn.addEventListener('click', () => {
-                    if (getToggleState(voiceToggle)) {
-                        speakText(content);
-                    } else {
-                        showApiStatus('Enable voice in settings', 'warning');
-                    }
-                });
-            }
-            
-            // Save to history
-            if (saveToHistory) {
-                const conversation = conversations.find(c => c.id === currentConversationId);
-                if (conversation) {
-                    conversation.messages.push({ 
-                        role, 
-                        content, 
-                        timestamp: Date.now() 
-                    });
-                    conversation.timestamp = Date.now();
-                    
-                    // Update title if first user message
-                    if (role === 'user' && conversation.messages.filter(m => m.role === 'user').length === 1) {
-                        conversation.title = content.substring(0, 25) + (content.length > 25 ? '...' : '');
-                    }
-                    
-                    saveConversations();
-                    renderConversationList();
-                }
-            }
-            
-            scrollToBottom();
-            return messageDiv;
-        }
-
-        // Format cyber markdown
-        function formatCyberMarkdown(text) {
-            // Convert headers
-            text = text.replace(/^### (.*$)/gim, '<h3 style="color: var(--primary); margin: 10px 0;">$1</h3>');
-            text = text.replace(/^## (.*$)/gim, '<h2 style="color: var(--primary); margin: 12px 0; font-size: 18px;">$1</h2>');
-            text = text.replace(/^# (.*$)/gim, '<h1 style="color: var(--primary); margin: 15px 0; font-size: 20px;">$1</h1>');
-            
-            // Convert bold with cyber styling
-            text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--primary);">$1</strong>');
-            
-            // Convert italic
-            text = text.replace(/\*(.*?)\*/g, '<em style="color: var(--primary-light);">$1</em>');
-            
-            // Convert code blocks with cyber styling
-            text = text.replace(/```([\s\S]*?)```/g, function(match, code) {
-                return `<pre style="
-                    background: rgba(0, 20, 20, 0.8);
-                    border: 1px solid rgba(0, 255, 255, 0.3);
-                    border-left: 4px solid var(--primary);
-                    color: var(--primary);
-                    padding: 15px;
-                    border-radius: 8px;
-                    overflow-x: auto;
-                    margin: 15px 0;
-                    font-family: 'Courier New', monospace;
-                    font-size: 13px;
-                    position: relative;
-                "><div style="position: absolute; top: 5px; right: 10px; color: var(--accent); font-size: 11px;">CODE</div><code>${code}</code></pre>`;
-            });
-            
-            // Convert inline code
-            text = text.replace(/`([^`]+)`/g, '<code style="
-                background: rgba(0, 30, 30, 0.8);
-                color: var(--primary);
-                padding: 2px 8px;
-                border-radius: 4px;
-                font-family: "Courier New", monospace;
-                font-size: 13px;
-                border: 1px solid rgba(0, 255, 255, 0.2);
-            ">$1</code>');
-            
-            // Convert lists
-            text = text.replace(/^\* (.*$)/gim, '<li style="margin: 5px 0; color: var(--light);">• $1</li>');
-            text = text.replace(/(<li.*<\/li>)/g, '<ul style="margin: 10px 0; padding-left: 20px;">$1</ul>');
-            
-            // Convert links
-            text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">$1</a>');
-            
-            // Add glitch effect to certain words
-            const glitchWords = ['error', 'glitch', 'hack', 'cyber', 'neural', 'quantum', 'system'];
-            glitchWords.forEach(word => {
-                const regex = new RegExp(`\\b${word}\\b`, 'gi');
-                text = text.replace(regex, `<span style="animation: textPulse 1s infinite;">${word}</span>`);
-            });
-            
-            // Convert paragraphs
-            text = text.replace(/\n\n/g, '</p><p style="margin: 10px 0;">');
-            text = '<p style="margin: 10px 0;">' + text + '</p>';
-            
-            return text;
-        }
-
-        // Show custom loading animation
-        function showLoadingAnimation() {
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'message ai';
-            loadingDiv.id = 'loadingAnimation';
-            
-            loadingDiv.innerHTML = `
-                <div class="message-avatar">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="message-content">
-                    <div class="cyber-loader">
-                        <div class="cyber-core">
-                            <div class="cyber-ring"></div>
-                            <div class="cyber-ring"></div>
-                            <div class="cyber-ring"></div>
-                            <div class="cyber-dots"></div>
-                            <div class="cyber-pulse"></div>
-                        </div>
-                        <div class="cyber-text">PROCESSING NEURAL QUERY</div>
-                    </div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(loadingDiv);
-            scrollToBottom();
-            isTyping = true;
-        }
-
-        // Remove loading animation
-        function removeLoadingAnimation() {
-            const loadingAnimation = document.getElementById('loadingAnimation');
-            if (loadingAnimation) {
-                loadingAnimation.remove();
-            }
-            isTyping = false;
-        }
-
-        // Save conversations
-        function saveConversations() {
-            localStorage.setItem('cyanix_conversations', JSON.stringify(conversations));
-        }
-
-        // Scroll to bottom
-        function scrollToBottom() {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Auto-resize textarea
-        function autoResizeTextarea() {
-            messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-            });
-        }
-
-        // Send message with error handling
-        async function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message || isTyping) return;
-            
-            // Clear input
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-            
-            // Add user message
-            addMessageToChat('user', message);
-            
-            // Check if offline
-            if (!isOnline) {
-                setTimeout(() => {
-                    addMessageToChat('ai', `**SYSTEM ALERT**\n\nNeural connection interrupted.\n\nSorry ${userName}, quantum link disrupted. Please check your internet connection.\n\n**STATUS**: OFFLINE MODE\n**RESPONSE**: Cached intelligence only`);
-                }, 1000);
-                return;
-            }
-            
-            // Send to API
-            await sendMessageToAPI(message);
-        }
-
-        // Send message to Groq API with proper error handling
-        async function sendMessageToAPI(message) {
-            const apiKey = apiKeyInput.value.trim();
-            
-            // Show loading animation
-            showLoadingAnimation();
-            
-            try {
-                // Check if API key is provided
-                if (!apiKey || apiKey.length < 10) {
-                    // Use enhanced simulated response
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-                    removeLoadingAnimation();
-                    
-                    const responses = [
-                        `**NEURAL INTERFACE**\n\n${userName}, API key not detected. Neural link operating in demo mode.\n\n**STATUS**: OFFLINE INTELLIGENCE\n**RESPONSE**: Enhanced simulation\n\nTo activate quantum inference, configure your Groq API key in Neural Config.`,
-                        `**SYSTEM DIAGNOSTIC**\n\nQuantum link: DISCONNECTED\nAPI key: NOT DETECTED\n\n${userName}, I'm running on cached neural patterns. For real-time quantum processing, add your API key.\n\nVisit: console.groq.com`,
-                        `**CYBER RESPONSE**\n\n*Quantum signature: simulated*\n*Neural load: 45%*\n\n${userName}, your query "${message.substring(0, 30)}..." processed via neural cache.\n\nEnable Groq API for quantum-speed responses.`
-                    ];
-                    
-                    const response = responses[Math.floor(Math.random() * responses.length)];
-                    addMessageToChat('ai', response);
-                    return;
-                }
-                
-                // Get conversation
-                const conversation = conversations.find(c => c.id === currentConversationId);
-                if (!conversation) return;
-                
-                // Prepare messages for API (respect context toggle)
-                let messages = [{ role: 'system', content: systemPrompt.value }];
-                
-                if (getToggleState(contextToggle)) {
-                    // Include conversation history
-                    messages = [...messages, ...conversation.messages.map(m => ({ 
-                        role: m.role, 
-                        content: m.content 
-                    }))];
-                } else {
-                    // Only include last few messages
-                    const recentMessages = conversation.messages.slice(-3);
-                    messages = [...messages, ...recentMessages.map(m => ({ 
-                        role: m.role, 
-                        content: m.content 
-                    }))];
-                }
-                
-                // Add current message
-                messages.push({ role: 'user', content: message });
-                
-                // Prepare request with proper headers and body
-                const requestBody = {
-                    model: modelSelect.value,
-                    messages: messages,
-                    temperature: parseFloat(temperatureSlider.value),
-                    max_tokens: parseInt(maxTokensSlider.value),
-                    top_p: parseFloat(topPSlider.value),
-                    frequency_penalty: parseFloat(frequencyPenaltySlider.value),
-                    stream: isStreaming
-                };
-                
-                // Debug logging
-                console.log('API Request:', {
-                    endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-                    model: requestBody.model,
-                    messagesCount: requestBody.messages.length
-                });
-                
-                // API request with proper error handling
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`,
-                        'User-Agent': 'CyanixAI/2.0'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-                
-                // Check response status
-                if (!response.ok) {
-                    let errorMessage = `API Error: ${response.status}`;
-                    
-                    if (response.status === 400) {
-                        errorMessage = 'Invalid request format. Check your parameters.';
-                    } else if (response.status === 401) {
-                        errorMessage = 'Invalid API key. Please check your key.';
-                    } else if (response.status === 429) {
-                        errorMessage = 'Rate limit exceeded. Please try again later.';
-                    } else if (response.status === 500) {
-                        errorMessage = 'Server error. Please try again.';
-                    }
-                    
-                    throw new Error(`${errorMessage} (Status: ${response.status})`);
-                }
-                
-                // Handle streaming or non-streaming response
-                if (isStreaming) {
-                    await handleStreamingResponse(response);
-                } else {
-                    const data = await response.json();
-                    removeLoadingAnimation();
-                    
-                    if (data.choices && data.choices[0] && data.choices[0].message) {
-                        addMessageToChat('ai', data.choices[0].message.content);
-                    } else {
-                        throw new Error('Invalid response format from API');
-                    }
-                }
-                
-                // Show success status
-                showApiStatus('Quantum response received', 'success');
-                
-            } catch (error) {
-                console.error('API Error:', error);
-                removeLoadingAnimation();
-                
-                let errorMessage = `**SYSTEM ERROR**\n\n${error.message}\n\n${userName}, neural interface disrupted.\n\n**ACTION**: Check API configuration`;
-                
-                // More specific error messages
-                if (error.message.includes('400')) {
-                    errorMessage = `**INVALID REQUEST**\n\nAPI rejected the request format.\n\n${userName}, check your parameters or try a different model.`;
-                } else if (error.message.includes('network') || error.message.includes('Failed to fetch')) {
-                    errorMessage = `**NETWORK ERROR**\n\nQuantum link unstable.\n\n${userName}, please check your internet connection.`;
-                }
-                
-                addMessageToChat('ai', errorMessage);
-                showApiStatus(`Error: ${error.message.substring(0, 50)}`, 'error');
-            }
-        }
-
-        // Handle streaming response
-        async function handleStreamingResponse(response) {
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let aiResponse = '';
-            
-            // Remove loading animation and create message container
-            removeLoadingAnimation();
-            const messageDiv = addMessageToChat('ai', '');
-            const messageText = messageDiv.querySelector('.message-text');
-            
-            try {
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    
-                    const chunk = decoder.decode(value);
-                    const lines = chunk.split('\n');
-                    
-                    for (const line of lines) {
-                        if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-                            try {
-                                const data = JSON.parse(line.substring(6));
-                                if (data.choices[0].delta.content) {
-                                    aiResponse += data.choices[0].delta.content;
-                                    messageText.innerHTML = formatCyberMarkdown(aiResponse);
-                                    scrollToBottom();
-                                }
-                            } catch (e) {
-                                // Skip invalid JSON
-                            }
-                        }
-                    }
-                }
-                
-                // Update final message
-                const conversation = conversations.find(c => c.id === currentConversationId);
-                if (conversation) {
-                    const lastMessage = conversation.messages[conversation.messages.length - 1];
-                    if (lastMessage && lastMessage.role === 'ai') {
-                        lastMessage.content = aiResponse;
-                        saveConversations();
-                    }
-                }
-                
-            } catch (error) {
-                console.error('Streaming error:', error);
-                messageText.innerHTML = '**STREAM ERROR**\n\nQuantum stream disrupted.';
-            }
-        }
-
-        // Test API connection
-        async function testApiConnection() {
-            const apiKey = apiKeyInput.value.trim();
-            
-            if (!apiKey || apiKey.length < 10) {
-                showApiStatus('Enter valid neural access key', 'error');
-                return;
-            }
-            
-            testApiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> TESTING QUANTUM LINK...';
-            statusDot.className = 'status-dot connecting';
-            statusText.textContent = 'TESTING';
-            
-            try {
-                const response = await fetch('https://api.groq.com/openai/v1/models', {
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'User-Agent': 'CyanixAI/2.0'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    const modelCount = data.data ? data.data.length : 0;
-                    showApiStatus(`Quantum link established (${modelCount} models)`, 'success');
-                    updateApiStatus();
-                    statusDot.className = 'status-dot';
-                    statusText.textContent = 'ONLINE';
-                } else {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-            } catch (error) {
-                showApiStatus(`Connection failed: ${error.message}`, 'error');
-                statusDot.className = 'status-dot offline';
-                statusText.textContent = 'ERROR';
-            } finally {
-                testApiBtn.innerHTML = '<i class="fas fa-satellite-dish"></i> TEST NEURAL CONNECTION';
-                setTimeout(() => {
-                    updateNetworkStatus();
-                }, 3000);
-            }
-        }
-
-        // Text-to-speech
-        function speakText(text) {
-            if (!('speechSynthesis' in window)) {
-                showApiStatus('Voice synthesis not supported', 'warning');
-                return;
-            }
-            
-            // Clean text for speech
-            const cleanText = text.replace(/\*\*/g, '').replace(/`/g, '').replace(/#/g, '');
-            
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-            
-            speechSynthesis.speak(utterance);
-        }
-
-        // Export chat
-        function exportChat() {
-            const conversation = conversations.find(c => c.id === currentConversationId);
-            if (!conversation) return;
-            
-            const exportData = {
-                title: conversation.title,
-                timestamp: new Date(conversation.timestamp).toISOString(),
-                messages: conversation.messages
-            };
-            
-            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cyanix-chat-${conversation.title.toLowerCase().replace(/\s+/g, '-')}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showApiStatus('Neural data exported', 'success');
-        }
-
-        // Import chat
-        function importChat() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const importedData = JSON.parse(event.target.result);
-                        conversations.unshift({
-                            id: 'conv_' + Date.now(),
-                            timestamp: Date.now(),
-                            title: importedData.title || 'Imported Chat',
-                            messages: importedData.messages || []
-                        });
-                        
-                        saveConversations();
-                        renderConversationList();
-                        showApiStatus('Neural data imported', 'success');
-                    } catch (error) {
-                        showApiStatus('Invalid file format', 'error');
-                    }
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-
-        // Clear cache
-        function clearCache() {
-            if (confirm('Clear neural cache? This will delete temporary data but keep settings.')) {
-                localStorage.removeItem('cyanix_conversations');
-                conversations = [];
-                createNewConversation();
-                showApiStatus('Neural cache cleared', 'success');
-            }
-        }
-
-        // Factory reset
-        function factoryReset() {
-            if (confirm('FACTORY RESET?\n\nThis will delete ALL data including settings and conversations.')) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        // Switch settings tab
-        function switchTab(tabName) {
-            settingsTabs.forEach(tab => {
-                if (tab.dataset.tab === tabName) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
-            });
-            
-            settingsSections.forEach(section => {
-                if (section.id === tabName + '-tab') {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
-                }
-            });
-        }
-
-        // Toggle helpers
-        function setToggleState(toggleElement, state) {
-            const checkbox = toggleElement.querySelector('.checkbox');
-            if (state) {
-                checkbox.classList.add('checked');
-            } else {
-                checkbox.classList.remove('checked');
-            }
-        }
-
-        function getToggleState(toggleElement) {
-            const checkbox = toggleElement.querySelector('.checkbox');
-            return checkbox.classList.contains('checked');
-        }
-
-        // Open sidebar
-        function openSidebar() {
-            sidebar.classList.add('active');
-            overlay.classList.add('active');
-        }
-
-        // Close sidebar
-        function closeSidebar() {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-
-        // Open settings
-        function openSettings() {
-            settingsPanel.classList.add('active');
-            overlay.classList.add('active');
-        }
-
-        // Close settings
-        function closeSettings() {
-            settingsPanel.classList.remove('active');
-            overlay.classList.remove('active');
-            
-            if (settingsChanged) {
-                loadSettings();
-                settingsChanged = false;
-            }
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Send message
-            sendBtn.addEventListener('click', sendMessage);
-            
-            messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-            
-            // New chat
-            newChatBtn.addEventListener('click', createNewConversation);
-            
-            // Menu toggle
-            menuToggle.addEventListener('click', openSidebar);
-            
-            // Settings toggle
-            settingsToggle.addEventListener('click', openSettings);
-            
-            // Close buttons
-            closeSettingsBtn.addEventListener('click', closeSettings);
-            cancelSettingsBtn.addEventListener('click', closeSettings);
-            overlay.addEventListener('click', () => {
-                closeSidebar();
-                closeSettings();
-            });
-            
-            // Save settings
-            saveSettingsBtn.addEventListener('click', saveSettings);
-            
-            // Settings tabs
-            settingsTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    switchTab(tab.dataset.tab);
-                });
-            });
-            
-            // API key visibility
-            toggleVisibilityBtn.addEventListener('click', () => {
-                const type = apiKeyInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                apiKeyInput.setAttribute('type', type);
-                toggleVisibilityBtn.querySelector('i').className = 
-                    type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-                settingsChanged = true;
-            });
-            
-            // Test API
-            testApiBtn.addEventListener('click', testApiConnection);
-            
-            // Slider updates
-            temperatureSlider.addEventListener('input', () => {
-                tempValue.textContent = temperatureSlider.value;
-                settingsChanged = true;
-            });
-            
-            maxTokensSlider.addEventListener('input', () => {
-                tokensValue.textContent = maxTokensSlider.value;
-                settingsChanged = true;
-            });
-            
-            topPSlider.addEventListener('input', () => {
-                topPValue.textContent = topPSlider.value;
-                settingsChanged = true;
-            });
-            
-            frequencyPenaltySlider.addEventListener('input', () => {
-                freqValue.textContent = frequencyPenaltySlider.value;
-                settingsChanged = true;
-            });
-            
-            // Feature toggles
-            streamingToggle.addEventListener('click', () => {
-                const newState = !getToggleState(streamingToggle);
-                setToggleState(streamingToggle, newState);
-                isStreaming = newState;
-                settingsChanged = true;
-            });
-            
-            markdownToggle.addEventListener('click', () => {
-                setToggleState(markdownToggle, !getToggleState(markdownToggle));
-                settingsChanged = true;
-            });
-            
-            contextToggle.addEventListener('click', () => {
-                setToggleState(contextToggle, !getToggleState(contextToggle));
-                settingsChanged = true;
-            });
-            
-            voiceToggle.addEventListener('click', () => {
-                setToggleState(voiceToggle, !getToggleState(voiceToggle));
-                settingsChanged = true;
-            });
-            
-            saveApiToggle.addEventListener('click', () => {
-                setToggleState(saveApiToggle, !getToggleState(saveApiToggle));
-                settingsChanged = true;
-            });
-            
-            animationsToggle.addEventListener('click', () => {
-                setToggleState(animationsToggle, !getToggleState(animationsToggle));
-                settingsChanged = true;
-            });
-            
-            soundToggle.addEventListener('click', () => {
-                setToggleState(soundToggle, !getToggleState(soundToggle));
-                settingsChanged = true;
-            });
-            
-            // Quick actions
-            exportChatBtn.addEventListener('click', exportChat);
-            importChatBtn.addEventListener('click', importChat);
-            clearCacheBtn.addEventListener('click', clearCache);
-            resetBtn.addEventListener('click', factoryReset);
-            
-            // Voice input
-            voiceBtn.addEventListener('click', () => {
-                if (getToggleState(voiceToggle)) {
-                    showApiStatus('Voice input activated', 'success');
-                    // Voice input implementation would go here
-                } else {
-                    showApiStatus('Enable voice in settings', 'warning');
-                }
-            });
-            
-            // Code mode
-            codeBtn.addEventListener('click', () => {
-                codeMode = !codeMode;
-                if (codeMode) {
-                    messageInput.placeholder = "Enter code query... (Code mode: ON)";
-                    showApiStatus('Code mode activated', 'success');
-                } else {
-                    messageInput.placeholder = "Input neural query...";
-                    showApiStatus('Code mode deactivated', 'warning');
-                }
-            });
-            
-            // Other inputs
-            modelSelect.addEventListener('change', () => settingsChanged = true);
-            systemPrompt.addEventListener('input', () => settingsChanged = true);
-            apiKeyInput.addEventListener('input', () => {
-                settingsChanged = true;
-                updateApiStatus();
-            });
-            
-            // Prevent unsaved changes
-            window.addEventListener('beforeunload', (e) => {
-                if (settingsChanged) {
-                    e.preventDefault();
-                    e.returnValue = 'You have unsaved neural configurations. Continue?';
-                }
-            });
-        }
-
-        // Initialize app
+        // Initialize the app
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
