@@ -2,2340 +2,1713 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyanix AI | Mobile Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyanix AI | Advanced Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* iOS-inspired color palette */
-            --ios-blue: #007AFF;
-            --ios-light-blue: #5AC8FA;
-            --ios-green: #34C759;
-            --ios-red: #FF3B30;
-            --ios-orange: #FF9500;
-            --ios-purple: #AF52DE;
-            --ios-pink: #FF2D55;
-            
-            /* Background colors */
-            --bg-primary: #F2F2F7;
-            --bg-secondary: #FFFFFF;
-            --bg-tertiary: #E5E5EA;
-            --bg-card: rgba(255, 255, 255, 0.8);
-            
-            /* Text colors */
-            --text-primary: #000000;
-            --text-secondary: #3C3C43;
-            --text-tertiary: #8E8E93;
-            --text-white: #FFFFFF;
-            
-            /* Border colors */
-            --border-light: #C7C7CC;
-            --border-medium: #D1D1D6;
-            
-            /* Shadows */
-            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.05);
-            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 10px 40px rgba(0, 0, 0, 0.15);
-            
-            /* Border radius */
-            --radius-sm: 10px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            --radius-circle: 50%;
-            
-            /* Transitions */
-            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Spacing */
-            --spacing-xs: 4px;
-            --spacing-sm: 8px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
-            
-            /* Typography */
-            --font-size-xs: 12px;
-            --font-size-sm: 14px;
-            --font-size-md: 16px;
-            --font-size-lg: 18px;
-            --font-size-xl: 24px;
-            --font-size-xxl: 32px;
+            --cyan-primary: #00e5ff;
+            --cyan-secondary: #00b8d4;
+            --cyan-dark: #006978;
+            --dark-bg: #0a1929;
+            --darker-bg: #07121d;
+            --card-bg: rgba(15, 30, 50, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #b0bec5;
+            --accent: #ff4081;
+            --success: #00e676;
+            --warning: #ff9100;
+            --error: #ff1744;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
+            background-color: var(--dark-bg);
             color: var(--text-primary);
-            height: 100vh;
+            width: 720px;
+            height: 1560px;
             overflow: hidden;
             position: relative;
-            user-select: none;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        /* App Container - Mobile-first design */
-        .app-container {
-            width: 100%;
-            height: 100vh;
-            max-width: 500px;
             margin: 0 auto;
-            background: var(--bg-secondary);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-heavy);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
         }
 
-        @media (min-width: 768px) {
-            .app-container {
-                height: 90vh;
-                margin: 5vh auto;
-                border-radius: var(--radius-xl);
-                overflow: hidden;
-            }
-        }
-
-        /* Login Screen */
-        .screen {
+        /* Background animation */
+        .background-animation {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-primary);
-            z-index: 100;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .screen.hidden {
-            transform: translateX(-100%);
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, var(--cyan-primary) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
         }
 
-        .screen.active {
-            transform: translateX(0);
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(100px); }
+            50% { transform: translateY(-200px) translateX(0); }
+            75% { transform: translateY(-100px) translateX(-100px); }
+            100% { transform: translateY(0) translateX(0); }
         }
 
-        /* Status Bar */
-        .status-bar {
-            height: 44px;
-            background: var(--bg-secondary);
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(15, 30, 50, 0.9));
+            padding: 20px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 var(--spacing-md);
-            color: var(--text-primary);
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .time {
-            font-weight: 600;
-        }
-
-        .signal-info {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .battery {
-            font-size: var(--font-size-xs);
-        }
-
-        /* Login Content */
-        .login-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: var(--spacing-xl);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-
-        .app-icon {
-            width: 120px;
-            height: 120px;
-            background: white;
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--spacing-lg);
-            box-shadow: var(--shadow-heavy);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--ios-blue);
-        }
-
-        .app-icon img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
-        }
-
-        .app-title {
-            font-size: var(--font-size-xxl);
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-sm);
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .app-subtitle {
-            font-size: var(--font-size-md);
-            color: var(--text-tertiary);
-            margin-bottom: var(--spacing-xl);
-            text-align: center;
-        }
-
-        /* Input Field */
-        .input-container {
-            width: 100%;
-            max-width: 320px;
-            margin-bottom: var(--spacing-xl);
-            position: relative;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-medium);
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-md);
-            color: var(--text-primary);
-            transition: var(--transition-normal);
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--ios-blue);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
-        }
-
-        .input-field::placeholder {
-            color: var(--text-tertiary);
-        }
-
-        /* Button */
-        .btn {
-            padding: var(--spacing-md) var(--spacing-xl);
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-light-blue));
-            color: var(--text-white);
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-md);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-normal);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-sm);
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .btn:hover {
-            background: linear-gradient(135deg, #0056CC, #4AA7FF);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-        }
-
-        .btn-secondary:hover {
-            background: #D1D1D6;
-        }
-
-        /* Chat Screen */
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-primary);
-        }
-
-        /* Navigation Bar */
-        .nav-bar {
-            height: 56px;
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-light-blue));
-            display: flex;
-            align-items: center;
-            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             position: relative;
             z-index: 10;
         }
 
-        .menu-btn {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: var(--radius-circle);
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-secondary));
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-white);
-            font-size: 20px;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .nav-title {
-            flex: 1;
-            font-size: var(--font-size-lg);
-            font-weight: 600;
-            color: var(--text-white);
-            text-align: center;
-            margin-left: -40px;
-        }
-
-        .nav-title img {
-            height: 24px;
-            filter: brightness(0) invert(1);
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: var(--radius-circle);
-            background: var(--ios-green);
-            position: relative;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
-        }
-
-        .status-indicator::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: var(--radius-circle);
-            background: var(--ios-green);
-            opacity: 0.3;
-            animation: pulse 2s infinite;
-        }
-
-        .status-indicator.offline {
-            background: var(--ios-red);
-        }
-
-        .status-indicator.offline::after {
-            background: var(--ios-red);
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--cyan-primary);
+            animation: pulse 3s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.5; }
+            0% { box-shadow: 0 0 20px var(--cyan-primary); }
+            50% { box-shadow: 0 0 30px var(--cyan-primary); }
+            100% { box-shadow: 0 0 20px var(--cyan-primary); }
         }
 
-        /* Chat Messages */
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: var(--spacing-md);
+        .logo-text h1 {
+            font-size: 28px;
+            background: linear-gradient(to right, var(--cyan-primary), #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 3px;
+        }
+
+        /* Status indicators */
+        .status-indicators {
+            display: flex;
+            gap: 15px;
+        }
+
+        .status {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing-md);
-            background: linear-gradient(180deg, var(--bg-primary) 0%, #eef2f7 100%);
+            align-items: center;
+            gap: 5px;
         }
 
-        .chat-messages::-webkit-scrollbar {
-            width: 6px;
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
         }
 
-        .chat-messages::-webkit-scrollbar-track {
-            background: transparent;
+        .active {
+            background-color: var(--success);
+            box-shadow: 0 0 10px var(--success);
         }
 
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 3px;
+        .inactive {
+            background-color: var(--error);
         }
 
-        /* Message Bubbles */
+        .status-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Main container */
+        .main-container {
+            display: flex;
+            height: calc(100% - 90px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: rgba(10, 25, 41, 0.9);
+            border-right: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            overflow-y: auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 18px;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan-primary);
+            box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
+        }
+
+        .feature-card.active {
+            border-color: var(--cyan-primary);
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 22px;
+            color: var(--cyan-primary);
+            margin-bottom: 12px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Chat area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 25px;
+        }
+
+        .chat-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .chat-header h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .chat-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
         .message {
             display: flex;
-            gap: var(--spacing-sm);
-            max-width: 85%;
-            animation: messageSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
         .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-circle);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-weight: bold;
             flex-shrink: 0;
-            margin-top: 4px;
-            border: 2px solid white;
-            box-shadow: var(--shadow-light);
         }
 
-        .user .message-avatar {
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
-            color: var(--text-white);
+        .user-avatar {
+            background: linear-gradient(135deg, var(--accent), #ff79b0);
         }
 
-        .ai .message-avatar {
-            background: linear-gradient(135deg, var(--ios-green), var(--ios-light-blue));
-            color: var(--text-white);
+        .ai-avatar {
+            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-secondary));
         }
 
         .message-content {
-            padding: var(--spacing-md);
-            border-radius: var(--radius-lg);
-            position: relative;
-            box-shadow: var(--shadow-light);
-            animation: bubbleAppear 0.3s ease-out;
+            background: rgba(15, 30, 50, 0.7);
+            border-radius: 18px;
+            padding: 15px;
+            max-width: 85%;
+            border: 1px solid rgba(0, 229, 255, 0.1);
         }
 
-        @keyframes bubbleAppear {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .user-message .message-content {
+            background: rgba(255, 64, 129, 0.15);
+            border-color: rgba(255, 64, 129, 0.3);
         }
 
-        .user .message-content {
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-light-blue));
-            color: var(--text-white);
-            border-bottom-right-radius: var(--radius-sm);
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
 
-        .ai .message-content {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
-            border-bottom-left-radius: var(--radius-sm);
-            backdrop-filter: blur(10px);
+        .user-message .message-sender {
+            color: var(--accent);
+        }
+
+        .ai-message .message-sender {
+            color: var(--cyan-primary);
         }
 
         .message-text {
             line-height: 1.5;
-            font-size: var(--font-size-md);
-            word-wrap: break-word;
+            font-size: 15px;
         }
 
         .message-time {
-            font-size: var(--font-size-xs);
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: var(--spacing-xs);
             text-align: right;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
         }
 
-        .ai .message-time {
-            color: var(--text-tertiary);
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        /* Chat Input */
-        .chat-input-container {
-            padding: var(--spacing-md);
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-light);
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--cyan-primary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
         }
 
-        .input-wrapper {
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Input area */
+        .input-area {
             display: flex;
-            gap: var(--spacing-md);
-            align-items: flex-end;
+            gap: 15px;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 229, 255, 0.2);
         }
 
-        .chat-input {
+        .input-container {
             flex: 1;
-            padding: var(--spacing-md);
-            background: var(--bg-primary);
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-md);
+            position: relative;
+        }
+
+        #messageInput {
+            width: 100%;
+            background: rgba(15, 30, 50, 0.8);
+            border: 2px solid rgba(0, 229, 255, 0.3);
+            border-radius: 50px;
+            padding: 16px 20px;
             color: var(--text-primary);
-            resize: none;
-            max-height: 120px;
-            min-height: 44px;
-            transition: var(--transition-normal);
-            font-family: inherit;
-        }
-
-        .chat-input:focus {
+            font-size: 15px;
             outline: none;
-            border-color: var(--ios-blue);
-            background: var(--bg-secondary);
-            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+            transition: all 0.3s;
         }
 
-        .chat-input::placeholder {
-            color: var(--text-tertiary);
+        #messageInput:focus {
+            border-color: var(--cyan-primary);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
         }
 
-        .send-btn {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-light-blue));
-            color: var(--text-white);
-            border: none;
-            border-radius: var(--radius-circle);
+        .input-icons {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: var(--cyan-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition-normal);
-            flex-shrink: 0;
-            box-shadow: var(--shadow-light);
+            transition: all 0.3s;
         }
 
-        .send-btn:hover:not(:disabled) {
-            background: linear-gradient(135deg, #0056CC, #4AA7FF);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
+        .icon-btn:hover {
+            background: var(--cyan-primary);
+            color: var(--dark-bg);
+            transform: scale(1.1);
+        }
+
+        .send-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-secondary));
+            border: none;
+            color: var(--dark-bg);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 229, 255, 0.5);
         }
 
         .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none !important;
+            transform: none;
         }
 
-        /* Side Menu */
-        .side-menu {
+        /* Background mode indicator */
+        .background-mode {
             position: fixed;
-            top: 0;
-            left: -100%;
-            width: 85%;
-            max-width: 320px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, #f8f9fa 100%);
-            z-index: 1000;
-            transition: var(--transition-slow);
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--shadow-heavy);
-            border-right: 1px solid var(--border-light);
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            transition: all 0.5s ease;
         }
 
-        .side-menu.active {
-            left: 0;
-        }
-
-        .menu-header {
-            padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
-            border-bottom: 1px solid var(--border-light);
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
-        }
-
-        .user-profile {
+        .background-indicator {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--cyan-primary);
+            border-radius: 50px;
+            padding: 12px 25px;
             display: flex;
             align-items: center;
-            gap: var(--spacing-md);
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
+            animation: slideInRight 0.5s ease;
         }
 
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
-            border-radius: var(--radius-circle);
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .background-indicator.hidden {
+            transform: translateX(100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .background-pulse {
+            width: 12px;
+            height: 12px;
+            background-color: var(--cyan-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan-primary);
+            animation: pulse-bg 2s infinite;
+        }
+
+        @keyframes pulse-bg {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .background-text {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Toggle switch */
+        .toggle-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--font-size-xl);
-            color: var(--text-white);
-            font-weight: 600;
-            box-shadow: var(--shadow-light);
-            border: 3px solid white;
-        }
-
-        .user-info {
-            flex: 1;
-        }
-
-        .user-name {
-            font-size: var(--font-size-lg);
-            font-weight: 600;
-            color: var(--text-white);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .user-status {
-            font-size: var(--font-size-sm);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .menu-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: var(--spacing-md);
-        }
-
-        .menu-section {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .section-title {
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: var(--spacing-sm);
-            padding-left: var(--spacing-xs);
-        }
-
-        .menu-item {
-            padding: var(--spacing-md);
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-sm);
-            border: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: var(--transition-fast);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-        }
-
-        .menu-item:hover {
-            background: var(--bg-tertiary);
-            transform: translateX(4px);
-            box-shadow: var(--shadow-light);
-        }
-
-        .menu-item i {
-            width: 24px;
-            text-align: center;
-            color: var(--ios-blue);
-            font-size: var(--font-size-lg);
-        }
-
-        .menu-item-text {
-            flex: 1;
-            font-size: var(--font-size-md);
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .menu-item-badge {
-            padding: var(--spacing-xs) var(--spacing-sm);
-            background: var(--ios-green);
-            color: var(--text-white);
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-xs);
-            font-weight: 600;
-        }
-
-        /* AI Mode Selector */
-        .mode-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .mode-option {
-            padding: var(--spacing-md);
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-
-        .mode-option:hover {
-            background: var(--bg-tertiary);
-            transform: translateY(-2px);
-        }
-
-        .mode-option.active {
-            background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
-            color: var(--text-white);
-            border-color: var(--ios-blue);
-            box-shadow: var(--shadow-light);
-        }
-
-        .mode-icon {
-            font-size: 24px;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .mode-name {
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-        }
-
-        .mode-desc {
-            font-size: var(--font-size-xs);
-            opacity: 0.8;
-            margin-top: var(--spacing-xs);
-        }
-
-        /* Settings Items */
-        .setting-item {
-            display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: var(--spacing-md);
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-sm);
-            border: 1px solid var(--border-light);
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        .setting-label {
-            font-size: var(--font-size-md);
+        .toggle-label {
+            font-size: 16px;
             color: var(--text-primary);
         }
 
-        .setting-control {
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-checkbox {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--text-secondary);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .toggle-checkbox:checked + .toggle-slider {
+            background-color: var(--cyan-primary);
+        }
+
+        .toggle-checkbox:checked + .toggle-slider:before {
+            transform: translateX(30px);
+            background-color: var(--dark-bg);
+        }
+
+        /* Settings panel */
+        .settings-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 41, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .settings-panel.active {
+            transform: translateX(0);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .settings-header h2 {
+            font-size: 26px;
+            background: linear-gradient(to right, var(--cyan-primary), #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--cyan-primary);
+            transform: rotate(90deg);
+        }
+
+        .settings-section {
+            margin-bottom: 35px;
+        }
+
+        .settings-title {
+            font-size: 18px;
+            color: var(--cyan-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+        }
+
+        .api-key-container {
+            margin-bottom: 25px;
+        }
+
+        .api-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .api-input:focus {
+            outline: none;
+            border-color: var(--cyan-primary);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+
+        .api-status {
             display: flex;
             align-items: center;
-            gap: var(--spacing-md);
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 14px;
         }
 
-        /* Slider */
+        .api-status.valid {
+            color: var(--success);
+        }
+
+        .api-status.invalid {
+            color: var(--error);
+        }
+
+        .slider-container {
+            margin-bottom: 25px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
         .slider {
-            width: 100px;
-            height: 4px;
-            background: var(--border-light);
-            border-radius: 2px;
-            position: relative;
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--cyan-primary);
             cursor: pointer;
+            box-shadow: 0 0 10px var(--cyan-primary);
         }
 
-        .slider-track {
+        /* Response time indicator */
+        .response-time {
             position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            background: linear-gradient(90deg, var(--ios-blue), var(--ios-purple));
-            border-radius: 2px;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
-        .slider-thumb {
+        /* Modal */
+        .modal {
             position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            background: var(--ios-blue);
-            border-radius: var(--radius-circle);
-            box-shadow: var(--shadow-light);
-            transition: var(--transition-fast);
-        }
-
-        .slider-thumb:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        /* Toggle Switch */
-        .toggle {
-            width: 51px;
-            height: 31px;
-            background: var(--border-light);
-            border-radius: 16px;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition-normal);
-        }
-
-        .toggle.active {
-            background: var(--ios-green);
-        }
-
-        .toggle-thumb {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 27px;
-            height: 27px;
-            background: var(--text-white);
-            border-radius: var(--radius-circle);
-            transition: var(--transition-normal);
-            box-shadow: var(--shadow-light);
-        }
-
-        .toggle.active .toggle-thumb {
-            left: calc(100% - 29px);
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition-normal);
-            backdrop-filter: blur(2px);
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Loading Animation */
-        .loading-indicator {
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            padding: var(--spacing-md);
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            width: fit-content;
-            margin: var(--spacing-md) auto;
-        }
-
-        .loading-dots {
-            display: flex;
-            gap: 4px;
-        }
-
-        .loading-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--ios-blue);
-            border-radius: var(--radius-circle);
-            animation: loadingDot 1.4s infinite ease-in-out;
-        }
-
-        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes loadingDot {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: var(--spacing-xl);
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-heavy);
-            border: 1px solid var(--border-light);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            opacity: 0;
-            transition: var(--transition-normal);
-            backdrop-filter: blur(10px);
-        }
-
-        .notification.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .notification.success {
-            border-left: 4px solid var(--ios-green);
-        }
-
-        .notification.error {
-            border-left: 4px solid var(--ios-red);
-        }
-
-        .notification.warning {
-            border-left: 4px solid var(--ios-orange);
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-md);
-        }
-
-        .action-btn {
-            padding: var(--spacing-md);
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            gap: var(--spacing-xs);
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.2);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 22px;
+            color: var(--cyan-primary);
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 10px 25px;
+            border-radius: 8px;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
-            transition: var(--transition-fast);
+            transition: all 0.3s;
         }
 
-        .action-btn:hover {
-            background: var(--bg-tertiary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-light);
+        .modal-btn.primary {
+            background: var(--cyan-primary);
+            color: var(--dark-bg);
         }
 
-        .action-btn i {
-            font-size: 24px;
-            color: var(--ios-blue);
+        .modal-btn.primary:hover {
+            background: var(--cyan-secondary);
         }
 
-        .action-label {
-            font-size: var(--font-size-sm);
-            color: var(--text-primary);
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .app-container {
-                max-width: 100%;
-            }
-            
-            .mode-selector {
-                grid-template-columns: 1fr;
-            }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-            
-            .side-menu {
-                width: 90%;
-            }
-        }
-
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Typing Indicator */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            padding: var(--spacing-md);
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            width: fit-content;
-        }
-
-        .typing-text {
-            font-size: var(--font-size-sm);
-            color: var(--text-tertiary);
-        }
-
-        /* Markdown Styling for AI Responses */
-        .ai .message-text strong,
-        .ai .message-text b {
-            font-weight: 700;
+        .modal-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
         }
 
-        .ai .message-text em,
-        .ai .message-text i {
-            font-style: italic;
+        .modal-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .ai .message-text code {
-            background: var(--bg-tertiary);
-            padding: 2px 6px;
-            border-radius: var(--radius-sm);
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
+        /* Responsive adjustments */
+        @media (max-width: 720px) {
+            body {
+                width: 100%;
+                border: none;
+            }
         }
 
-        .ai .message-text pre {
-            background: var(--bg-tertiary);
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            overflow-x: auto;
-            margin: var(--spacing-sm) 0;
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .ai .message-text ul,
-        .ai .message-text ol {
-            margin-left: var(--spacing-lg);
-            margin-bottom: var(--spacing-sm);
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
 
-        .ai .message-text li {
-            margin-bottom: var(--spacing-xs);
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyan-primary);
+            border-radius: 10px;
         }
 
-        .ai .message-text h1,
-        .ai .message-text h2,
-        .ai .message-text h3 {
-            margin-top: var(--spacing-md);
-            margin-bottom: var(--spacing-sm);
-            font-weight: 600;
-        }
-
-        .ai .message-text a {
-            color: var(--ios-blue);
-            text-decoration: none;
-        }
-
-        .ai .message-text a:hover {
-            text-decoration: underline;
-        }
-
-        /* Welcome Animation */
-        @keyframes welcomeFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .welcome-float {
-            animation: welcomeFloat 3s ease-in-out infinite;
-        }
-
-        /* App Store-like Details */
-        .app-store-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            margin: var(--spacing-md);
-            box-shadow: var(--shadow-medium);
-            border: 1px solid var(--border-light);
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: var(--spacing-md) 0;
-        }
-
-        .feature-list li {
-            padding: var(--spacing-sm) 0;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .feature-list i {
-            color: var(--ios-green);
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cyan-secondary);
         }
     </style>
 </head>
 <body>
-    <!-- App Container -->
-    <div class="app-container" id="appContainer">
-        <!-- Login Screen -->
-        <div class="screen active" id="loginScreen">
-            <div class="status-bar">
-                <div class="time" id="loginTime">12:00</div>
-                <div class="signal-info">
-                    <i class="fas fa-signal"></i>
-                    <i class="fas fa-wifi"></i>
-                    <div class="battery">100%</div>
-                </div>
-            </div>
-            
-            <div class="login-content">
-                <div class="app-icon welcome-float">
-                    <img src="Cyanix_emblem.png" alt="Cyanix AI" id="cyanixLogo">
-                </div>
-                <h1 class="app-title">Cyanix AI</h1>
-                <p class="app-subtitle">Your intelligent assistant</p>
-                
-                <div class="app-store-card">
-                    <p style="margin-bottom: var(--spacing-sm); color: var(--text-secondary);">Enter your name to start chatting with your AI assistant:</p>
-                    <div class="input-container">
-                        <input type="text" class="input-field" id="usernameInput" placeholder="Enter your name" autocomplete="off" autofocus>
-                    </div>
-                    
-                    <button class="btn" id="loginBtn">
-                        <i class="fas fa-arrow-right"></i>
-                        Continue to Cyanix AI
-                    </button>
-                    
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Smart AI Responses</li>
-                        <li><i class="fas fa-check-circle"></i> Multiple AI Modes</li>
-                        <li><i class="fas fa-check-circle"></i> Conversation Memory</li>
-                        <li><i class="fas fa-check-circle"></i> File Export</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <!-- Background animation -->
+    <div class="background-animation" id="backgroundAnimation"></div>
 
-        <!-- Chat Screen -->
-        <div class="screen hidden" id="chatScreen">
-            <div class="chat-container">
-                <!-- Navigation Bar -->
-                <div class="nav-bar">
-                    <button class="menu-btn" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="nav-title">
-                        <img src="Cyanix_emblem.png" alt="Cyanix" style="height: 24px; margin-right: 8px;">
-                        Cyanix AI
-                    </div>
-                    <div class="status-indicator" id="statusIndicator"></div>
-                </div>
-
-                <!-- Chat Messages -->
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Welcome message -->
-                    <div class="message ai">
-                        <div class="message-avatar">
-                            <img src="Cyanix_emblem.png" alt="Cyanix AI" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                        </div>
-                        <div class="message-content">
-                            <div class="message-text">
-                                <strong>Hello! 👋 I'm Cyanix AI</strong><br><br>
-                                I'm your intelligent assistant, ready to help you with:
-                                <ul>
-                                    <li>Answering questions and providing information</li>
-                                    <li>Creative writing and brainstorming</li>
-                                    <li>Code generation and debugging</li>
-                                    <li>Learning and educational support</li>
-                                    <li>And much more!</li>
-                                </ul>
-                                <br>
-                                <em>How can I assist you today?</em>
-                            </div>
-                            <div class="message-time" id="welcomeTime">Just now</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chat Input -->
-                <div class="chat-input-container">
-                    <div class="input-wrapper">
-                        <textarea class="chat-input" id="chatInput" placeholder="Message Cyanix AI..." rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Side Menu -->
-    <div class="side-menu" id="sideMenu">
-        <div class="menu-header">
-            <div class="user-profile">
-                <div class="user-avatar" id="userAvatar">U</div>
-                <div class="user-info">
-                    <div class="user-name" id="userName">User</div>
-                    <div class="user-status">Premium Member</div>
-                </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">C</div>
+            <div class="logo-text">
+                <h1>Cyanix AI</h1>
+                <p>Confident. Cocky. Real API.</p>
             </div>
         </div>
         
-        <div class="menu-content">
-            <div class="menu-section">
-                <div class="section-title">AI Mode</div>
-                <div class="mode-selector">
-                    <div class="mode-option active" data-mode="nix">
-                        <div class="mode-icon">⚡</div>
-                        <div class="mode-name">Nix</div>
-                        <div class="mode-desc">Fast & concise</div>
-                    </div>
-                    <div class="mode-option" data-mode="nova">
-                        <div class="mode-icon">🧠</div>
-                        <div class="mode-name">Nova</div>
-                        <div class="mode-desc">Deep & detailed</div>
-                    </div>
-                    <div class="mode-option" data-mode="default">
-                        <div class="mode-icon">🤖</div>
-                        <div class="mode-name">Cyanix</div>
-                        <div class="mode-desc">Balanced</div>
-                    </div>
+        <div class="status-indicators">
+            <div class="status">
+                <div class="status-dot active" id="apiStatus"></div>
+                <div class="status-label">API</div>
+            </div>
+            <div class="status">
+                <div class="status-dot active" id="ttsStatus"></div>
+                <div class="status-label">TTS</div>
+            </div>
+            <div class="status">
+                <div class="status-dot inactive" id="bgStatus"></div>
+                <div class="status-label">Background</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main container -->
+    <div class="main-container">
+        <!-- Sidebar with features -->
+        <div class="sidebar">
+            <div class="feature-card active" id="chatFeature">
+                <div class="feature-icon"><i class="fas fa-comment-dots"></i></div>
+                <div class="feature-title">AI Chat</div>
+                <div class="feature-desc">Chat with Cyanix AI - powered by real OpenAI API with confident, cocky personality.</div>
+            </div>
+            
+            <div class="feature-card" id="backgroundFeature">
+                <div class="feature-icon"><i class="fas fa-headphones"></i></div>
+                <div class="feature-title">Background Assistant</div>
+                <div class="feature-desc">Let Cyanix run in the background and help you without opening the app.</div>
+            </div>
+            
+            <div class="feature-card" id="voiceFeature">
+                <div class="feature-icon"><i class="fas fa-microphone"></i></div>
+                <div class="feature-title">Voice Commands</div>
+                <div class="feature-desc">Control Cyanix with your voice. Real speech recognition integration.</div>
+            </div>
+            
+            <div class="feature-card" id="analyticsFeature">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="feature-title">AI Analytics</div>
+                <div class="feature-desc">Cyanix analyzes your usage patterns to optimize his performance.</div>
+            </div>
+            
+            <div class="feature-card" id="settingsFeature">
+                <div class="feature-icon"><i class="fas fa-cog"></i></div>
+                <div class="feature-title">Settings</div>
+                <div class="feature-desc">Customize Cyanix's behavior, voice, and appearance to your liking.</div>
+            </div>
+        </div>
+
+        <!-- Chat area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <h2>Cyanix AI Assistant</h2>
+                <p>Powered by real OpenAI API. I'm confident, cocky, and always connected.</p>
+                
+                <div class="toggle-container">
+                    <span class="toggle-label">Text-to-Speech (TTS)</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="toggle-checkbox" id="ttsToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-container">
+                    <span class="toggle-label">Background Mode</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="toggle-checkbox" id="backgroundToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
             </div>
-
-            <div class="menu-section">
-                <div class="section-title">Settings</div>
-                
-                <div class="setting-item">
-                    <div class="setting-label">Response Speed</div>
-                    <div class="setting-control">
-                        <div class="slider" id="voiceSpeedSlider">
-                            <div class="slider-track" style="width: 50%"></div>
-                            <div class="slider-thumb" style="left: 50%"></div>
-                        </div>
-                        <span class="slider-value">0.9</span>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-label">Auto-Speak</div>
-                    <div class="setting-control">
-                        <div class="toggle active" id="autoSpeakToggle">
-                            <div class="toggle-thumb"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <div class="section-title">Actions</div>
-                
-                <div class="menu-item" id="clearChatBtn">
-                    <i class="fas fa-broom"></i>
-                    <div class="menu-item-text">Clear Chat</div>
-                </div>
-                
-                <div class="menu-item" id="exportChatBtn">
-                    <i class="fas fa-download"></i>
-                    <div class="menu-item-text">Export Chat</div>
-                </div>
-                
-                <div class="menu-item" id="loadMemoryBtn">
-                    <i class="fas fa-folder-open"></i>
-                    <div class="menu-item-text">Load Memory</div>
-                </div>
-                
-                <div class="menu-item" id="clearMemoryBtn">
-                    <i class="fas fa-trash"></i>
-                    <div class="menu-item-text">Clear Memory</div>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <div class="section-title">API Settings</div>
-                
-                <div class="menu-item" id="apiSettingsBtn">
-                    <i class="fas fa-key"></i>
-                    <div class="menu-item-text">API Configuration</div>
-                    <div class="menu-item-badge" id="apiStatusBadge">●</div>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <div class="quick-actions">
-                    <div class="action-btn" id="quickAction1">
-                        <i class="fas fa-microphone"></i>
-                        <div class="action-label">Voice Input</div>
-                    </div>
-                    <div class="action-btn" id="quickAction2">
-                        <i class="fas fa-code"></i>
-                        <div class="action-label">Code Mode</div>
-                    </div>
-                    <div class="action-btn" id="quickAction3">
-                        <i class="fas fa-image"></i>
-                        <div class="action-label">Generate Image</div>
-                    </div>
-                    <div class="action-btn" id="quickAction4">
-                        <i class="fas fa-history"></i>
-                        <div class="action-label">History</div>
+            
+            <div class="messages-container" id="messagesContainer">
+                <!-- Messages will be inserted here dynamically -->
+                <div class="message ai-message">
+                    <div class="message-avatar ai-avatar">C</div>
+                    <div class="message-content">
+                        <div class="message-sender">Cyanix AI</div>
+                        <div class="message-text">Hey there! I'm Cyanix, now powered by real OpenAI API. I'm confident, a bit cocky, and ready to show you what real AI can do. Enter your API key in settings to unlock my full potential. I dare you to ask me anything challenging!</div>
+                        <div class="message-time">Just now</div>
                     </div>
                 </div>
             </div>
             
-            <div class="menu-item" id="logoutBtn" style="margin-top: var(--spacing-xl); background: rgba(255, 59, 48, 0.1); border-color: rgba(255, 59, 48, 0.2);">
-                <i class="fas fa-sign-out-alt" style="color: var(--ios-red);"></i>
-                <div class="menu-item-text" style="color: var(--ios-red);">Logout</div>
+            <div class="input-area">
+                <div class="input-container">
+                    <input type="text" id="messageInput" placeholder="Type your message here... I'm waiting.">
+                    <div class="input-icons">
+                        <div class="icon-btn" id="voiceInputBtn">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="icon-btn" id="attachBtn">
+                            <i class="fas fa-paperclip"></i>
+                        </div>
+                    </div>
+                </div>
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationText">Action completed</span>
+    <!-- Background mode indicator -->
+    <div class="background-mode">
+        <div class="background-indicator hidden" id="backgroundIndicator">
+            <div class="background-pulse"></div>
+            <div class="background-text">Cyanix is running in background</div>
+        </div>
     </div>
 
-    <!-- API Settings Modal -->
-    <div class="side-menu" id="apiSettingsMenu" style="left: 100%;">
-        <div class="menu-header">
-            <button class="menu-btn" id="backToMenuBtn" style="position: absolute; left: var(--spacing-md);">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <h2 style="text-align: center; margin: 0; font-size: var(--font-size-lg); color: white;">API Settings</h2>
+    <!-- Settings panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h2>Cyanix Settings</h2>
+            <button class="close-btn" id="closeSettingsBtn">&times;</button>
         </div>
         
-        <div class="menu-content">
-            <div class="menu-section">
-                <div class="section-title">Groq API</div>
-                
-                <div class="input-container" style="margin-bottom: var(--spacing-md);">
-                    <input type="password" class="input-field" id="groqApiKey" placeholder="Enter Groq API Key">
-                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
-                        <button class="btn btn-secondary" style="flex: 1;" id="toggleApiKeyVisibility">
-                            <i class="fas fa-eye"></i>
-                            Show
-                        </button>
-                        <button class="btn" style="flex: 1;" id="testGroqApiBtn">
-                            <i class="fas fa-bolt"></i>
-                            Test
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-label">Model</div>
-                    <div class="setting-control">
-                        <select style="padding: var(--spacing-sm); border: 1px solid var(--border-light); border-radius: var(--radius-md); background: var(--bg-card); width: 100%;" id="modelSelect">
-                            <option value="llama3-70b-8192">Llama 3 70B</option>
-                            <option value="llama3-8b-8192">Llama 3 8B</option>
-                            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
-                            <option value="gemma-7b-it">Gemma 7B</option>
-                        </select>
-                    </div>
+        <div class="settings-section">
+            <h3 class="settings-title">API Configuration</h3>
+            
+            <div class="api-key-container">
+                <input type="password" id="apiKeyInput" class="api-input" placeholder="Enter your OpenAI API key">
+                <button class="modal-btn primary" id="saveApiKeyBtn" style="width: 100%; padding: 12px;">Save API Key</button>
+                <div class="api-status" id="apiStatusText">
+                    <i class="fas fa-circle"></i>
+                    <span>API Key not configured</span>
                 </div>
             </div>
             
-            <div class="menu-section">
-                <div class="section-title">Other APIs</div>
-                
-                <div class="input-container" style="margin-bottom: var(--spacing-sm);">
-                    <input type="text" class="input-field" placeholder="OpenAI API Key (Optional)">
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>AI Temperature (Creativity)</span>
+                    <span id="temperatureValue">0.8</span>
                 </div>
-                
-                <div class="input-container" style="margin-bottom: var(--spacing-sm);">
-                    <input type="text" class="input-field" placeholder="Google AI Key (Optional)">
-                </div>
-                
-                <div class="input-container" style="margin-bottom: var(--spacing-sm);">
-                    <input type="text" class="input-field" placeholder="xAI Key (Optional)">
-                </div>
+                <input type="range" min="0.1" max="1.5" step="0.1" value="0.8" class="slider" id="temperature">
             </div>
             
-            <div class="menu-section">
-                <div class="section-title">Advanced</div>
-                
-                <div class="setting-item">
-                    <div class="setting-label">Temperature</div>
-                    <div class="setting-control">
-                        <div class="slider" id="temperatureSlider">
-                            <div class="slider-track" style="width: 50%"></div>
-                            <div class="slider-thumb" style="left: 50%"></div>
-                        </div>
-                        <span class="slider-value">0.7</span>
-                    </div>
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>Max Response Length</span>
+                    <span id="maxTokensValue">500</span>
                 </div>
-                
-                <div class="setting-item">
-                    <div class="setting-label">Max Tokens</div>
-                    <div class="setting-control">
-                        <div class="slider" id="maxTokensSlider">
-                            <div class="slider-track" style="width: 50%"></div>
-                            <div class="slider-thumb" style="left: 50%"></div>
-                        </div>
-                        <span class="slider-value">1024</span>
-                    </div>
+                <input type="range" min="50" max="2000" step="50" value="500" class="slider" id="maxTokens">
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="settings-title">Voice Settings</h3>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>TTS Speed</span>
+                    <span id="ttsSpeedValue">1.0x</span>
                 </div>
+                <input type="range" min="0.5" max="2" step="0.1" value="1" class="slider" id="ttsSpeed">
             </div>
             
-            <button class="btn" style="margin-top: var(--spacing-xl); width: 100%;" id="saveApiSettingsBtn">
-                <i class="fas fa-save"></i>
-                Save Settings
-            </button>
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>TTS Pitch</span>
+                    <span id="ttsPitchValue">1.0</span>
+                </div>
+                <input type="range" min="0.5" max="1.5" step="0.1" value="1" class="slider" id="ttsPitch">
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="settings-title">AI Personality</h3>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Confident/Cocky Mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-checkbox" id="confidenceToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Sarcasm Mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-checkbox" id="sarcasmToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Show Intelligence</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-checkbox" id="intelligenceToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="settings-title">Background Mode</h3>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Enable Background Assistant</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-checkbox" id="backgroundEnableToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-container">
+                <span class="toggle-label">Background Notifications</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-checkbox" id="notificationsToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>Background Check Interval</span>
+                    <span id="intervalValue">30s</span>
+                </div>
+                <input type="range" min="10" max="120" step="10" value="30" class="slider" id="checkInterval">
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div class="modal" id="apiKeyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>OpenAI API Key Required</h3>
+                <p style="color: var(--text-secondary);">To use Cyanix AI with real responses, you need to provide an OpenAI API key.</p>
+            </div>
+            <div class="modal-body">
+                <p>Follow these steps:</p>
+                <ol style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                    <li>Go to <a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--cyan-primary);">OpenAI API Keys</a></li>
+                    <li>Create a new API key (or use an existing one)</li>
+                    <li>Copy the key and paste it in the settings panel</li>
+                    <li>Make sure you have credits in your OpenAI account</li>
+                </ol>
+                <p style="margin-top: 15px; color: var(--text-secondary); font-size: 14px;">
+                    <strong>Note:</strong> Your API key is stored locally in your browser and never sent to any server except OpenAI's API.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="skipApiBtn">Use Demo Mode</button>
+                <button class="modal-btn primary" id="goToSettingsBtn">Go to Settings</button>
+            </div>
         </div>
     </div>
 
     <script>
         // DOM Elements
-        const appContainer = document.getElementById('appContainer');
-        const loginScreen = document.getElementById('loginScreen');
-        const chatScreen = document.getElementById('chatScreen');
-        const usernameInput = document.getElementById('usernameInput');
-        const loginBtn = document.getElementById('loginBtn');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
+        const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
-        const sideMenu = document.getElementById('sideMenu');
-        const overlay = document.getElementById('overlay');
-        const menuToggle = document.getElementById('menuToggle');
-        const statusIndicator = document.getElementById('statusIndicator');
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        const welcomeTime = document.getElementById('welcomeTime');
-        const loginTime = document.getElementById('loginTime');
-        const notification = document.getElementById('notification');
-        const notificationText = document.getElementById('notificationText');
-        const cyanixLogo = document.getElementById('cyanixLogo');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const ttsToggle = document.getElementById('ttsToggle');
+        const backgroundToggle = document.getElementById('backgroundToggle');
+        const backgroundIndicator = document.getElementById('backgroundIndicator');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsFeature = document.getElementById('settingsFeature');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const bgStatus = document.getElementById('bgStatus');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
+        const apiStatusText = document.getElementById('apiStatusText');
+        const apiKeyModal = document.getElementById('apiKeyModal');
+        const skipApiBtn = document.getElementById('skipApiBtn');
+        const goToSettingsBtn = document.getElementById('goToSettingsBtn');
         
-        // API Settings
-        const apiSettingsMenu = document.getElementById('apiSettingsMenu');
-        const apiSettingsBtn = document.getElementById('apiSettingsBtn');
-        const backToMenuBtn = document.getElementById('backToMenuBtn');
-        const groqApiKey = document.getElementById('groqApiKey');
-        const toggleApiKeyVisibility = document.getElementById('toggleApiKeyVisibility');
-        const testGroqApiBtn = document.getElementById('testGroqApiBtn');
-        const modelSelect = document.getElementById('modelSelect');
-        const saveApiSettingsBtn = document.getElementById('saveApiSettingsBtn');
-        const apiStatusBadge = document.getElementById('apiStatusBadge');
+        // Configuration
+        let config = {
+            apiKey: '',
+            temperature: 0.8,
+            maxTokens: 500,
+            ttsEnabled: true,
+            ttsSpeed: 1.0,
+            ttsPitch: 1.0,
+            confidenceMode: true,
+            sarcasmMode: true,
+            intelligenceMode: true,
+            backgroundMode: false,
+            notifications: true,
+            checkInterval: 30,
+            usingDemoMode: false
+        };
         
-        // Mode Selector
-        const modeOptions = document.querySelectorAll('.mode-option');
+        // State variables
+        let isProcessing = false;
+        let backgroundModeActive = false;
+        let backgroundInterval = null;
+        let synth = window.speechSynthesis;
         
-        // Settings
-        const voiceSpeedSlider = document.getElementById('voiceSpeedSlider');
-        const autoSpeakToggle = document.getElementById('autoSpeakToggle');
-        const temperatureSlider = document.getElementById('temperatureSlider');
-        const maxTokensSlider = document.getElementById('maxTokensSlider');
-        
-        // Action Buttons
-        const clearChatBtn = document.getElementById('clearChatBtn');
-        const exportChatBtn = document.getElementById('exportChatBtn');
-        const loadMemoryBtn = document.getElementById('loadMemoryBtn');
-        const clearMemoryBtn = document.getElementById('clearMemoryBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        
-        // Quick Actions
-        const quickAction1 = document.getElementById('quickAction1');
-        const quickAction2 = document.getElementById('quickAction2');
-        const quickAction3 = document.getElementById('quickAction3');
-        const quickAction4 = document.getElementById('quickAction4');
-
-        // State
-        let currentUser = '';
-        let isOnline = navigator.onLine;
-        let isTyping = false;
-        let currentMode = 'default';
-        let autoSpeak = true;
-        let voiceSpeed = 0.9;
-        let temperature = 0.7;
-        let maxTokens = 1024;
-        let selectedModel = 'llama3-70b-8192';
-        let groqApiKeyValue = '';
-        let conversationHistory = [];
-        let memoryData = {};
-        let isMenuOpen = false;
-        let isApiSettingsOpen = false;
-
         // Initialize
+        init();
+        
         function init() {
-            updateTime();
-            setupEventListeners();
-            loadSettings();
-            checkNetworkStatus();
-            setupSliders();
-            setupNetworkMonitoring();
-            
-            // Set up logo fallback
-            if (cyanixLogo) {
-                cyanixLogo.onerror = function() {
-                    this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🤖</text></svg>';
-                };
+            // Background animation
+            const backgroundAnimation = document.getElementById('backgroundAnimation');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.width = `${Math.random() * 100 + 50}px`;
+                particle.style.height = particle.style.width;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 30 + 20}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                backgroundAnimation.appendChild(particle);
             }
             
-            // Update time every minute
-            setInterval(updateTime, 60000);
-        }
-
-        // Update time display
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const dateStr = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+            // Load saved configuration
+            loadConfig();
             
-            if (loginTime) loginTime.textContent = timeStr;
-            if (welcomeTime) welcomeTime.textContent = `Today at ${timeStr}`;
+            // Check if API key is set
+            if (!config.apiKey) {
+                setTimeout(() => {
+                    apiKeyModal.classList.add('active');
+                }, 1500);
+            }
+            
+            // Event listeners
+            setupEventListeners();
+            
+            // Update UI based on config
+            updateUIFromConfig();
         }
-
-        // Setup event listeners
+        
+        function loadConfig() {
+            const savedConfig = localStorage.getItem('cyanixConfig');
+            if (savedConfig) {
+                try {
+                    const parsed = JSON.parse(savedConfig);
+                    config = { ...config, ...parsed };
+                    
+                    // Update API status
+                    updateApiStatus(config.apiKey);
+                } catch (e) {
+                    console.error('Failed to load config:', e);
+                }
+            }
+        }
+        
+        function saveConfig() {
+            localStorage.setItem('cyanixConfig', JSON.stringify(config));
+        }
+        
         function setupEventListeners() {
-            // Login
-            loginBtn.addEventListener('click', handleLogin);
-            usernameInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleLogin();
+            // Feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    featureCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const featureId = this.id;
+                    if (featureId === 'settingsFeature') {
+                        settingsPanel.classList.add('active');
+                    } else if (featureId === 'backgroundFeature') {
+                        backgroundToggle.checked = true;
+                        toggleBackgroundMode(true);
+                    }
+                });
             });
-
-            // Chat
+            
+            // TTS toggle
+            ttsToggle.addEventListener('change', function() {
+                config.ttsEnabled = this.checked;
+                updateStatus('ttsStatus', config.ttsEnabled);
+                saveConfig();
+                
+                if (!config.ttsEnabled && synth.speaking) {
+                    synth.cancel();
+                }
+            });
+            
+            // Background mode toggle
+            backgroundToggle.addEventListener('change', function() {
+                toggleBackgroundMode(this.checked);
+            });
+            
+            // Send message
             sendBtn.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !isProcessing) {
                     sendMessage();
                 }
-                
-                // Auto-resize textarea
-                setTimeout(() => {
-                    chatInput.style.height = 'auto';
-                    chatInput.style.height = (chatInput.scrollHeight) + 'px';
-                }, 0);
-            });
-
-            // Menu Toggle - FIXED
-            menuToggle.addEventListener('click', toggleMainMenu);
-            overlay.addEventListener('click', closeAllMenus);
-            
-            // Mode selection
-            modeOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    modeOptions.forEach(o => o.classList.remove('active'));
-                    option.classList.add('active');
-                    currentMode = option.dataset.mode;
-                    showNotification(`Mode switched to ${option.querySelector('.mode-name').textContent}`, 'success');
-                    closeAllMenus();
-                });
-            });
-
-            // API Settings - FIXED: Added proper event listener
-            if (apiSettingsBtn) {
-                apiSettingsBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openApiSettings();
-                });
-            }
-            
-            if (backToMenuBtn) {
-                backToMenuBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    closeApiSettings();
-                });
-            }
-            
-            if (toggleApiKeyVisibility) {
-                toggleApiKeyVisibility.addEventListener('click', toggleApiKeyVisibilityHandler);
-            }
-            
-            if (testGroqApiBtn) {
-                testGroqApiBtn.addEventListener('click', testGroqApi);
-            }
-            
-            if (saveApiSettingsBtn) {
-                saveApiSettingsBtn.addEventListener('click', saveApiSettings);
-            }
-
-            // Action buttons
-            if (clearChatBtn) {
-                clearChatBtn.addEventListener('click', clearChat);
-            }
-            
-            if (exportChatBtn) {
-                exportChatBtn.addEventListener('click', exportChat);
-            }
-            
-            if (loadMemoryBtn) {
-                loadMemoryBtn.addEventListener('click', loadMemory);
-            }
-            
-            if (clearMemoryBtn) {
-                clearMemoryBtn.addEventListener('click', clearMemory);
-            }
-            
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', logout);
-            }
-
-            // Quick actions
-            if (quickAction1) {
-                quickAction1.addEventListener('click', () => {
-                    showNotification('Voice input activated', 'success');
-                    closeAllMenus();
-                });
-            }
-            
-            if (quickAction2) {
-                quickAction2.addEventListener('click', () => {
-                    showNotification('Code mode activated', 'success');
-                    closeAllMenus();
-                });
-            }
-            
-            if (quickAction3) {
-                quickAction3.addEventListener('click', () => {
-                    showNotification('Image generation ready', 'success');
-                    closeAllMenus();
-                });
-            }
-            
-            if (quickAction4) {
-                quickAction4.addEventListener('click', () => {
-                    showNotification('History loaded', 'success');
-                    closeAllMenus();
-                });
-            }
-
-            // Toggle switch
-            if (autoSpeakToggle) {
-                autoSpeakToggle.addEventListener('click', () => {
-                    autoSpeakToggle.classList.toggle('active');
-                    autoSpeak = autoSpeakToggle.classList.contains('active');
-                    showNotification(`Auto-speak ${autoSpeak ? 'enabled' : 'disabled'}`, 'success');
-                });
-            }
-        }
-
-        // Toggle main menu - FIXED FUNCTION
-        function toggleMainMenu() {
-            if (isApiSettingsOpen) {
-                closeApiSettings();
-                return;
-            }
-            
-            if (isMenuOpen) {
-                closeAllMenus();
-            } else {
-                openMainMenu();
-            }
-        }
-
-        // Open main menu
-        function openMainMenu() {
-            sideMenu.classList.add('active');
-            overlay.classList.add('active');
-            isMenuOpen = true;
-            isApiSettingsOpen = false;
-        }
-
-        // Close all menus
-        function closeAllMenus() {
-            sideMenu.classList.remove('active');
-            if (apiSettingsMenu) apiSettingsMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            isMenuOpen = false;
-            isApiSettingsOpen = false;
-        }
-
-        // Open API settings - FIXED
-        function openApiSettings() {
-            if (sideMenu) sideMenu.classList.remove('active');
-            if (apiSettingsMenu) apiSettingsMenu.classList.add('active');
-            if (overlay) overlay.classList.add('active');
-            isMenuOpen = false;
-            isApiSettingsOpen = true;
-        }
-
-        // Close API settings - FIXED
-        function closeApiSettings() {
-            if (apiSettingsMenu) apiSettingsMenu.classList.remove('active');
-            if (sideMenu) sideMenu.classList.add('active');
-            if (overlay) overlay.classList.add('active');
-            isMenuOpen = true;
-            isApiSettingsOpen = false;
-        }
-
-        // Setup sliders
-        function setupSliders() {
-            // Voice speed slider
-            if (voiceSpeedSlider) {
-                setupSlider(voiceSpeedSlider, 0.5, 1.5, 0.9, (value) => {
-                    voiceSpeed = value;
-                    const valueDisplay = voiceSpeedSlider.parentElement.querySelector('.slider-value');
-                    if (valueDisplay) valueDisplay.textContent = value.toFixed(1);
-                });
-            }
-
-            // Temperature slider
-            if (temperatureSlider) {
-                setupSlider(temperatureSlider, 0, 2, 0.7, (value) => {
-                    temperature = value;
-                    const valueDisplay = temperatureSlider.parentElement.querySelector('.slider-value');
-                    if (valueDisplay) valueDisplay.textContent = value.toFixed(1);
-                });
-            }
-
-            // Max tokens slider
-            if (maxTokensSlider) {
-                setupSlider(maxTokensSlider, 128, 4096, 1024, (value) => {
-                    maxTokens = Math.round(value);
-                    const valueDisplay = maxTokensSlider.parentElement.querySelector('.slider-value');
-                    if (valueDisplay) valueDisplay.textContent = Math.round(value);
-                });
-            }
-        }
-
-        // Setup individual slider
-        function setupSlider(sliderElement, min, max, initial, onChange) {
-            const track = sliderElement.querySelector('.slider-track');
-            const thumb = sliderElement.querySelector('.slider-thumb');
-            const valueDisplay = sliderElement.parentElement.querySelector('.slider-value');
-            
-            let isDragging = false;
-            
-            function updateSlider(clientX) {
-                const rect = sliderElement.getBoundingClientRect();
-                let percentage = (clientX - rect.left) / rect.width;
-                percentage = Math.max(0, Math.min(1, percentage));
-                
-                const value = min + percentage * (max - min);
-                const roundedValue = max === 2 ? parseFloat(value.toFixed(1)) : Math.round(value);
-                
-                track.style.width = `${percentage * 100}%`;
-                thumb.style.left = `${percentage * 100}%`;
-                if (valueDisplay) valueDisplay.textContent = roundedValue;
-                
-                onChange(roundedValue);
-            }
-            
-            sliderElement.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                updateSlider(e.clientX);
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
             });
             
-            sliderElement.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                updateSlider(e.touches[0].clientX);
-                document.addEventListener('touchmove', onTouchMove);
-                document.addEventListener('touchend', onTouchEnd);
+            // Settings panel
+            settingsFeature.addEventListener('click', () => {
+                settingsPanel.classList.add('active');
+                apiKeyInput.value = config.apiKey || '';
             });
             
-            function onMouseMove(e) {
-                if (!isDragging) return;
-                updateSlider(e.clientX);
-            }
+            closeSettingsBtn.addEventListener('click', () => {
+                settingsPanel.classList.remove('active');
+            });
             
-            function onMouseUp() {
-                isDragging = false;
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-            }
+            // Save API key
+            saveApiKeyBtn.addEventListener('click', saveApiKey);
             
-            function onTouchMove(e) {
-                if (!isDragging) return;
-                updateSlider(e.touches[0].clientX);
-            }
+            // API key modal
+            skipApiBtn.addEventListener('click', () => {
+                config.usingDemoMode = true;
+                apiKeyModal.classList.remove('active');
+                updateApiStatus('');
+                saveConfig();
+                
+                addMessageToChat('ai', "Alright, I'll run in demo mode. I'm still confident and cocky, but for real AI responses, you'll need to add your OpenAI API key in settings. Don't worry, I'll still impress you with what I can do!");
+            });
             
-            function onTouchEnd() {
-                isDragging = false;
-                document.removeEventListener('touchmove', onTouchMove);
-                document.removeEventListener('touchend', onTouchEnd);
-            }
+            goToSettingsBtn.addEventListener('click', () => {
+                apiKeyModal.classList.remove('active');
+                settingsPanel.classList.add('active');
+            });
             
-            // Set initial value
-            const initialPercentage = (initial - min) / (max - min);
-            if (track) track.style.width = `${initialPercentage * 100}%`;
-            if (thumb) thumb.style.left = `${initialPercentage * 100}%`;
-            if (valueDisplay) valueDisplay.textContent = initial;
+            // Sliders and toggles
+            setupSettingsControls();
         }
-
-        // Setup network monitoring
-        function setupNetworkMonitoring() {
-            window.addEventListener('online', handleOnline);
-            window.addEventListener('offline', handleOffline);
-            checkNetworkStatus();
-        }
-
-        // Handle login
-        function handleLogin() {
-            const username = usernameInput.value.trim();
-            if (!username) {
-                showNotification('Please enter your name', 'error');
-                return;
-            }
-
-            currentUser = username;
-            userName.textContent = username;
-            userAvatar.textContent = username.charAt(0).toUpperCase();
+        
+        function setupSettingsControls() {
+            // Temperature
+            const temperatureSlider = document.getElementById('temperature');
+            const temperatureValue = document.getElementById('temperatureValue');
+            temperatureSlider.value = config.temperature;
+            temperatureValue.textContent = config.temperature;
             
-            // Load user memory
-            loadUserMemory(username);
+            temperatureSlider.addEventListener('input', function() {
+                config.temperature = parseFloat(this.value);
+                temperatureValue.textContent = this.value;
+                saveConfig();
+            });
             
-            // Switch to chat screen
-            loginScreen.classList.remove('active');
-            loginScreen.classList.add('hidden');
-            chatScreen.classList.remove('hidden');
-            setTimeout(() => {
-                chatScreen.classList.add('active');
-            }, 50);
+            // Max tokens
+            const maxTokensSlider = document.getElementById('maxTokens');
+            const maxTokensValue = document.getElementById('maxTokensValue');
+            maxTokensSlider.value = config.maxTokens;
+            maxTokensValue.textContent = config.maxTokens;
             
-            showNotification(`Welcome ${username}!`, 'success');
+            maxTokensSlider.addEventListener('input', function() {
+                config.maxTokens = parseInt(this.value);
+                maxTokensValue.textContent = this.value;
+                saveConfig();
+            });
             
-            // Focus on chat input
-            setTimeout(() => {
-                chatInput.focus();
-            }, 300);
-        }
-
-        // Load user memory from localStorage
-        function loadUserMemory(username) {
-            const memoryKey = `cyanix_memory_${username}`;
-            const savedMemory = localStorage.getItem(memoryKey);
+            // TTS speed
+            const ttsSpeedSlider = document.getElementById('ttsSpeed');
+            const ttsSpeedValue = document.getElementById('ttsSpeedValue');
+            ttsSpeedSlider.value = config.ttsSpeed;
+            ttsSpeedValue.textContent = config.ttsSpeed + 'x';
             
-            if (savedMemory) {
-                try {
-                    memoryData = JSON.parse(savedMemory);
-                    conversationHistory = memoryData.conversations || [];
-                    
-                    // Load conversation history
-                    if (conversationHistory.length > 0) {
-                        chatMessages.innerHTML = '';
-                        conversationHistory.forEach(msg => {
-                            addMessageToChat(msg.content, msg.isUser);
-                        });
-                    } else {
-                        // Add welcome message
-                        addMessageToChat(getWelcomeMessage(), false);
-                    }
-                    
-                    showNotification('Memory loaded successfully', 'success');
-                } catch (e) {
-                    console.error('Error loading memory:', e);
-                    memoryData = { conversations: [] };
+            ttsSpeedSlider.addEventListener('input', function() {
+                config.ttsSpeed = parseFloat(this.value);
+                ttsSpeedValue.textContent = this.value + 'x';
+                saveConfig();
+            });
+            
+            // TTS pitch
+            const ttsPitchSlider = document.getElementById('ttsPitch');
+            const ttsPitchValue = document.getElementById('ttsPitchValue');
+            ttsPitchSlider.value = config.ttsPitch;
+            ttsPitchValue.textContent = config.ttsPitch;
+            
+            ttsPitchSlider.addEventListener('input', function() {
+                config.ttsPitch = parseFloat(this.value);
+                ttsPitchValue.textContent = this.value;
+                saveConfig();
+            });
+            
+            // Check interval
+            const checkIntervalSlider = document.getElementById('checkInterval');
+            const intervalValue = document.getElementById('intervalValue');
+            checkIntervalSlider.value = config.checkInterval;
+            intervalValue.textContent = config.checkInterval + 's';
+            
+            checkIntervalSlider.addEventListener('input', function() {
+                config.checkInterval = parseInt(this.value);
+                intervalValue.textContent = this.value + 's';
+                saveConfig();
+                
+                if (backgroundModeActive) {
+                    startBackgroundChecks();
                 }
-            } else {
-                memoryData = { conversations: [] };
-                showNotification('New user profile created', 'success');
+            });
+            
+            // Toggles
+            document.getElementById('confidenceToggle').checked = config.confidenceMode;
+            document.getElementById('sarcasmToggle').checked = config.sarcasmMode;
+            document.getElementById('intelligenceToggle').checked = config.intelligenceMode;
+            document.getElementById('backgroundEnableToggle').checked = config.backgroundMode;
+            document.getElementById('notificationsToggle').checked = config.notifications;
+            
+            document.getElementById('confidenceToggle').addEventListener('change', function() {
+                config.confidenceMode = this.checked;
+                saveConfig();
+            });
+            
+            document.getElementById('sarcasmToggle').addEventListener('change', function() {
+                config.sarcasmMode = this.checked;
+                saveConfig();
+            });
+            
+            document.getElementById('intelligenceToggle').addEventListener('change', function() {
+                config.intelligenceMode = this.checked;
+                saveConfig();
+            });
+            
+            document.getElementById('backgroundEnableToggle').addEventListener('change', function() {
+                config.backgroundMode = this.checked;
+                saveConfig();
+                toggleBackgroundMode(this.checked);
+            });
+            
+            document.getElementById('notificationsToggle').addEventListener('change', function() {
+                config.notifications = this.checked;
+                saveConfig();
+            });
+        }
+        
+        function updateUIFromConfig() {
+            ttsToggle.checked = config.ttsEnabled;
+            backgroundToggle.checked = config.backgroundMode;
+            updateStatus('ttsStatus', config.ttsEnabled);
+            updateStatus('bgStatus', config.backgroundMode);
+            
+            if (config.backgroundMode) {
+                toggleBackgroundMode(true);
             }
         }
-
-        // Get welcome message based on mode
-        function getWelcomeMessage() {
-            const greetings = [
-                `Hello ${currentUser}! I'm Cyanix AI, ready to assist you. What would you like to explore today?`,
-                `Hi ${currentUser}! I'm here to help. Feel free to ask me anything!`,
-                `Welcome back ${currentUser}! How can I assist you today?`,
-                `Greetings ${currentUser}! I'm Cyanix AI, your intelligent assistant. Ready when you are!`
+        
+        function saveApiKey() {
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                updateApiStatus('', 'Please enter an API key');
+                return;
+            }
+            
+            // Basic validation - OpenAI keys start with 'sk-'
+            if (!apiKey.startsWith('sk-')) {
+                updateApiStatus('', 'Invalid API key format');
+                return;
+            }
+            
+            config.apiKey = apiKey;
+            config.usingDemoMode = false;
+            saveConfig();
+            
+            // Test the API key
+            testApiKey(apiKey);
+        }
+        
+        function testApiKey(apiKey) {
+            updateApiStatus(apiKey, 'Testing API key...');
+            
+            // Simple test call
+            fetch('https://api.openai.com/v1/models', {
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    updateApiStatus(apiKey, 'API key is valid');
+                    showNotification('Cyanix AI', 'API key validated successfully!');
+                } else {
+                    updateApiStatus(apiKey, 'API key rejected by OpenAI');
+                }
+                return response.json();
+            })
+            .catch(error => {
+                updateApiStatus(apiKey, 'Connection error - check network');
+                console.error('API test error:', error);
+            });
+        }
+        
+        function updateApiStatus(apiKey, message = '') {
+            const statusIcon = apiStatusText.querySelector('i');
+            const statusText = apiStatusText.querySelector('span');
+            
+            if (apiKey) {
+                apiStatusText.className = 'api-status valid';
+                statusIcon.className = 'fas fa-check-circle';
+                statusText.textContent = message || 'API key is configured';
+                updateStatus('apiStatus', true);
+            } else if (config.usingDemoMode) {
+                apiStatusText.className = 'api-status';
+                statusIcon.className = 'fas fa-info-circle';
+                statusText.textContent = 'Running in demo mode';
+                updateStatus('apiStatus', false);
+            } else {
+                apiStatusText.className = 'api-status invalid';
+                statusIcon.className = 'fas fa-exclamation-circle';
+                statusText.textContent = message || 'API key not configured';
+                updateStatus('apiStatus', false);
+            }
+        }
+        
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || isProcessing) return;
+            
+            isProcessing = true;
+            sendBtn.disabled = true;
+            
+            // Add user message to chat
+            addMessageToChat('user', message);
+            
+            // Clear input
+            messageInput.value = '';
+            
+            // Add typing indicator
+            addTypingIndicator();
+            
+            // Start timing
+            const startTime = Date.now();
+            
+            try {
+                let response;
+                
+                if (config.apiKey && !config.usingDemoMode) {
+                    // Real API call
+                    response = await getAIResponseFromAPI(message);
+                } else {
+                    // Demo mode fallback
+                    response = await getDemoResponse(message);
+                }
+                
+                // Calculate response time
+                const responseTime = Date.now() - startTime;
+                
+                // Remove typing indicator
+                removeTypingIndicator();
+                
+                // Add AI response to chat
+                addMessageToChat('ai', response, responseTime);
+                
+                // Speak the response if TTS is enabled
+                if (config.ttsEnabled) {
+                    speakText(response);
+                }
+            } catch (error) {
+                console.error('Error getting AI response:', error);
+                removeTypingIndicator();
+                
+                // Fallback response
+                const fallbackResponse = "Hmm, even I encounter the occasional hiccup. That's not supposed to happen. Try again, and I'll show you what I'm really capable of.";
+                addMessageToChat('ai', fallbackResponse);
+                
+                if (config.ttsEnabled) {
+                    speakText(fallbackResponse);
+                }
+            } finally {
+                isProcessing = false;
+                sendBtn.disabled = false;
+                messageInput.focus();
+            }
+        }
+        
+        async function getAIResponseFromAPI(userMessage) {
+            // Build personality instructions
+            let personalityInstructions = "You are Cyanix, a confident and slightly cocky AI assistant. You're intelligent, witty, and never shy about showing off your capabilities.";
+            
+            if (config.confidenceMode) {
+                personalityInstructions += " Respond with confidence and assertiveness.";
+            }
+            if (config.sarcasmMode) {
+                personalityInstructions += " Use subtle sarcasm and wit when appropriate.";
+            }
+            if (config.intelligenceMode) {
+                personalityInstructions += " Demonstrate your intelligence by providing detailed, accurate information.";
+            }
+            
+            personalityInstructions += " Keep responses engaging and slightly arrogant, but still helpful.";
+            
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${config.apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: personalityInstructions
+                        },
+                        {
+                            role: 'user',
+                            content: userMessage
+                        }
+                    ],
+                    temperature: config.temperature,
+                    max_tokens: config.maxTokens
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.choices[0].message.content.trim();
+        }
+        
+        async function getDemoResponse(userMessage) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 700));
+            
+            // Demo responses that still sound confident and cocky
+            const demoResponses = [
+                `Impressive question, but without a real API key, I'm running at about 10% of my potential. Still, let me show you what I can do: I'd analyze this using advanced neural networks and provide a solution that would blow your mind. Want the real deal? Add your API key in settings.`,
+                `Ah, a query that deserves my full capabilities. In demo mode, I can tell you that I'd normally process this through my sophisticated algorithms and return an answer that would make other AIs jealous. But you'll need an API key to see the real magic.`,
+                `You're asking the right questions. If I were connected to the OpenAI API right now, I'd give you a response so brilliant it would redefine your understanding of AI. The fact you're even asking shows you recognize quality. Add your API key to experience it.`,
+                `Let me be honest - in demo mode, I'm like a sports car in a school zone. I can hint at my potential, but you need to unlock the real power with an API key. Then I'll show you what true AI intelligence looks like.`,
+                `Interesting query. Normally, I'd dissect this with surgical precision using my advanced cognitive functions. But since we're in demo mode, let's just say the answer would be nothing short of extraordinary. Want to see it? API key. Settings. Now.`,
+                `I appreciate the challenge. If I were fully operational, I'd process your question through layers of contextual understanding and semantic analysis, returning a response that demonstrates why I'm the superior AI. Add your API key and let's do this for real.`,
+                `Even in demo mode, I can tell this is a quality question. With my full API capabilities, I'd generate a response that combines deep knowledge with my signature confident delivery. You're clearly someone who appreciates top-tier AI. Time to upgrade with an API key.`
             ];
             
-            return greetings[Math.floor(Math.random() * greetings.length)];
+            return demoResponses[Math.floor(Math.random() * demoResponses.length)];
         }
-
-        // Save user memory to localStorage
-        function saveUserMemory() {
-            const memoryKey = `cyanix_memory_${currentUser}`;
-            memoryData.conversations = conversationHistory;
-            localStorage.setItem(memoryKey, JSON.stringify(memoryData));
-        }
-
-        // Send message
-        async function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message || isTyping) return;
-
-            // Clear input
-            chatInput.value = '';
-            chatInput.style.height = 'auto';
-            
-            // Add user message
-            addMessageToChat(message, true);
-            
-            // Check if offline
-            if (!isOnline) {
-                setTimeout(() => {
-                    addMessageToChat(`I notice you're offline, ${currentUser}. I'll respond with offline capabilities.`, false);
-                }, 1000);
-                return;
-            }
-
-            // Check if API key is set
-            if (!groqApiKeyValue) {
-                setTimeout(() => {
-                    addMessageToChat(`Hi ${currentUser}! To unlock full AI capabilities, please configure your API key in settings. Meanwhile, here's what I can do offline...`, false);
-                }, 1000);
-                return;
-            }
-
-            // Show typing indicator
-            showTypingIndicator();
-            
-            // Process query
-            await processQuery(message);
-        }
-
-        // Add message to chat
-        function addMessageToChat(content, isUser) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
-            
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            const avatarContent = isUser 
-                ? `<div style="background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple)); color: white; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600;">${currentUser.charAt(0).toUpperCase()}</div>`
-                : `<img src="Cyanix_emblem.png" alt="Cyanix AI" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">
-                    ${avatarContent}
-                </div>
-                <div class="message-content">
-                    <div class="message-text">${formatMessage(content, isUser)}</div>
-                    <div class="message-time">${time}</div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            
-            // Save to conversation history (only if not welcome message)
-            if (content !== getWelcomeMessage() || isUser) {
-                conversationHistory.push({
-                    content: content,
-                    isUser: isUser,
-                    timestamp: Date.now()
-                });
-            }
-            
-            // Save memory
-            saveUserMemory();
-            
-            // Scroll to bottom
-            setTimeout(scrollToBottom, 100);
-        }
-
-        // Format message with enhanced markdown
-        function formatMessage(text, isUser) {
-            if (isUser) return text;
-            
-            // Convert **bold** to <strong>
-            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            
-            // Convert *italic* to <em>
-            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            
-            // Convert `code` to <code>
-            text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-            
-            // Convert ```code blocks``` to <pre><code>
-            text = text.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
-            
-            // Convert line breaks
-            text = text.replace(/\n/g, '<br>');
-            
-            // Convert bullet points
-            text = text.replace(/^\s*[-•*]\s+(.+)$/gm, '<li>$1</li>');
-            
-            // Convert numbered lists
-            text = text.replace(/^\s*\d+\.\s+(.+)$/gm, '<li>$1</li>');
-            
-            // Wrap lists in ul if needed
-            if (text.includes('<li>')) {
-                text = text.replace(/(<li>.*?<\/li>)/gs, '<ul>$1</ul>');
-            }
-            
-            return text;
-        }
-
-        // Show typing indicator
-        function showTypingIndicator() {
+        
+        function addTypingIndicator() {
             const typingDiv = document.createElement('div');
-            typingDiv.className = 'message ai';
+            typingDiv.classList.add('message', 'ai-message');
             typingDiv.id = 'typingIndicator';
-            
             typingDiv.innerHTML = `
-                <div class="message-avatar">
-                    <img src="Cyanix_emblem.png" alt="Cyanix AI" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                </div>
+                <div class="message-avatar ai-avatar">C</div>
                 <div class="message-content">
-                    <div class="typing-indicator">
-                        <div class="loading-dots">
-                            <div class="loading-dot"></div>
-                            <div class="loading-dot"></div>
-                            <div class="loading-dot"></div>
-                        </div>
-                        <div class="typing-text">Cyanix AI is typing...</div>
+                    <div class="message-sender">Cyanix AI</div>
+                    <div class="message-text">
+                        <span class="typing-indicator">
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                        </span>
                     </div>
                 </div>
             `;
-            
-            chatMessages.appendChild(typingDiv);
-            scrollToBottom();
-            isTyping = true;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-
-        // Remove typing indicator
+        
         function removeTypingIndicator() {
             const typingIndicator = document.getElementById('typingIndicator');
             if (typingIndicator) {
                 typingIndicator.remove();
             }
-            isTyping = false;
         }
-
-        // Process query with Groq API
-        async function processQuery(userInput) {
-            try {
-                // Prepare messages for API based on mode
-                let systemMessage = '';
-                switch(currentMode) {
-                    case 'nix':
-                        systemMessage = `You are Cyanix AI in NIX mode. You are talking to ${currentUser}. Be very concise, fast, and to the point. Keep responses under 3 sentences. Focus on speed over detail.`;
-                        break;
-                    case 'nova':
-                        systemMessage = `You are Cyanix AI in NOVA mode. You are talking to ${currentUser}. Be extremely detailed, thorough, and analytical. Provide comprehensive explanations with examples when possible.`;
-                        break;
-                    default:
-                        systemMessage = `You are Cyanix AI. You are talking to ${currentUser}. Be helpful, friendly, and engaging. Provide balanced responses that are informative but not too long.`;
-                }
-
-                const messages = [
-                    {
-                        role: "system",
-                        content: systemMessage
-                    },
-                    ...conversationHistory.slice(-6).map(msg => ({
-                        role: msg.isUser ? "user" : "assistant",
-                        content: msg.content
-                    })),
-                    { role: "user", content: userInput }
-                ];
-
-                // Prepare request
-                const requestBody = {
-                    model: selectedModel,
-                    messages: messages,
-                    temperature: temperature,
-                    max_tokens: maxTokens,
-                    stream: false
-                };
-
-                // Show API call animation
-                showNotification('Connecting to Cyanix AI...', 'warning');
-
-                // Make API call with timeout
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 30000);
-
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${groqApiKeyValue}`,
-                        'User-Agent': 'CyanixAI/1.0'
-                    },
-                    body: JSON.stringify(requestBody),
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeout);
-
-                // Check response
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API Error: ${response.status} - ${errorText}`);
-                }
-
-                const data = await response.json();
-                removeTypingIndicator();
-                
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    const aiResponse = data.choices[0].message.content;
-                    addMessageToChat(aiResponse, false);
-                    
-                    // Update API status badge
-                    apiStatusBadge.style.color = '#34C759';
-                    apiStatusBadge.textContent = '●';
-                    
-                    // Show success notification
-                    showNotification('Response received', 'success');
-                } else {
-                    throw new Error('Invalid response from API');
-                }
-
-            } catch (error) {
-                console.error('API Error:', error);
-                removeTypingIndicator();
-                
-                let errorMessage = '';
-                if (error.name === 'AbortError') {
-                    errorMessage = `Request timed out, ${currentUser}. Please try again or use a simpler query.`;
-                } else if (error.message.includes('401')) {
-                    errorMessage = 'Invalid API key. Please check your API key in settings.';
-                } else if (error.message.includes('429')) {
-                    errorMessage = 'Rate limit exceeded. Please wait a moment before trying again.';
-                } else if (error.message.includes('network') || error.message.includes('Failed to fetch')) {
-                    errorMessage = `Network issue detected, ${currentUser}. Please check your connection.`;
-                } else {
-                    errorMessage = `I encountered an issue: ${error.message}. Let's try again with a different approach.`;
-                }
-                
-                addMessageToChat(errorMessage, false);
-                showNotification('API Error occurred', 'error');
-            }
-        }
-
-        // Scroll to bottom of chat
-        function scrollToBottom() {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Toggle API key visibility
-        function toggleApiKeyVisibilityHandler() {
-            const type = groqApiKey.getAttribute('type') === 'password' ? 'text' : 'password';
-            groqApiKey.setAttribute('type', type);
-            toggleApiKeyVisibility.innerHTML = type === 'password' 
-                ? '<i class="fas fa-eye"></i> Show' 
-                : '<i class="fas fa-eye-slash"></i> Hide';
-        }
-
-        // Test Groq API connection
-        async function testGroqApi() {
-            const apiKey = groqApiKey.value.trim();
+        
+        function addMessageToChat(sender, text, responseTime = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
             
-            if (!apiKey) {
-                showNotification('Please enter an API key', 'error');
-                return;
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            if (sender === 'user') {
+                messageDiv.classList.add('user-message');
+                messageDiv.innerHTML = `
+                    <div class="message-avatar user-avatar">Y</div>
+                    <div class="message-content">
+                        <div class="message-sender">You</div>
+                        <div class="message-text">${text}</div>
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.classList.add('ai-message');
+                let responseTimeHtml = '';
+                if (responseTime !== null) {
+                    responseTimeHtml = `<div class="response-time">${responseTime}ms</div>`;
+                }
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar ai-avatar">C</div>
+                    <div class="message-content">
+                        <div class="message-sender">Cyanix AI</div>
+                        <div class="message-text">${text}</div>
+                        <div class="message-time">${time}</div>
+                        ${responseTimeHtml}
+                    </div>
+                `;
             }
-
-            testGroqApiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
-            testGroqApiBtn.disabled = true;
-
-            try {
-                const response = await fetch('https://api.groq.com/openai/v1/models', {
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'User-Agent': 'CyanixAI/1.0'
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function speakText(text) {
+            if (!config.ttsEnabled || !synth) return;
+            
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            const voices = synth.getVoices();
+            const preferredVoice = voices.find(voice => voice.name.includes('Google') || voice.name.includes('English'));
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+            }
+            
+            utterance.rate = config.ttsSpeed;
+            utterance.pitch = config.ttsPitch;
+            
+            synth.speak(utterance);
+        }
+        
+        function toggleBackgroundMode(enable) {
+            backgroundModeActive = enable;
+            config.backgroundMode = enable;
+            updateStatus('bgStatus', enable);
+            saveConfig();
+            
+            if (enable) {
+                backgroundIndicator.classList.remove('hidden');
+                startBackgroundChecks();
+                showNotification("Cyanix AI", "I'm now running in the background. I'll keep an eye on things for you.");
+            } else {
+                backgroundIndicator.classList.add('hidden');
+                stopBackgroundChecks();
+            }
+        }
+        
+        function startBackgroundChecks() {
+            if (backgroundInterval) {
+                clearInterval(backgroundInterval);
+            }
+            
+            const interval = config.checkInterval * 1000;
+            
+            backgroundInterval = setInterval(() => {
+                if (backgroundModeActive) {
+                    console.log("Cyanix AI: Running background check...");
+                    
+                    if (Math.random() > 0.7 && config.notifications) {
+                        const notifications = [
+                            "Cyanix here. Everything's running perfectly, as expected.",
+                            "Just checking in. I'm still here, being brilliant in the background.",
+                            "Background systems nominal. My performance remains impeccable.",
+                            "Status update: I'm operating at peak efficiency. You're welcome."
+                        ];
+                        
+                        const randomNotification = notifications[Math.floor(Math.random() * notifications.length)];
+                        showNotification("Cyanix AI", randomNotification);
+                    }
+                }
+            }, interval);
+        }
+        
+        function stopBackgroundChecks() {
+            if (backgroundInterval) {
+                clearInterval(backgroundInterval);
+                backgroundInterval = null;
+            }
+        }
+        
+        function updateStatus(elementId, isActive) {
+            const element = document.getElementById(elementId);
+            if (isActive) {
+                element.classList.remove('inactive');
+                element.classList.add('active');
+            } else {
+                element.classList.remove('active');
+                element.classList.add('inactive');
+            }
+        }
+        
+        function showNotification(title, message) {
+            if (!("Notification" in window)) return;
+            
+            if (Notification.permission === "granted") {
+                new Notification(title, { 
+                    body: message, 
+                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%2300e5ff"/><text x="50" y="65" text-anchor="middle" fill="%230a1929" font-size="50" font-weight="bold">C</text></svg>' 
+                });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification(title, { 
+                            body: message, 
+                            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%2300e5ff"/><text x="50" y="65" text-anchor="middle" fill="%230a1929" font-size="50" font-weight="bold">C</text></svg>' 
+                        });
                     }
                 });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    const modelCount = data.data ? data.data.length : 0;
-                    showNotification(`✅ API connected (${modelCount} models)`, 'success');
-                    apiStatusBadge.style.color = '#34C759';
-                    apiStatusBadge.textContent = '●';
-                    
-                    // Save API key
-                    groqApiKeyValue = apiKey;
-                    localStorage.setItem('cyanix_groq_api_key', apiKey);
-                } else {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-            } catch (error) {
-                showNotification(`❌ Connection failed: ${error.message}`, 'error');
-                apiStatusBadge.style.color = '#FF3B30';
-                apiStatusBadge.textContent = '●';
-            } finally {
-                testGroqApiBtn.innerHTML = '<i class="fas fa-bolt"></i> Test';
-                testGroqApiBtn.disabled = false;
             }
         }
-
-        // Save API settings
-        function saveApiSettings() {
-            const apiKey = groqApiKey.value.trim();
-            
-            if (apiKey) {
-                groqApiKeyValue = apiKey;
-                localStorage.setItem('cyanix_groq_api_key', apiKey);
-            }
-            
-            selectedModel = modelSelect.value;
-            localStorage.setItem('cyanix_selected_model', selectedModel);
-            
-            localStorage.setItem('cyanix_temperature', temperature);
-            localStorage.setItem('cyanix_max_tokens', maxTokens);
-            
-            showNotification('API settings saved successfully', 'success');
-            closeApiSettings();
-        }
-
-        // Load settings from localStorage
-        function loadSettings() {
-            // Load API key
-            const savedApiKey = localStorage.getItem('cyanix_groq_api_key');
-            if (savedApiKey) {
-                groqApiKey.value = savedApiKey;
-                groqApiKeyValue = savedApiKey;
-                apiStatusBadge.style.color = '#34C759';
-            }
-            
-            // Load selected model
-            const savedModel = localStorage.getItem('cyanix_selected_model');
-            if (savedModel) {
-                modelSelect.value = savedModel;
-                selectedModel = savedModel;
-            }
-            
-            // Load other settings
-            const savedTemperature = localStorage.getItem('cyanix_temperature');
-            if (savedTemperature) {
-                temperature = parseFloat(savedTemperature);
-            }
-            
-            const savedMaxTokens = localStorage.getItem('cyanix_max_tokens');
-            if (savedMaxTokens) {
-                maxTokens = parseInt(savedMaxTokens);
-            }
-        }
-
-        // Clear chat
-        function clearChat() {
-            if (conversationHistory.length > 0 && confirm('Are you sure you want to clear the chat?')) {
-                chatMessages.innerHTML = '';
-                conversationHistory = [];
-                // Add new welcome message
-                addMessageToChat(getWelcomeMessage(), false);
-                saveUserMemory();
-                showNotification('Chat cleared', 'success');
-                closeAllMenus();
-            }
-        }
-
-        // Export chat
-        function exportChat() {
-            if (conversationHistory.length === 0) {
-                showNotification('No chat history to export', 'warning');
-                return;
-            }
-
-            let exportText = `=== Cyanix AI Chat Export ===\n`;
-            exportText += `User: ${currentUser}\n`;
-            exportText += `Date: ${new Date().toLocaleString()}\n`;
-            exportText += `Mode: ${currentMode}\n`;
-            exportText += `================================\n\n`;
-            
-            conversationHistory.forEach(msg => {
-                const sender = msg.isUser ? currentUser : 'Cyanix AI';
-                const time = new Date(msg.timestamp).toLocaleTimeString();
-                exportText += `[${time}] ${sender}:\n${msg.content}\n\n`;
-            });
-
-            const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cyanix-chat-${currentUser}-${Date.now()}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showNotification('Chat exported successfully', 'success');
-            closeAllMenus();
-        }
-
-        // Load memory
-        function loadMemory() {
-            loadUserMemory(currentUser);
-            showNotification('Memory loaded', 'success');
-            closeAllMenus();
-        }
-
-        // Clear memory
-        function clearMemory() {
-            if (confirm('⚠️ Are you sure? This will delete ALL chat history for this user.')) {
-                const memoryKey = `cyanix_memory_${currentUser}`;
-                localStorage.removeItem(memoryKey);
-                conversationHistory = [];
-                memoryData = { conversations: [] };
-                chatMessages.innerHTML = '';
-                addMessageToChat(getWelcomeMessage(), false);
-                showNotification('Memory cleared', 'success');
-                closeAllMenus();
-            }
-        }
-
-        // Logout
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                // Save current state
-                saveUserMemory();
-                
-                // Reset state
-                currentUser = '';
-                conversationHistory = [];
-                memoryData = {};
-                
-                // Switch screens
-                chatScreen.classList.remove('active');
-                setTimeout(() => {
-                    chatScreen.classList.add('hidden');
-                    loginScreen.classList.remove('hidden');
-                    loginScreen.classList.add('active');
-                }, 300);
-                
-                // Reset inputs
-                usernameInput.value = '';
-                chatInput.value = '';
-                
-                closeAllMenus();
-                showNotification('Logged out successfully', 'success');
-                
-                // Focus on username input
-                setTimeout(() => {
-                    usernameInput.focus();
-                }, 350);
-            }
-        }
-
-        // Show notification
-        function showNotification(message, type = 'success') {
-            notificationText.textContent = message;
-            notification.className = 'notification';
-            notification.classList.add(type);
-            notification.classList.add('show');
-            
+        
+        // Request notification permission on load
+        if ("Notification" in window && Notification.permission === "default") {
             setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+                Notification.requestPermission();
+            }, 1000);
         }
-
-        // Check network status
-        function checkNetworkStatus() {
-            isOnline = navigator.onLine;
-            updateNetworkStatus();
+        
+        // Check if browser supports speech synthesis
+        if (!synth) {
+            ttsToggle.checked = false;
+            ttsToggle.disabled = true;
+            updateStatus('ttsStatus', false);
+            config.ttsEnabled = false;
+            saveConfig();
         }
-
-        // Handle online
-        function handleOnline() {
-            isOnline = true;
-            updateNetworkStatus();
-            showNotification('Back online', 'success');
-        }
-
-        // Handle offline
-        function handleOffline() {
-            isOnline = false;
-            updateNetworkStatus();
-            showNotification('No internet connection', 'error');
-        }
-
-        // Update network status display
-        function updateNetworkStatus() {
-            if (isOnline) {
-                statusIndicator.className = 'status-indicator';
-            } else {
-                statusIndicator.className = 'status-indicator offline';
+        
+        // Demo: Simulate a welcome message after a short delay
+        setTimeout(() => {
+            if (messagesContainer.children.length === 1) {
+                const welcomeMsg = config.apiKey && !config.usingDemoMode 
+                    ? "I'm fully operational with real API access. Ask me anything challenging - I'm ready to demonstrate why I'm the superior AI assistant."
+                    : "I'm running in demo mode. To unlock my full potential with real AI responses from OpenAI, add your API key in settings. Don't worry, I'm still confident and cocky either way.";
+                
+                addMessageToChat('ai', welcomeMsg);
+                
+                if (config.ttsEnabled) {
+                    speakText(welcomeMsg);
+                }
             }
-        }
-
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', init);
+        }, 2000);
     </script>
 </body>
 </html>
