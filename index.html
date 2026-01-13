@@ -1522,49 +1522,95 @@
                 });
             });
 
-            // API Settings
-            apiSettingsBtn.addEventListener('click', openApiSettings);
-            backToMenuBtn.addEventListener('click', closeApiSettings);
-            toggleApiKeyVisibility.addEventListener('click', toggleApiKeyVisibilityHandler);
-            testGroqApiBtn.addEventListener('click', testGroqApi);
-            saveApiSettingsBtn.addEventListener('click', saveApiSettings);
+            // API Settings - FIXED: Added proper event listener
+            if (apiSettingsBtn) {
+                apiSettingsBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openApiSettings();
+                });
+            }
+            
+            if (backToMenuBtn) {
+                backToMenuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeApiSettings();
+                });
+            }
+            
+            if (toggleApiKeyVisibility) {
+                toggleApiKeyVisibility.addEventListener('click', toggleApiKeyVisibilityHandler);
+            }
+            
+            if (testGroqApiBtn) {
+                testGroqApiBtn.addEventListener('click', testGroqApi);
+            }
+            
+            if (saveApiSettingsBtn) {
+                saveApiSettingsBtn.addEventListener('click', saveApiSettings);
+            }
 
             // Action buttons
-            clearChatBtn.addEventListener('click', clearChat);
-            exportChatBtn.addEventListener('click', exportChat);
-            loadMemoryBtn.addEventListener('click', loadMemory);
-            clearMemoryBtn.addEventListener('click', clearMemory);
-            logoutBtn.addEventListener('click', logout);
+            if (clearChatBtn) {
+                clearChatBtn.addEventListener('click', clearChat);
+            }
+            
+            if (exportChatBtn) {
+                exportChatBtn.addEventListener('click', exportChat);
+            }
+            
+            if (loadMemoryBtn) {
+                loadMemoryBtn.addEventListener('click', loadMemory);
+            }
+            
+            if (clearMemoryBtn) {
+                clearMemoryBtn.addEventListener('click', clearMemory);
+            }
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', logout);
+            }
 
             // Quick actions
-            quickAction1.addEventListener('click', () => {
-                showNotification('Voice input activated', 'success');
-                closeAllMenus();
-            });
-            quickAction2.addEventListener('click', () => {
-                showNotification('Code mode activated', 'success');
-                closeAllMenus();
-            });
-            quickAction3.addEventListener('click', () => {
-                showNotification('Image generation ready', 'success');
-                closeAllMenus();
-            });
-            quickAction4.addEventListener('click', () => {
-                showNotification('History loaded', 'success');
-                closeAllMenus();
-            });
+            if (quickAction1) {
+                quickAction1.addEventListener('click', () => {
+                    showNotification('Voice input activated', 'success');
+                    closeAllMenus();
+                });
+            }
+            
+            if (quickAction2) {
+                quickAction2.addEventListener('click', () => {
+                    showNotification('Code mode activated', 'success');
+                    closeAllMenus();
+                });
+            }
+            
+            if (quickAction3) {
+                quickAction3.addEventListener('click', () => {
+                    showNotification('Image generation ready', 'success');
+                    closeAllMenus();
+                });
+            }
+            
+            if (quickAction4) {
+                quickAction4.addEventListener('click', () => {
+                    showNotification('History loaded', 'success');
+                    closeAllMenus();
+                });
+            }
 
             // Toggle switch
-            autoSpeakToggle.addEventListener('click', () => {
-                autoSpeakToggle.classList.toggle('active');
-                autoSpeak = autoSpeakToggle.classList.contains('active');
-                showNotification(`Auto-speak ${autoSpeak ? 'enabled' : 'disabled'}`, 'success');
-            });
+            if (autoSpeakToggle) {
+                autoSpeakToggle.addEventListener('click', () => {
+                    autoSpeakToggle.classList.toggle('active');
+                    autoSpeak = autoSpeakToggle.classList.contains('active');
+                    showNotification(`Auto-speak ${autoSpeak ? 'enabled' : 'disabled'}`, 'success');
+                });
+            }
         }
 
         // Toggle main menu - FIXED FUNCTION
         function toggleMainMenu() {
-            console.log('Menu toggle clicked');
             if (isApiSettingsOpen) {
                 closeApiSettings();
                 return;
@@ -1588,24 +1634,26 @@
         // Close all menus
         function closeAllMenus() {
             sideMenu.classList.remove('active');
-            apiSettingsMenu.classList.remove('active');
+            if (apiSettingsMenu) apiSettingsMenu.classList.remove('active');
             overlay.classList.remove('active');
             isMenuOpen = false;
             isApiSettingsOpen = false;
         }
 
-        // Open API settings
+        // Open API settings - FIXED
         function openApiSettings() {
-            sideMenu.classList.remove('active');
-            apiSettingsMenu.classList.add('active');
+            if (sideMenu) sideMenu.classList.remove('active');
+            if (apiSettingsMenu) apiSettingsMenu.classList.add('active');
+            if (overlay) overlay.classList.add('active');
             isMenuOpen = false;
             isApiSettingsOpen = true;
         }
 
-        // Close API settings
+        // Close API settings - FIXED
         function closeApiSettings() {
-            apiSettingsMenu.classList.remove('active');
-            sideMenu.classList.add('active');
+            if (apiSettingsMenu) apiSettingsMenu.classList.remove('active');
+            if (sideMenu) sideMenu.classList.add('active');
+            if (overlay) overlay.classList.add('active');
             isMenuOpen = true;
             isApiSettingsOpen = false;
         }
@@ -1613,22 +1661,31 @@
         // Setup sliders
         function setupSliders() {
             // Voice speed slider
-            setupSlider(voiceSpeedSlider, 0.5, 1.5, 0.9, (value) => {
-                voiceSpeed = value;
-                document.querySelector('#voiceSpeedSlider + .setting-control .slider-value').textContent = value.toFixed(1);
-            });
+            if (voiceSpeedSlider) {
+                setupSlider(voiceSpeedSlider, 0.5, 1.5, 0.9, (value) => {
+                    voiceSpeed = value;
+                    const valueDisplay = voiceSpeedSlider.parentElement.querySelector('.slider-value');
+                    if (valueDisplay) valueDisplay.textContent = value.toFixed(1);
+                });
+            }
 
             // Temperature slider
-            setupSlider(temperatureSlider, 0, 2, 0.7, (value) => {
-                temperature = value;
-                document.querySelector('#temperatureSlider + .setting-control .slider-value').textContent = value.toFixed(1);
-            });
+            if (temperatureSlider) {
+                setupSlider(temperatureSlider, 0, 2, 0.7, (value) => {
+                    temperature = value;
+                    const valueDisplay = temperatureSlider.parentElement.querySelector('.slider-value');
+                    if (valueDisplay) valueDisplay.textContent = value.toFixed(1);
+                });
+            }
 
             // Max tokens slider
-            setupSlider(maxTokensSlider, 128, 4096, 1024, (value) => {
-                maxTokens = Math.round(value);
-                document.querySelector('#maxTokensSlider + .setting-control .slider-value').textContent = Math.round(value);
-            });
+            if (maxTokensSlider) {
+                setupSlider(maxTokensSlider, 128, 4096, 1024, (value) => {
+                    maxTokens = Math.round(value);
+                    const valueDisplay = maxTokensSlider.parentElement.querySelector('.slider-value');
+                    if (valueDisplay) valueDisplay.textContent = Math.round(value);
+                });
+            }
         }
 
         // Setup individual slider
@@ -1692,8 +1749,8 @@
             
             // Set initial value
             const initialPercentage = (initial - min) / (max - min);
-            track.style.width = `${initialPercentage * 100}%`;
-            thumb.style.left = `${initialPercentage * 100}%`;
+            if (track) track.style.width = `${initialPercentage * 100}%`;
+            if (thumb) thumb.style.left = `${initialPercentage * 100}%`;
             if (valueDisplay) valueDisplay.textContent = initial;
         }
 
